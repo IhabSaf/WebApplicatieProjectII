@@ -1,5 +1,8 @@
 <pre>
 <?php
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 
 //function Autoloader($className)
 //{
@@ -38,12 +41,18 @@ spl_autoload_register(function ($class){
 //$var = new Testing1();
 //print_r($var);
 
-$var = new Request();
+$var = Request::makeWithGlobals();
+$header = new Header();
+$header->addHeader("hoi");
+$header->checkHeaders();
+var_dump($header->hasHeader("doei"));
+//var_dump($var->getGet()["hoi"]);
 //$var ->getGet();
 
-var_dump($_COOKIE);
-var_dump($var->getCookieByName('Phpstorm-64584131'));
+//var_dump($_COOKIE);
+//var_dump($var->getCookieByName('Phpstorm-64584131'));
 
-var_dump($var->getGetParam('foo'));
+//var_dump($var->getGetParam('foo'));
 
 $response = new Response("Dit is een test voor mijn Response Klaase");
+$response->send();
