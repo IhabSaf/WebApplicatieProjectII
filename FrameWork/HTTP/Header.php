@@ -1,5 +1,5 @@
 <?php
-namespace FrameWork\Class;
+namespace FrameWork\HTTP;
 
 use FrameWork\Interface\IHeader;
 

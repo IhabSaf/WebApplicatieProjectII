@@ -1,5 +1,5 @@
 <?php
-namespace FrameWork\Class;
+namespace FrameWork\HTTP;
 class Kernel {
     private $eventdispatcher;
     private $resolveController;
