@@ -30,4 +30,13 @@ class Header implements IHeader{
     {
         return in_array($header, headers_list());
     }
+
+    public function getHeader(string $key): ?string {
+        foreach (headers_list() as $header){
+            if(str_contains($header, $key)){
+                return $header;
+            }
+        }
+        return null;
+    }
 }
