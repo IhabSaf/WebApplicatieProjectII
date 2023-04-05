@@ -1,7 +1,10 @@
 {
+  "require": {
+    "ext-pdo": "*"
+  },
   "autoload": {
     "psr-4": {
       "FrameWork\\": "FrameWork/"
-      }
+    }
   }
 }
