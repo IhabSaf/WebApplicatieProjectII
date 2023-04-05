@@ -1,5 +1,5 @@
 <?php
-namespace FrameWork\Class;
+namespace FrameWork\HTTP;
 
 use FrameWork\Interface\IHeader;
 use FrameWork\Interface\IResponse;
@@ -9,7 +9,7 @@ class Response implements IResponse
     private int $statusCode;
     private IHeader $headers;
     private string $body;
-    private const ALLOWED_STATUS_CODES = [
+    private const STATUS_CODES_TEXTS = [
         100 => "Continue",
         200 => "OK",
         201 => "Created",
@@ -28,7 +28,7 @@ class Response implements IResponse
         503 => "Service Unavailable"
     ];
 
-    public function __construct(string $body = "", IHeader $header = new Header, int $statusCode= 200)
+    public function __construct(string $body = "", #[Service(Header::class)] IHeader $header = new Header(), int $statusCode= 200)
     {
         $this->statusCode = $statusCode;
         $this->headers = $header;
@@ -45,11 +45,13 @@ class Response implements IResponse
         $this->headers->addHeader($name.":".$value);
     }
 
+    public function getHeader(string $key): ?string
+    {
+        return $this->headers->getHeader($key);
+    }
     public function setStatusCode(int $statusCode): void
     {
-        if(in_array($statusCode, array_keys(self::ALLOWED_STATUS_CODES))) {
             $this->statusCode = $statusCode;
-        }
     }
 
     public function setContent(string $body): void
@@ -65,5 +67,10 @@ class Response implements IResponse
     public function dump(): void
     {
         var_dump($this);
+    }
+
+    public function allHeaders(): IHeader
+    {
+        return $this->headers;
     }
 }

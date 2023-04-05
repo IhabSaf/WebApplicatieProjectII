@@ -1,5 +1,5 @@
 <?php
-namespace FrameWork\Class;
+namespace FrameWork\HTTP;
 
 use FrameWork\Interface\IHeader;
 
@@ -29,5 +29,14 @@ class Header implements IHeader{
     public function hasHeader(string $header): bool
     {
         return in_array($header, headers_list());
+    }
+
+    public function getHeader(string $key): ?string {
+        foreach (headers_list() as $header){
+            if(str_contains($header, $key)){
+                return $header;
+            }
+        }
+        return null;
     }
 }

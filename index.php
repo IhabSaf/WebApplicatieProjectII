@@ -4,12 +4,23 @@ require_once "./vendor/autoload.php";
 
 //use FrameWork\HTTP\Header;
 use FrameWork\App;
+use FrameWork\DiContainer;
+use FrameWork\Event\ControllerResolver;
+use FrameWork\Event\EventDispatcher;
+use FrameWork\HTTP\Request;
+use FrameWork\HTTP\Response;
+use FrameWork\Route\Route;
 
 
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
-$request = \FrameWork\Event\RequestEvent::makeWithGlobals();
+
+$request = Request::makeWithGlobals();
+$eventDispatcher = new EventDispatcher();
+$controllerResolver = new ControllerResolver();
+$route = new Route();
+$response = new Response();
 $app = new App();
-$response = $app->handle($request);
+$response = $app->handle($request, $eventDispatcher, $controllerResolver, $route, $response);
 $response->send();

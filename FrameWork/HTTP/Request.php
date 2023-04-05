@@ -1,21 +1,10 @@
 <?php
-namespace FrameWork\Class;
+namespace FrameWork\HTTP;
 use FrameWork\Interface\IRequest;
 
 class Request implements IRequest
 {
-    private $post;
-    private $get;
-    private $server;
-    private $cookie;
-
-    public function __construct(array $post, array $get, array $server, array $cookie)
-    {
-        $this->post = $post;
-        $this->get = $get;
-        $this->server = $server;
-        $this->cookie = $cookie;
-    }
+    public function __construct(private array $post, private array $get, private array $server, private array $cookie){}
 
     public static function makeWithGlobals(): IRequest
     {

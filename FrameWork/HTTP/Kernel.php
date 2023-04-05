@@ -1,13 +1,10 @@
 <?php
-namespace FrameWork\Class;
+namespace FrameWork\HTTP;
+use FrameWork\Event\EventDispatcher;
+
 class Kernel {
-    private $eventdispatcher;
-    private $resolveController;
 
-    public function __construct($eventdispatcher, $resolveController)
+    public function __construct(private EventDispatcher $eventdispatcher, private \ControllerResolver $controllerResolver)
     {
-        $this->eventdispatcher = $eventdispatcher;
-        $this->resolveController = $resolveController;
-
     }
 }
