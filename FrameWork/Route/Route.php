@@ -7,13 +7,13 @@ class Route {
         $this->routes = [];
     }
 
-    public function addRoute(string $name, string $route, array $paramDefaults = []): void
+    public function addRoute(string $name, string $controller, string $route, array $paramDefaults = []): void
     {
-        $routeOject = $this->createRouteObject($route, $paramDefaults);
+        $routeOject = $this->createRouteObject($name, $controller, $route, $paramDefaults);
         $this->routes[] = $routeOject;
     }
 
-    public function isValidRoute(string $route)
+    public function isValidRoute(string $route): bool
     {
         foreach ($this->routes as $routeObject){
             if(str_contains($route, $routeObject->getBaseUrl())){
@@ -46,8 +46,12 @@ class Route {
     {
         return $this->routes;
     }
-    private function createRouteObject(string $route, array $paramDefaults): RouteObject
+    private function createRouteObject(string $name, string $controller, string $route, array $paramDefaults): RouteObject
     {
+        $controllerParts = explode(":", $controller);
+        $controllerClass = $controllerParts[0];
+        $controllerMethod = $controllerParts[1];
+
         $array = explode('{', $route);
         $baseUrl = $array[0];
         array_shift($array);
@@ -59,6 +63,6 @@ class Route {
         foreach ($array as $paramName){
             $paramDefaultOrdered[$paramName] = $paramDefaults[$paramName];
         }
-        return new RouteObject($route, $baseUrl, $paramDefaultOrdered);
+        return new RouteObject($name, $controllerClass, $controllerMethod, $route, $baseUrl, $paramDefaultOrdered);
     }
 }

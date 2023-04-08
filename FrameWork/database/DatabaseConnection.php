@@ -2,14 +2,18 @@
 namespace FrameWork\database;
 use Exception;
 use PDO;
+use PDOException;
 
 class DatabaseConnection {
-    private $host = "localhost";
-    private $username = "Ihab";
-    private $password = "Welkom01!";
-    private $dbname = "ihab";
-    private $connector;
+    private string $host = "localhost";
+    private string $username = "root";
+    private string $password = "Root@1234";
+    private string $dbname = "sakila";
+    private PDO $connector;
 
+    /**
+     * @throws Exception
+     */
     public function __construct()
     {
         $dsn = "mysql:host=$this->host;dbname=$this->dbname";
@@ -22,12 +26,13 @@ class DatabaseConnection {
         }
     }
 
-    public function getConnector()
+    public function getConnector(): PDO
     {
         return $this->connector;
     }
 
-    public function colse() {
+    public function close(): void
+    {
         $this->connector = null;
     }
 }

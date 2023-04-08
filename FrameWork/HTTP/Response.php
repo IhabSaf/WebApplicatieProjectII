@@ -6,9 +6,6 @@ use FrameWork\Interface\IResponse;
 
 class Response implements IResponse
 {
-    private int $statusCode;
-    private IHeader $headers;
-    private string $body;
     private const STATUS_CODES_TEXTS = [
         100 => "Continue",
         200 => "OK",
@@ -28,12 +25,9 @@ class Response implements IResponse
         503 => "Service Unavailable"
     ];
 
-    public function __construct(string $body = "", #[Service(Header::class)] IHeader $header = new Header(), int $statusCode= 200)
-    {
-        $this->statusCode = $statusCode;
-        $this->headers = $header;
-        $this->body = $body;
-    }
+    public function __construct(private string $body = '',
+                                #[Service(Header::class)] private IHeader $headers = new Header(),
+                                private int $statusCode = 200){}
 
     public function addHeader(string $name, string $value): void
     {
