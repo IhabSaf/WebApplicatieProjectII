@@ -18,25 +18,19 @@ class User
     #[Column(type: 'varchar')]
     public $pass;
 
-    /**
-     * @return mixed
-     */
+
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getName()
     {
         return $this->name;
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getPass()
     {
         return $this->pass;

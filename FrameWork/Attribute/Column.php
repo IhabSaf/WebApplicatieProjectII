@@ -1,7 +1,7 @@
 <?php
 namespace FrameWork\Attribute;
 
-require_once "./vendor/autoload.php";
+
 use Attribute;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
