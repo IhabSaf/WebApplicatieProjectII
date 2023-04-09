@@ -1,44 +1,40 @@
 <?php
 namespace FrameWork;
+echo "<pre>";
 use ReflectionClass;
 
 class DiContainer
 {
-    private int $count = 0;
     public function __construct() {}
-    public function createDefaultClass(string $class, $constructorParams = [])
+    public function createApp(string $class = "FrameWork\App", $constructorParams = [])
     {
-        if($class == 'string'){
-            return '';
-        } elseif($class == 'int'){
-            return 0;
-        } elseif($class == 'array'){
-            return [];
-        }
         $reflection = new ReflectionClass($class);
         $constructor = $reflection->getConstructor();
-        $name = explode('\\', $reflection->getName())[count(explode('\\', $reflection->getName())) - 1];
-        if($name == "App") {
-            $constructor = $reflection->getMethod("handle");
-        }
-        if($name == "Request"){
-            return $reflection->getMethod('makeWithGlobals');
-        }
-        foreach ($constructor->getParameters() as $parameter) {
-            $type = $parameter->getType()->getName();
-            foreach ($parameter->getAttributes() as $attribute){
-                $attributeName = explode('\\', $attribute->getName())[count(explode('\\', $attribute->getName())) - 1];
-                if($attributeName == "Service"){
-                    $type = $attribute->getArguments()[0];
+        $className = explode('\\', $reflection->getName())[count(explode('\\', $reflection->getName())) - 1];
+        if($constructor) {
+            foreach ($constructor->getParameters() as $parameter) {
+                $parameterName = $parameter->getName();
+                $parameterType = $parameter->getType()->getName();
+                $arguments = [];
+
+                foreach ($parameter->getAttributes() as $attribute) {
+                    $attributeName = explode('\\', $attribute->getName())[count(explode('\\', $attribute->getName())) - 1];
+                    if ($attributeName == "Argument") {
+                        $arguments += $attribute->getArguments();
+                    }
+                    if ($attributeName == "Service") {
+                        $parameterType = $attribute->getArguments()[0];
+                    }
+                }
+                if (!array_key_exists($parameterName, $constructorParams)) {
+                    $constructorParams[$parameterName] = $this->createApp($parameterType, $arguments);
                 }
             }
-            if (!array_key_exists($parameter->getName(), $constructorParams)) {
-                $constructorParams[$parameter->getName()] = $this->createDefaultClass($type);
-            }
         }
-        var_dump($this->count);
-        var_dump($constructorParams);
-        $this->count += 1;
+        if($className == "Request"){
+            $method = $reflection->getMethod('makeWithGlobals');
+            return $method->invoke($reflection->newInstanceWithoutConstructor());
+        }
         return $reflection->newInstance(...$constructorParams);
     }
 }

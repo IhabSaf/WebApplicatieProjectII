@@ -4,7 +4,11 @@ use FrameWork\Interface\IRequest;
 
 class Request implements IRequest
 {
-    public function __construct(private array $post, private array $get, private array $server, private array $cookie){}
+    public function __construct(
+        private array $post,
+        private array $get,
+        private array $server,
+        private array $cookie){}
 
     public static function makeWithGlobals(): IRequest
     {

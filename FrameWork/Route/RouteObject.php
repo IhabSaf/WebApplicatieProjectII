@@ -1,18 +1,15 @@
 <?php
 namespace FrameWork\Route;
+use FrameWork\Interface\IRequest;
+
 class RouteObject
 {
-    private string $fullUrl;
-    private string $baseUrl;
-    private array $params;
+    public function __construct(private string $name, private string $controllerClass, private string $controllerMethod, private string $fullUrl, private string $baseUrl, private array $params = []){}
 
-    public function __construct(string $fullUrl, string $baseUrl, array $params = [])
+    public function getName(): string
     {
-        $this->fullUrl = $fullUrl;
-        $this->baseUrl = $baseUrl;
-        $this->params = $params;
+        return $this->name;
     }
-
     public function getFullUrl(): string
     {
         return $this->fullUrl;
@@ -39,8 +36,12 @@ class RouteObject
 
     public function hasParams($route): bool
     {
-
         $paramUrl = str_replace('/'.$this->getBaseUrl().'/', "", $route);
         return false;
+    }
+
+    public function controller(IRequest $request): void
+    {
+        [new $this->controllerClass($request, $this), $this->controllerMethod]();
     }
 }

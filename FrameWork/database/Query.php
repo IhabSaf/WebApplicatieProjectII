@@ -1,57 +1,51 @@
 <?php
 namespace FrameWork\database;
-use FrameWork\database\DatabaseConnection;
-use Exception;
-
 
 class Query
 {
-    private $sqlBuilder = '';
+    private string $sqlBuilder = '';
 
-    public static function select($columns = '*')
+    public static function select(string $columns = '*'): Query
     {
         $query = new Query();
         $query->sqlBuilder = "SELECT $columns";
         return $query;
     }
 
-    public function from($table)
+    public function from(string $table): Query
     {
         $this->sqlBuilder .= " FROM $table";
         return $this;
     }
 
-    public function where($condition)
+    public function where(string $condition): Query
     {
         $this->sqlBuilder .= " WHERE $condition";
         return $this;
     }
 
 
-    public function join($table, $condition)
+    public function join(string $table, string $condition): Query
     {
         $this->sqlBuilder .= " JOIN $table ON $condition";
         return $this;
     }
 
-
-
-
-    public static function delete()
+    public static function delete(): Query
     {
         $query = new Query();
         $query->sqlBuilder = "DELETE";
         return $query;
 
     }
-    public function table($table)
+    public function table(string $table): Query
     {
         $this->sqlBuilder .= " $table";
         return $this;
     }
 
 
-    public static function insert()
+    public static function insert(): Query
     {
         $query = new Query();
         $query->sqlBuilder = "INSERT";
@@ -59,7 +53,7 @@ class Query
 
     }
 
-    public static function update()
+    public static function update(): Query
     {
         $query = new Query();
         $query->sqlBuilder = "UPDATE";
@@ -68,7 +62,7 @@ class Query
     }
 
 
-    public function execute(DatabaseConnection $mysql)
+    public function execute(DatabaseConnection $mysql): false|array
     {
         $mysql = $mysql->getConnector();
         $data = $mysql->prepare($this->sqlBuilder);

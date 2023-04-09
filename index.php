@@ -15,12 +15,7 @@ use FrameWork\Route\Route;
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
-
-$request = Request::makeWithGlobals();
-$eventDispatcher = new EventDispatcher();
-$controllerResolver = new ControllerResolver();
-$route = new Route();
-$response = new Response();
-$app = new App();
-$response = $app->handle($request, $eventDispatcher, $controllerResolver, $route, $response);
+$diContrainer = new DiContainer();
+$app = $diContrainer->createApp();
+$response = $app->handle();
 $response->send();

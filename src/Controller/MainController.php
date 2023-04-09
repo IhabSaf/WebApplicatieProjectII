@@ -1,15 +1,14 @@
 <?php
 
 namespace src\Controller;
-use FrameWork\HTTP\Request;
+use FrameWork\Interface\IRequest;
+use FrameWork\Route\RouteObject;
 
 class MainController
 {
-    public function __construct()
-    {
-    }
+    public function __construct(private IRequest $request, private RouteObject $routeObject){}
 
-    public function handle(Request $request) {
-        var_dump("Dit is de main controller!");
+    public function handle() {
+        echo "i;m in a controller";
     }
 }
