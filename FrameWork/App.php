@@ -30,7 +30,8 @@ class App
             $routeObject = $this->route->getRoute($path);
             ob_start();
             extract($routeObject->getParams(), EXTR_SKIP);
-            $routeObject->controller($this->request);
+            $array = $routeObject->controller($this->request);
+            extract($array, EXTR_SKIP);
             include sprintf(__DIR__ . '/../templates/%s.html', $routeObject->getBaseUrl());
             $this->response->setContent(ob_get_clean());
         } else {
