@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Register for Exam</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- extending the basic layout from index.html -->
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/index.html'; ?>
+
+<div class="container">
+  <h2>Student Register for Exam</h2>
+  <form>
+    <label for="exam">Select Exam:</label>
+    <select id="exam" name="exam">
+      <option value="exam1">Exam 1</option>
+      <option value="exam2">Exam 2</option>
+      <option value="exam3">Exam 3</option>
+    </select><br><br>
+    <input type="submit" value="Register">
+  </form>
+</div>
+</body>
+</html>
