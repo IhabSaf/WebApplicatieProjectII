@@ -1,43 +1,92 @@
 <?php
+namespace src\Model;
 
-namespace FrameWork\src\Model;
+use Framework\Attribute\Column;
+use Framework\database\Mapping;
 
-use FrameWork\Attribute\Column;
-use FrameWork\Attribute\Table;
-
-#[Table('user')]
-
-class User
+class User extends Mapping
 {
-    #[Column(type: 'int')]
-    public $id;
+    #[Column('id')]
+    public ?int $id = null;
 
-    #[Column(type: 'varchar')]
-    public $name;
+    #[Column('name')]
+    public ?string $name = null;
 
-    #[Column(type: 'varchar')]
-    public $pass;
+    #[Column('email')]
+    public ?string $email = null;
 
+    #[Column('password')]
+    public ?string $password = null;
 
-    public function getId()
+    public function __construct()
     {
-        return $this->id;
+        parent::__construct();
     }
 
-
-    public function getName()
+    /**
+     * @return int|null
+     */
+    public function getId(): ?int
     {
-        return $this->name;
+        return $this->getAttribute('id');
     }
 
-
-    public function getPass()
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
     {
-        return $this->pass;
+        return $this->getAttribute('name');
     }
 
+    /**
+     * @return string|null
+     */
+    public function getEmail(): ?string
+    {
+        return $this->getAttribute('email');
+    }
 
+    /**
+     * @return string|null
+     */
+    public function getPassword(): ?string
+    {
+        return $this->getAttribute('password');
+    }
 
+    /**
+     * @param int|null $id
+     */
+    public function setId(?int $id): void
+    {
+        $this->setAttribute('id', $id);
+    }
 
+    /**
+     * @param string|null $name
+     */
+    public function setName(?string $name): void
+    {
+        $this->setAttribute('name', $name);
+    }
 
+    /**
+     * @param string|null $email
+     */
+    public function setEmail(?string $email): void
+    {
+        $this->setAttribute('email', $email);
+    }
+
+    /**
+     * @param string|null $password
+     */
+    public function setPassword(?string $password): void
+    {
+        if ($password !== null) {
+            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+            $this->setAttribute('password', $passwordHash);
+    }
+}
 }

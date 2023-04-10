@@ -6,9 +6,8 @@ use FrameWork\database\Query;
 
 $connect = new \FrameWork\database\DatabaseConnection();
 $user = new \FrameWork\src\Model\User();
-$result = Query::select()->from($user->)->execute($connect);
 
-var_dump($result);
+
 
 
 //$email = $_POST['email'];
@@ -28,7 +27,4 @@ var_dump($result);
 //    echo "Cookie '" . $cookie_name . "' is set!<br>";
 //    echo "Value is: " . $_COOKIE[$cookie_name];
 //}
-//?>
-<!---->
-<!--</body>-->
-<!--</html>-->
+//

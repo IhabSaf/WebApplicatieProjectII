@@ -4,7 +4,14 @@ use FrameWork\Interface\IRequest;
 
 class RouteObject
 {
-    public function __construct(private string $name, private string $controllerClass, private string $controllerMethod, private string $fullUrl, private string $baseUrl, private array $params = []){}
+    public function __construct(
+        private string $name,
+        private string $controllerClass,
+        private string $controllerMethod,
+        private string $fullUrl,
+        private string $baseUrl,
+        private string $returnType = 'html',
+        private array $params = []){}
 
     public function getName(): string
     {
@@ -43,5 +50,10 @@ class RouteObject
     public function controller(IRequest $request): void
     {
         [new $this->controllerClass($request, $this), $this->controllerMethod]();
+    }
+
+    public function getReturnType(): string
+    {
+        return $this->returnType;
     }
 }
