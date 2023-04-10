@@ -21,6 +21,9 @@ class LoginController
 
 
         if (!$getUserCred || !password_verify($password, $getUserCred->getPassword())) {
+            
+            echo "verkeerde gegevens";
+            header('Location: /login');
 
         } else {
             // Als de inloggegevens geldig zijn dan begin een session

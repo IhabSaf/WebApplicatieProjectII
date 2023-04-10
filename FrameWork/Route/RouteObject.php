@@ -10,7 +10,6 @@ class RouteObject
         private string $controllerMethod,
         private string $fullUrl,
         private string $baseUrl,
-        private string $returnType = 'html',
         private array $params = []){}
 
     public function getName(): string

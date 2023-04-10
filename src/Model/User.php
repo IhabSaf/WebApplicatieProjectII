@@ -3,7 +3,7 @@ namespace src\Model;
 
 use Framework\Attribute\Column;
 use Framework\database\Mapping;
-
+#[Tabel('user')]
 class User extends Mapping
 {
     #[Column('id')]

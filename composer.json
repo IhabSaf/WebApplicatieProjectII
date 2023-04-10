@@ -6,8 +6,6 @@
     "psr-4": {
       "FrameWork\\": "FrameWork/",
       "src\\": "src/"
-
     }
-
   }
 }

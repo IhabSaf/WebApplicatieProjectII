@@ -8,7 +8,7 @@ class DatabaseConnection {
     private string $host = "localhost";
     private string $username = "root";
     private string $password = "Root@1234";
-    private string $dbname = "sakila";
+    private string $dbname = "web2project";
     private PDO $connector;
 
     /**
