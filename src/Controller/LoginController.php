@@ -2,6 +2,7 @@
 
 namespace src\Controller;
 
+use FrameWork\App;
 use FrameWork\database\DatabaseConnection;
 use FrameWork\HTTP\Request;
 use PDO;
@@ -24,6 +25,8 @@ class LoginController
             
             echo "verkeerde gegevens";
             header('Location: /login');
+
+
 
         } else {
             // Als de inloggegevens geldig zijn dan begin een session

@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\database;
+namespace FrameWork\database;
 
-use Framework\Attribute\Column;
+use FrameWork\Attribute\Column;
 use PDO;
 use ReflectionClass;
 
@@ -82,7 +82,7 @@ class Mapping {
     {
         $classParts = explode('\\', static::class);
         $className = end($classParts);
-        return strtolower($className) . 's';
+        return strtolower($className) . '';
     }
 
     public function select(string $query, array $bindValues = []): array

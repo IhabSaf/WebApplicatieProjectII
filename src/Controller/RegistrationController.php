@@ -2,6 +2,7 @@
 
 namespace src\Controller;
 
+use FrameWork\HTTP\Request;
 use FrameWork\Interface\IRequest;
 use src\Model\User;
 use FrameWork\App;
@@ -9,29 +10,32 @@ use FrameWork\App;
 class RegistrationController
 {
 
-    private  $request;
-    public function __construct(IRequest $request)
+    public function __construct( )
     {
 
-        $this->request = $request;
     }
 
-    public function registration( )
+    public function registration(Request $request)
     {
+        $name = null;
+        $email = null;
+        $password = null;
 
+        if ($request->getServer()['REQUEST_METHOD'] === 'POST') {
+            $name = $request->getPostByName('name');
+            $email = $request->getPostByName('email');
+            $password = $request->getPostByName('password');
 
-        $name = $this->request->getPost('name');
-        $email = $this->request->getPost('email');
-        $password = $this->request->getPost('password');
-
-
-        $user = new User();
-        $user->setName('name', $name);
-        $user->setPassword('password', $password);
-        $user->setEmail('email', $email);
-        if($user->save()){
-            echo 'gelukt';
+            $user = new User();
+            $user->setId(22);
+            $user->setName($name);
+            $user->setPassword($password);
+            $user->setEmail($email);
+            $user->save();
         }
+
+
+
 
           return [$name, $email, $password ];
     }
