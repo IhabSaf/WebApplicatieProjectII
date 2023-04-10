@@ -40,8 +40,8 @@ class RouteObject
         return false;
     }
 
-    public function controller(IRequest $request): void
+    public function controller(IRequest $request): array
     {
-        [new $this->controllerClass($request, $this), $this->controllerMethod]();
+        return [new $this->controllerClass($request, $this), $this->controllerMethod]($request);
     }
 }
