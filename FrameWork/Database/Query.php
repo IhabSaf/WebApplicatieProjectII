@@ -5,12 +5,12 @@ class Query
 {
     private string $sqlBuilder = '';
 
-    public static function select(string $columns = '*'): Query
-    {
-        $query = new Query();
-        $query->sqlBuilder = "SELECT $columns";
-        return $query;
-    }
+//    public static function select(string $columns = '*'): Query
+//    {
+//        $query = new Query();
+//        $query->sqlBuilder = "SELECT $columns";
+//        return $query;
+//    }
 
     public function from(string $table): Query
     {
@@ -45,13 +45,13 @@ class Query
     }
 
 
-    public static function insert(): Query
-    {
-        $query = new Query();
-        $query->sqlBuilder = "INSERT";
-        return $query;
-
-    }
+//    public static function insert(): Query
+//    {
+//        $query = new Query();
+//        $query->sqlBuilder = "INSERT";
+//        return $query;
+//
+//    }
 
     public static function update(): Query
     {
@@ -69,5 +69,35 @@ class Query
         $data->execute();
         return $data->fetchAll();
 
+    }
+
+    public function insert(Mapping $mapping): void
+    {
+        $table = $mapping->getTableName();
+        $columns = implode(',', array_keys($mapping->toDatabaseArray()));
+        $values = implode(',', array_fill(0, count($mapping->toDatabaseArray()), '?'));
+
+        $sql = "INSERT INTO $table ($columns) VALUES ($values)";
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->execute($mapping->getBindValues());
+    }
+
+    public function select(Mapping $mapping, string $where = ''): array
+    {
+        $table = $mapping->getTableName();
+        $columns = implode(',', array_keys($mapping->toDatabaseArray()));
+
+        $sql = "SELECT $columns FROM $table $where";
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->execute();
+
+        $results = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $results[] = new $mapping($row);
+        }
+
+        return $results;
     }
 }
