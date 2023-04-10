@@ -33,7 +33,7 @@ class RegistrationController
             echo 'gelukt';
         }
 
-
+          return [$name, $email, $password ];
     }
 
 }

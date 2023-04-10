@@ -45,9 +45,22 @@ class Request implements IRequest
         return $this->get[$name];
     }
 
-    public function getPost(String $name): string
+    public function getPostByName(String $name): string
     {
         return $this->post[$name];
+    }
+
+    public function getPost(): array
+    {
+        return $this->post;
+    }
+    public function getPostSecure(): array
+    {
+        $secure = [];
+        foreach ($this->post as $key => $value){
+            $secure[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+        }
+        return $secure;
     }
 
     public function getPathInfo(): string

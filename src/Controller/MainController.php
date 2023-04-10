@@ -10,5 +10,6 @@ class MainController
 
     public function handle() {
         echo "i;m in a controller";
+        return [];
     }
 }

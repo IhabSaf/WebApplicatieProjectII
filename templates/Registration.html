@@ -8,7 +8,7 @@
 
 <h1>Registration Form</h1>
 
-<form action="/registration" method="post">
+<form action="/Registration" method="post">
   <label for="name">Name:</label>
   <input type="text" name="name" id="name" required><br>
 
@@ -23,6 +23,15 @@
 
   <input type="submit" value="Register">
 </form>
-
+<?php
+if(isset($name) && isset($email) && isset($password) && isset($confirm_password)){
+?>
+<br />
+dit is wat je hebt ingevult:<br />
+<?= $name ?><br />
+<?= $email ?><br />
+<?= $password ?><br />
+<?= $confirm_password ?><br />
+<?php } ?>
 </body>
 </html>

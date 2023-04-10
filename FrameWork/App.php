@@ -22,15 +22,19 @@ class App
 
     public function handle(): IResponse
     {
+        $array = [];
         $this->create_routes();
         //$eventDispatcher = $this->create_default_event_dispatcher($this->eventDispatcher);
         //$eventDispatcher->dispatch($this->request, KernelEvent::KERNEL_REQUEST);
         $path = $this->request->getPathInfo();
+        if ($this->request->getServer()['REQUEST_METHOD'] === 'POST') {
+            $array += $this->request->getPostSecure();
+        }
         if ($this->route->isValidRoute($path)) {
             $routeObject = $this->route->getRoute($path);
             ob_start();
             extract($routeObject->getParams(), EXTR_SKIP);
-            $array = $routeObject->controller($this->request);
+            $array += $routeObject->controller($this->request);
             extract($array, EXTR_SKIP);
             include sprintf(__DIR__ . '/../templates/%s.html', $routeObject->getBaseUrl());
             $this->response->setContent(ob_get_clean());

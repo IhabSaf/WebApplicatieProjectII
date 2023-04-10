@@ -9,7 +9,9 @@ interface IRequest
     function getGetSecure(): array;
     function getCookieByName(string $name): string;
     function getGetParam(string $name): string;
-    function getPost(string $name): string;
+    function getPostByName(string $name): string;
+    function getPost(): array;
+    function getPostSecure(): array;
     function getPathInfo(): string;
     function dump(): void;
 }
