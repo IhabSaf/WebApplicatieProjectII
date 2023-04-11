@@ -28,17 +28,15 @@ class App
             $routeObject = $this->route->getRoute($path);
 
             // Check  de accessController
-            $checkController = $this->route->getController(); // dit pakt laatste controller van de arrey routeobject
-            $checkMethod = $this->route->getMethod();
+            $checkController = $routeObject->getController(); // dit pakt laatste controller van de arrey routeobject
+            $checkMethod = $routeObject->getMethod();
             if(isset($_SESSION['user_role']) && $_SESSION['user_role'] !== null) {
                 $userRole = $_SESSION['user_role'];
             } else {
                 $userRole = 'gast';
             }
-            var_dump($checkController);
 
             $hasAccess = AccessController::checkAccess($userRole, $checkController, $checkMethod);
-            var_dump($hasAccess);
             if (!$hasAccess) {
                 $response->setStatusCode(403);
                 $response->setContent("Access denied.");
@@ -64,7 +62,7 @@ class App
         $this->route->addRoute("temp", 'src\Controller\MainController:handle', "/temp/{name}/{id}", ["name" => "person", "id" => 5]);
         $this->route->addRoute("test", 'src\Controller\MainController:index', "/home");
         $this->route->addRoute("registration", 'src\Controller\RegistrationController:registration', "/Registration");
-//        $this->route->addRoute("loginUser", 'src\Controller\LoginController:loginUser', "/login");
+        $this->route->addRoute("loginUser", 'src\Controller\LoginController:loginUser', "/login");
 
 
     }

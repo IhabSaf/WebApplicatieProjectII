@@ -56,11 +56,21 @@ class RouteObject
         return $this->returnType;
     }
 
-    public function getController(RouteObject $routeObject): array
+    public function getController( )
     {
-        $controllerClass = $routeObject->controllerClass;
-        $controllerMethod = $routeObject->controllerMethod;
-        return [$controllerClass, $controllerMethod];
+        return $this->controllerClass;
+
+
     }
+
+    public function getMethod( )
+    {
+
+        return $this->controllerMethod;
+
+    }
+
+
+
 
 }

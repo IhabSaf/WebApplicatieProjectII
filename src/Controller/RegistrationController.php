@@ -3,9 +3,9 @@
 namespace src\Controller;
 
 use FrameWork\HTTP\Request;
-use FrameWork\Interface\IRequest;
+use FrameWork\Attribute\Role;
 use src\Model\User;
-use FrameWork\App;
+
 
 class RegistrationController
 {
@@ -15,6 +15,7 @@ class RegistrationController
 
     }
 
+    #[Role(roles: ['gasttt'])]
     public function registration(Request $request)
     {
         $name = null;
@@ -27,15 +28,12 @@ class RegistrationController
             $password = $request->getPostByName('password');
 
             $user = new User();
-            $user->setId(22);
+            $user->setId(10);
             $user->setName($name);
             $user->setPassword($password);
             $user->setEmail($email);
             $user->save();
         }
-
-
-
 
           return [$name, $email, $password ];
     }
