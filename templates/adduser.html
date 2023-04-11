@@ -1,5 +1,8 @@
-{% extends "base.html" %}
-<html lang="en">
+<?php
+include('header.php');
+ob_start();
+
+?><html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Add User</title>
@@ -7,7 +10,7 @@
 </head>
 <body>
 
-{% block content %}
+
 
 <div class="container">
   <h2>Add User</h2>
@@ -26,7 +29,6 @@
     <input type="submit" value="Submit">
   </form>
 
-  {% endblock %}
 </div>
 </body>
 </html>
