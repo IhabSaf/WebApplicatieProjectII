@@ -52,11 +52,11 @@ DROP TABLE IF EXISTS `tentamen`;
 CREATE TABLE `tentamen` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
-  `docent_id` int NOT NULL,
+  `docentId` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `docent_tentamen_idx` (`docent_id`),
-  CONSTRAINT `docent_tentamen` FOREIGN KEY (`docent_id`) REFERENCES `user` (`id`)
+  KEY `docent_tentamen_idx` (`docentId`),
+  CONSTRAINT `docent_tentamen` FOREIGN KEY (`docentId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -79,14 +79,14 @@ DROP TABLE IF EXISTS `user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `rol_id` int NOT NULL,
+  `rolId` int NOT NULL,
   `name` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `user_rol_idx` (`rol_id`),
-  CONSTRAINT `user_rol` FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  KEY `user_rol_idx` (`rolId`),
+  CONSTRAINT `user_rol` FOREIGN KEY (`rolId`) REFERENCES `rol` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -101,34 +101,34 @@ INSERT INTO `user` VALUES (1,1,'admin','admin@hanze.nl','123'),(2,2,'docent','do
 UNLOCK TABLES;
 
 --
--- Table structure for table `user_tentamen`
+-- Table structure for table `userTentamen`
 --
 
-DROP TABLE IF EXISTS `user_tentamen`;
+DROP TABLE IF EXISTS `userTentamen`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_tentamen` (
+CREATE TABLE `userTentamen` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `tentamen_id` int NOT NULL,
+  `userId` int NOT NULL,
+  `tentamenId` int NOT NULL,
   `cijfer` decimal(4,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `user_tentamen_idx` (`user_id`),
-  KEY `tentamen_user_idx` (`tentamen_id`),
-  CONSTRAINT `tentamen_user` FOREIGN KEY (`tentamen_id`) REFERENCES `tentamen` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `user_tentamen` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  KEY `user_tentamen_idx` (`userId`),
+  KEY `tentamen_user_idx` (`tentamenId`),
+  CONSTRAINT `tentamen_user` FOREIGN KEY (`tentamenId`) REFERENCES `tentamen` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `user_tentamen` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_tentamen`
+-- Dumping data for table `userTentamen`
 --
 
-LOCK TABLES `user_tentamen` WRITE;
-/*!40000 ALTER TABLE `user_tentamen` DISABLE KEYS */;
-INSERT INTO `user_tentamen` VALUES (1,3,1,NULL),(2,5,2,NULL);
-/*!40000 ALTER TABLE `user_tentamen` ENABLE KEYS */;
+LOCK TABLES `userTentamen` WRITE;
+/*!40000 ALTER TABLE `userTentamen` DISABLE KEYS */;
+INSERT INTO `userTentamen` VALUES (1,3,1,NULL),(2,5,2,NULL);
+/*!40000 ALTER TABLE `userTentamen` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
