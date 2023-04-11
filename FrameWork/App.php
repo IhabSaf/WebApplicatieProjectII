@@ -28,7 +28,7 @@ class App
             $routeObject = $this->route->getRoute($path);
 
             // Check  de accessController
-            $checkController = $this->route->getController(); // dit pakt laatste controller van de arrey routeobject
+            $checkController = $this->route->getController(); // dit pakt laatste controller van de arrey routeobject, dus dit moet nog gefixt moet de huidge controller kiezen
             $checkMethod = $this->route->getMethod();
             if(isset($_SESSION['user_role']) && $_SESSION['user_role'] !== null) {
                 $userRole = $_SESSION['user_role'];
