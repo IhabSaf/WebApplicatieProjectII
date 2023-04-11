@@ -48,11 +48,19 @@ class RouteObject
 
     public function controller(IRequest $request): array
     {
-        return [new $this->controllerClass($request, $this), $this->controllerMethod]();
+        return [new $this->controllerClass($request, $this), $this->controllerMethod]($request);
     }
 
     public function getReturnType(): string
     {
         return $this->returnType;
     }
+
+    public function getController(RouteObject $routeObject): array
+    {
+        $controllerClass = $routeObject->controllerClass;
+        $controllerMethod = $routeObject->controllerMethod;
+        return [$controllerClass, $controllerMethod];
+    }
+
 }

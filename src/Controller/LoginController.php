@@ -12,47 +12,52 @@ class LoginController
 {
 
 
-    public function loginUser(Request $request){
+    public function loginUser(Request $request)
+    {
+        $email = null;
+        $password = null;
+        $sesstionId= null;
 
 
-        $email = $request->getPost('email');
-        $password = $request->getPost('password');
+        if ($request->getServer()['REQUEST_METHOD'] === 'POST') {
+
+            $email = $request->getPostByName('username');
+            $password = $request->getPostByName('password');
 
         $getUserCred = $this->findUser($email, 'user');
 
-
-        if (!$getUserCred || !password_verify($password, $getUserCred->getPassword())) {
-            
-            echo "verkeerde gegevens";
+        if (!$getUserCred || !password_verify($password, $getUserCred[0]['password'])) {
+            $test =  "verkeerde gegevens";
             header('Location: /login');
-
-
-
         } else {
             // Als de inloggegevens geldig zijn dan begin een session
             session_start();
-            $_SESSION['user_id'] = $getUserCred->getId();
+            $_SESSION['user_id'] = $getUserCred[0]['id'];
+            $_SESSION['user_rol'] = $getUserCred[0]['rol']; //moet hier nog de data van de rol tabel halen in her regesteren.
+            $sesstionId = $_SESSION['user_id'];
             header('Location: /home');
-        }
 
+        }
+        }
+        return [ $email, $password , $sesstionId];
     }
 
-
-    public function logout(){
+    public function logout()
+    {
         session_start();
         session_unset();
         session_destroy();
     }
 
-    public function findUser(string $email, string $tabel): User
+    public function findUser($email, $tabel)
     {
         $conn = new DatabaseConnection();
         $pdo = $conn->getConnector();
         $sql = "SELECT * FROM $tabel WHERE email = :email";
         $queryEX = $pdo->prepare($sql);
         $queryEX->execute([':email' => $email]);
-        $result = $queryEX->fetch(PDO::FETCH_ASSOC);
+        $results = $queryEX->fetchAll(PDO::FETCH_ASSOC);
 
-        return $result;
-
-    }}
+        return $results;
+    }
+}

@@ -1,3 +1,7 @@
+<?php
+include('header.php');
+ob_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +10,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!-- extending the basic layout from index.html -->
+<!-- extending the basic layout from index.php -->
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/index.html'; ?>
 
 <div class="container">

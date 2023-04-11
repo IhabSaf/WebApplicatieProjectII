@@ -2,6 +2,10 @@
 namespace FrameWork\Route;
 class Route {
     private $routes;
+
+    private $controller;
+
+    private $method;
     public function __construct()
     {
         $this->routes = [];
@@ -50,7 +54,9 @@ class Route {
     {
         $controllerParts = explode(":", $controller);
         $controllerClass = $controllerParts[0];
+        $this->controller = $controllerParts[0];
         $controllerMethod = $controllerParts[1];
+        $this->method = $controllerParts[1];
 
         $array = explode('{', $route);
         $baseUrl = $array[0];
@@ -65,4 +71,23 @@ class Route {
         }
         return new RouteObject($name, $controllerClass, $controllerMethod, $route, $baseUrl, $paramDefaultOrdered);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getController()
+    {
+        return $this->controller;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+
+
 }
