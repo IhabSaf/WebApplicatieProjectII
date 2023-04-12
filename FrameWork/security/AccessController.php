@@ -6,7 +6,7 @@ use ReflectionClass;
 /**
  * @webTech2:
  *
- *  @INHLUD:
+ *  @INHOUD:
  *          Klaase: @AccessController, deze klasse bestaat uit 1 method die altijd boolean terug geeft.
  *          De bedoeling van deze method @checkAccess() om een boolean terug te geven nadat de gebruiker in het identificatie-proces loopt.
  *  @GEBRUIK: identificatie van een gebruiker, toegang checken of die gebruiker mag op een bepaalde controller binnen dit project.
