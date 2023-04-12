@@ -40,7 +40,7 @@ class LoginController
 
             $sesstionId = $_SESSION['user_id'];
             $sesstionUsername = $_SESSION['user_Name'];
-//            header('Location: /home');
+            header('Location: /home');
 
 
 
