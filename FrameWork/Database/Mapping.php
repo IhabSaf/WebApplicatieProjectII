@@ -6,7 +6,7 @@ use FrameWork\Attribute\Column;
 use PDO;
 use ReflectionClass;
 
-class Mapping {
+ class Mapping {
     private array $data = [];
     private string $table;
     private DatabaseConnection $db;
@@ -64,35 +64,105 @@ class Mapping {
     }
 
 
-
-    private function getPropertyName(string $columnName): string
-    {
-        $reflection = new ReflectionClass($this);
-        $properties = $reflection->getProperties();
-        foreach ($properties as $property) {
-            $columnAttribute = $property->getAttributes(Column::class)[0] ?? null;
-            if ($columnAttribute && $columnAttribute->newInstance()->name === $columnName) {
-                return $property->getName();
-            }
-        }
-        return '';
-    }
-
-    private function getTable(): string
+    public  function getTable(): string
     {
         $classParts = explode('\\', static::class);
         $className = end($classParts);
         return strtolower($className) . '';
     }
 
-    public function select(string $query, array $bindValues = []): array
+//    public static function find(string $conditions): ?static
+//    {
+//        $db = new DatabaseConnection();
+//        $table = (new static())->getTable();
+//        $entityClass = get_called_class();
+//
+//
+//
+//
+//        $stmt = $db->getConnector()->prepare("SELECT * FROM $table");
+//        $stmt->execute($stmt);
+//
+//        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+//        if (!$data) {
+//            return null;
+//        }
+//        $instances = new $entityClass($data);
+//
+//        return $instances;
+//    }
+
+// return object this works
+//    public static function find(): array
+//    {
+//        $db = new DatabaseConnection();
+//
+//        $table = (new static())->getTable();
+//
+//        $stmt = $db->getConnector()->prepare("SELECT * FROM $table");
+//        $stmt->execute();
+//        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//
+//        $instances = [];
+//        foreach ($data as $row) {
+//            $instance = new static($row);
+//            $instances[] = $instance;
+//        }
+//
+//        return $instances;
+//    }
+
+
+//this return only the values of clomun
+    public static function findby(string $column): array
     {
-        $stmt = $this->db->getConnector()->prepare($query);
-        $i = 1;
-        foreach ($bindValues as $value) {
-            $stmt->bindValue($i++, $value);
-        }
+        $db = new DatabaseConnection();
+
+        $table = (new static())->getTable();
+
+        $stmt = $db->getConnector()->prepare("SELECT $column FROM $table");
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $instances = [];
+        foreach ($data as $row) {
+            $instances[] = $row[$column];
+        }
+        return $instances;
     }
-}
+    public static function find(array $criteria): ?static
+    {
+        $db = new DatabaseConnection();
+        $table = (new static())->getTable();
+        $whereClauses = [];
+
+        foreach ($criteria as $attribute => $value) {
+            $whereClauses[] = "{$attribute} = ?";
+        }
+
+        $whereClause = implode(' AND ', $whereClauses);
+        $sql = "SELECT * FROM {$table} WHERE {$whereClause} LIMIT 1";
+        $statement = $db->getConnector()->prepare($sql);
+
+        $i = 1;
+        foreach ($criteria as $value) {
+            $statement->bindValue($i++, $value);
+        }
+
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
+            return new static($result);
+        } else {
+            return null;
+        }
+    }
+
+
+    public static function findByEmail(string $email): ?static
+    {
+        return static::find(['email' => $email]);
+    }
+
+
+ }

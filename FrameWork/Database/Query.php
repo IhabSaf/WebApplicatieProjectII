@@ -1,9 +1,13 @@
 <?php
 namespace FrameWork\database;
 
-class Query
+use InvalidArgumentException;
+use PDO;
+use RuntimeException;
+
+class Query extends Mapping
 {
-    private string $sqlBuilder = '';
+    private static string $sqlBuilder = '';
 
 //    public static function select(string $columns = '*'): Query
 //    {
@@ -71,33 +75,45 @@ class Query
 
     }
 
-    public function insert(Mapping $mapping): void
+//    public function insert(Mapping $mapping): void
+//    {
+//        $table = $mapping->getTableName();
+//        $columns = implode(',', array_keys($mapping->toDatabaseArray()));
+//        $values = implode(',', array_fill(0, count($mapping->toDatabaseArray()), '?'));
+//
+//        $sql = "INSERT INTO $table ($columns) VALUES ($values)";
+//        $stmt = $this->pdo->prepare($sql);
+//
+//        $stmt->execute($mapping->getBindValues());
+//    }
+    public static function find(array $conditions): ?self
     {
-        $table = $mapping->getTableName();
-        $columns = implode(',', array_keys($mapping->toDatabaseArray()));
-        $values = implode(',', array_fill(0, count($mapping->toDatabaseArray()), '?'));
+        $db = new DatabaseConnection();
+        $table = (new static())->getTable();
 
-        $sql = "INSERT INTO $table ($columns) VALUES ($values)";
-        $stmt = $this->pdo->prepare($sql);
-
-        $stmt->execute($mapping->getBindValues());
-    }
-
-    public function select(Mapping $mapping, string $where = ''): array
-    {
-        $table = $mapping->getTableName();
-        $columns = implode(',', array_keys($mapping->toDatabaseArray()));
-
-        $sql = "SELECT $columns FROM $table $where";
-        $stmt = $this->pdo->prepare($sql);
-
-        $stmt->execute();
-
-        $results = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $results[] = new $mapping($row);
+        $where = [];
+        $values = [];
+        foreach ($conditions as $column => $value) {
+            $where[] = "$column = ?";
+            $values[] = $value;
         }
 
-        return $results;
+        $whereClause = implode(' AND ', $where);
+        $stmt = $db->getConnector()->prepare("SELECT * FROM $table WHERE $whereClause LIMIT 1");
+        $stmt->execute($values);
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$data) {
+            return null;
+        }
+
+        $instance = new static();
+        foreach ($data as $name => $value) {
+            $instance->setAttribute($name, $value);
+        }
+
+        return $instance;
     }
+
+
 }

@@ -2,44 +2,44 @@
 
 namespace src\Controller;
 
-use FrameWork\App;
-use FrameWork\database\DatabaseConnection;
+
 use FrameWork\HTTP\Request;
-use PDO;
+use src\Model\Rol;
 use src\Model\User;
 
 class LoginController
 {
 
-
     public function loginUser(Request $request)
     {
-        $email = null;
-        $password = null;
-        $sesstionId= null;
-
 
         if ($request->getServer()['REQUEST_METHOD'] === 'POST') {
 
             $email = $request->getPostByName('username');
             $password = $request->getPostByName('password');
 
-        $getUserCred = $this->findUser($email, 'user');
+            $getUserCred = User::find(['email' => $email]);
+            $getUserRol = $getUserCred->getRolId();
+            $findRole  = Rol::find(['id' => $getUserRol]);
 
-        if (!$getUserCred || !password_verify($password, $getUserCred[0]['password'])) {
-            $test =  "verkeerde gegevens";
+
+        if (!$getUserCred || !password_verify($password, $getUserCred->getPassword())) {
+
             header('Location: /login');
         } else {
             // Als de inloggegevens geldig zijn dan begin een session
             session_start();
-            $_SESSION['user_id'] = $getUserCred[0]['id'];
-            $_SESSION['user_rol'] = $getUserCred[0]['rol']; //moet hier nog de data van de rol tabel halen in her regesteren.
+            $_SESSION['user_id'] = $getUserCred->getId();
+            $_SESSION['user_Name'] = $getUserCred->getName();
+            $_SESSION['user_rol'] = $findRole->getName();
             $sesstionId = $_SESSION['user_id'];
+            $sesstionUsername = $_SESSION['user_Name'];
+
             header('Location: /home');
 
         }
         }
-        return [ $email, $password , $sesstionId];
+        return [ 'sesstionid' => $sesstionId, 'sesstionUserName' => $sesstionUsername];
     }
 
     public function logout()
@@ -49,15 +49,4 @@ class LoginController
         session_destroy();
     }
 
-    public function findUser($email, $tabel)
-    {
-        $conn = new DatabaseConnection();
-        $pdo = $conn->getConnector();
-        $sql = "SELECT * FROM $tabel WHERE email = :email";
-        $queryEX = $pdo->prepare($sql);
-        $queryEX->execute([':email' => $email]);
-        $results = $queryEX->fetchAll(PDO::FETCH_ASSOC);
-
-        return $results;
-    }
 }

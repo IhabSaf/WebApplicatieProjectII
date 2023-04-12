@@ -1,9 +1,10 @@
 <?php
 namespace src\Model;
 
-use Framework\Attribute\Column;
-use Framework\database\Mapping;
-#[Tabel('user')]
+use FrameWork\Attribute\Column;
+use FrameWork\Attribute\Table;
+use FrameWork\database\Mapping;
+#[Table('user')]
 class User extends Mapping
 {
     #[Column('id')]
@@ -12,23 +13,23 @@ class User extends Mapping
     #[Column('name')]
     public ?string $name = null;
 
+    #[Column('rolId')]
+    public ?int $rolId = null;
+
     #[Column('email')]
     public ?string $email = null;
 
     #[Column('password')]
     public ?string $password = null;
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
+
 
     /**
      * @return int|null
      */
     public function getId(): ?int
     {
-        return $this->getAttribute('id');
+         return $this->getAttribute('id');;
     }
 
     /**
@@ -36,7 +37,7 @@ class User extends Mapping
      */
     public function getName(): ?string
     {
-        return $this->getAttribute('name');
+         return $this->getAttribute('name');;
     }
 
     /**
@@ -54,6 +55,11 @@ class User extends Mapping
     {
         return $this->getAttribute('password');
     }
+
+    /**
+     * @return int|null
+     */
+
 
     /**
      * @param int|null $id
@@ -89,4 +95,20 @@ class User extends Mapping
             $this->setAttribute('password', $passwordHash);
     }
 }
+
+
+    public function getRolId(): ?string
+    {
+        return $this->rolId;
+    }
+
+
+    public function setRolId(int $rolId): void
+    {
+        $this->setAttribute('roleId', $rolId);
+    }
+
+
+
+
 }

@@ -4,10 +4,10 @@ namespace src\Model;
 
 use FrameWork\Attribute\Table;
 use FrameWork\Attribute\Column;
-use Framework\database\Mapping;
+use FrameWork\database\Mapping;
 
 
-#[Table('rol')]
+#[Table('Rol')]
 class Rol extends Mapping
 {
 

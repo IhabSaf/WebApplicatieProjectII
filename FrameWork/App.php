@@ -7,7 +7,6 @@ use FrameWork\Interface\IRequest;
 use FrameWork\Interface\IResponse;
 use FrameWork\Route\Route;
 use FrameWork\security\AccessController;
-use ReflectionClass;
 
 class App
 {
@@ -28,7 +27,7 @@ class App
             $routeObject = $this->route->getRoute($path);
 
             // Check  de accessController
-            $checkController = $routeObject->getController(); // dit pakt laatste controller van de arrey routeobject
+            $checkController = $routeObject->getController();
             $checkMethod = $routeObject->getMethod();
             if(isset($_SESSION['user_role']) && $_SESSION['user_role'] !== null) {
                 $userRole = $_SESSION['user_role'];
