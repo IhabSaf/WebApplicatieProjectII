@@ -28,14 +28,13 @@ class LoginController
             $getUserCred = User::find(['email' => $email]);
             $findRole =  Rol::find(['id' => $getUserCred->getRolId()]);
 
-
             // Verificatie of het wachtwoord correct is met wat in de database staat.
             // Als er geen sprake van een just wachtwoord of email dan weiger de inlog, anders login en start een sessie en sla de gegevens van de gebruikers op.
         if (!$getUserCred || !password_verify($password, $getUserCred->getPassword())) {
             echo '<div>Incorrect username or password.</div>';
-            header('Location: /login');
-        } else {
+            header('Location: /login');}
 
+        else{
             // Als de inloggegevens geldig zijn dan begin een session
             session_start();
             $_SESSION['user_id'] = $getUserCred->getId();
@@ -44,9 +43,8 @@ class LoginController
 
             $sesstionId = $_SESSION['user_id'];
             $sesstionUsername = $_SESSION['user_Name'];
-            header('Location: /home');
+            header('Location: /home');}
 
-        }
         }
         // Controleer of de sessievariabelen bestaan voordat ze worden gebruikt
         if (isset($_SESSION['user_id']) && isset($_SESSION['user_name'])) {
