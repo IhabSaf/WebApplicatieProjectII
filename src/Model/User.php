@@ -29,7 +29,7 @@ class User extends Mapping
      */
     public function getId(): ?int
     {
-         return $this->getAttribute('id');;
+         return $this->getAttribute('id');
     }
 
     /**
@@ -37,7 +37,7 @@ class User extends Mapping
      */
     public function getName(): ?string
     {
-         return $this->getAttribute('name');;
+         return $this->getAttribute('name');
     }
 
     /**
@@ -97,15 +97,15 @@ class User extends Mapping
 }
 
 
-    public function getRolId(): ?string
+    public function getRolId()
     {
-        return $this->rolId;
+        return $this->getAttribute('rolId');
     }
 
 
     public function setRolId(int $rolId): void
     {
-        $this->setAttribute('roleId', $rolId);
+        $this->setAttribute('rolId', $rolId);
     }
 
 

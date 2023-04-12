@@ -12,6 +12,8 @@ class LoginController
 
     public function loginUser(Request $request)
     {
+        $sesstionId = null;
+        $sesstionUsername = null;
 
         if ($request->getServer()['REQUEST_METHOD'] === 'POST') {
 
@@ -19,8 +21,10 @@ class LoginController
             $password = $request->getPostByName('password');
 
             $getUserCred = User::find(['email' => $email]);
-            $getUserRol = $getUserCred->getRolId();
-            $findRole  = Rol::find(['id' => $getUserRol]);
+
+            $findRole =  Rol::find(['id' => $getUserCred->getRolId()]);
+
+
 
 
         if (!$getUserCred || !password_verify($password, $getUserCred->getPassword())) {
@@ -32,21 +36,29 @@ class LoginController
             $_SESSION['user_id'] = $getUserCred->getId();
             $_SESSION['user_Name'] = $getUserCred->getName();
             $_SESSION['user_rol'] = $findRole->getName();
+
             $sesstionId = $_SESSION['user_id'];
             $sesstionUsername = $_SESSION['user_Name'];
+//            header('Location: /home');
 
-            header('Location: /home');
+
 
         }
+        }
+        // Controleer of de sessievariabelen bestaan voordat ze worden gebruikt
+        if (isset($_SESSION['user_id']) && isset($_SESSION['user_name'])) {
+            $sessionId = $_SESSION['user_id'];
+            $sessionUsername = $_SESSION['user_Name'];
         }
         return [ 'sesstionid' => $sesstionId, 'sesstionUserName' => $sesstionUsername];
     }
 
     public function logout()
     {
-        session_start();
         session_unset();
         session_destroy();
+
+        return[];
     }
 
 }

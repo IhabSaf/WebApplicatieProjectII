@@ -58,11 +58,11 @@
         <ul>
             <li><a href="#">Home</a></li>
             <li><a href="adduser.html">Add User</a></li>
-            <li><a href="register_exam.html">Register for Exam</a></li>
+            <li><a href="register_exam">Register for Exam</a></li>
             <li><a href="view_grades.html">View Grades</a></li>
-            <li><a href="add_grades.html">Add Grades</a></li>
+            <li><a href="add_grades">Add Grades</a></li>
         </ul>
-        <a href="#">Logout</a>
+        <a href="logout">Logout</a>
     </nav>
 </header>
 <main>

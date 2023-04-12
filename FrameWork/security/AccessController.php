@@ -8,12 +8,12 @@ use ReflectionClass;
 class AccessController
 {
 
-    public static function checkAccess(string $rol, string $controllerName, string $methodName)
+    public static function checkAccess(?string $rol, string $controllerName, string $methodName)
     {
         $controller = new $controllerName();
         $reflectionClass = new ReflectionClass($controllerName);
         $reflectionMethod = $reflectionClass->getMethod($methodName);
-        $rolesAttributes = $reflectionMethod->getAttributes(\FrameWork\Attribute\Role::class)[0]?? null;
+        $rolesAttributes = $reflectionMethod->getAttributes(\FrameWork\Attribute\Roles::class)[0]?? null;
 
         if (empty($rolesAttributes)) {
 

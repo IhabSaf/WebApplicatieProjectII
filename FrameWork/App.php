@@ -16,6 +16,7 @@ class App
 
     public function handle(): IResponse
     {
+        session_start();
         $response = new Response();
         $array = [];
         $this->create_routes();
@@ -29,12 +30,11 @@ class App
             // Check  de accessController
             $checkController = $routeObject->getController();
             $checkMethod = $routeObject->getMethod();
-            if(isset($_SESSION['user_role']) && $_SESSION['user_role'] !== null) {
-                $userRole = $_SESSION['user_role'];
-            } else {
-                $userRole = 'gast';
+            $userRole=null;
+            if(isset($_SESSION['user_rol']) && $_SESSION['user_rol'] != null) {
+                $userRole = $_SESSION['user_rol'];
             }
-
+            //roep de AccessController functie, dit geeft boolean tuerg en kijk of de huidige user mag naar de gevraagde controller.
             $hasAccess = AccessController::checkAccess($userRole, $checkController, $checkMethod);
             if (!$hasAccess) {
                 $response->setStatusCode(403);
@@ -62,6 +62,7 @@ class App
         $this->route->addRoute("test", 'src\Controller\MainController:index', "/home");
         $this->route->addRoute("registration", 'src\Controller\RegistrationController:registration', "/Registration");
         $this->route->addRoute("loginUser", 'src\Controller\LoginController:loginUser', "/login");
+        $this->route->addRoute("logoutUser", 'src\Controller\LoginController:logout', "/logout");
 
 
     }

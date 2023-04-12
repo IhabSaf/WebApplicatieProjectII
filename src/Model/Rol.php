@@ -18,6 +18,8 @@ class Rol extends Mapping
     private ?string $name;
 
 
+
+
     public function getId()
     {
         return $this->getAttribute('id');
