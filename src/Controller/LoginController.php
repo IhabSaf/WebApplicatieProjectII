@@ -12,6 +12,7 @@ class LoginController
 
     public function loginUser(Request $request)
     {
+        //De
         $sesstionId = null;
         $sesstionUsername = null;
 

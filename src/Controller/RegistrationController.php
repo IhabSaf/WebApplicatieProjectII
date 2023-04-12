@@ -10,8 +10,7 @@ use src\Model\User;
 
 class RegistrationController
 {
-
-
+    
     #[Roles(roles: ['gast'])]
     public function registration(Request $request)
     {

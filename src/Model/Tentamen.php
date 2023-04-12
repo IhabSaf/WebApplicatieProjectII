@@ -48,10 +48,4 @@ class Tentamen extends Mapping
         $this->setAttribute("docentID", $name);
     }
 
-
-
-
-
-
-
 }

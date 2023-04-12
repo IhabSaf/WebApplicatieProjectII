@@ -6,9 +6,9 @@ use FrameWork\Route\RouteObject;
 
 class MainController
 {
-    public function __construct(private IRequest $request, private RouteObject $routeObject){}
+    public function __construct(){}
 
-    public function handle() {
+    public function index() {
         $test = "hoi";
         return ['test' => $test];
     }
