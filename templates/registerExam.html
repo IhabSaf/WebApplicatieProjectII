@@ -10,18 +10,17 @@ ob_start();
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!-- extending the basic layout from index.php -->
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/index.html'; ?>
 
 <div class="container">
   <h2>Student Register for Exam</h2>
-  <form>
-    <label for="exam">Select Exam:</label>
-    <select id="exam" name="exam">
-      <option value="exam1">Exam 1</option>
-      <option value="exam2">Exam 2</option>
-      <option value="exam3">Exam 3</option>
+  <form action="#" method="post">
+    <label for="tentamen">Select Exam:</label>
+    <select id="tentamen" name="tentamen">
+      <?php foreach($showTentamen as $tenaam): ?>
+      <option value="<?php echo $tenaam; ?>"><?php echo $tenaam; ?></option>
+      <?php endforeach; ?>
     </select><br><br>
+
     <input type="submit" value="Register">
   </form>
 </div>

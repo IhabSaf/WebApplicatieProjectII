@@ -11,12 +11,11 @@ class RegistrationController
 {
 
 
-    #[Roles(roles: ['admin'])]
+    #[Roles(roles: ['gast'])]
     public function registration(Request $request)
     {
         // haal de rols op vanuit de database
         $data = Rol::findby('name');
-
 
 
         // check of de method post is, haal de data daarna vanuit de form
@@ -31,7 +30,7 @@ class RegistrationController
 
             //maak nieuwe gebruiker, en sla de gegevens op in de database.
             $user = new User();
-            $user->setId(30);
+            $user->setId(40);
             $user->setName($name);
             $user->setRolId($id_rol->getId());
             $user->setPassword($password);

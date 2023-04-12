@@ -4,7 +4,7 @@ namespace src\Model;
 
 use FrameWork\Attribute\Column;
 use FrameWork\Attribute\Table;
-use Framework\database\Mapping;
+use FrameWork\database\Mapping;
 
 #[Table('tentamen')]
 class Tentamen extends Mapping
@@ -17,7 +17,7 @@ class Tentamen extends Mapping
     private ?string $name;
 
     #[Column('docentId')]
-    private ?string $tentamenId;
+    private ?int $tentamenId;
 
 
     public function getId()
@@ -32,12 +32,6 @@ class Tentamen extends Mapping
     }
 
 
-    public function getTentamenId()
-    {
-        return $this->getAttribute('tentamenId');
-    }
-
-
     public function setId($id): void
     {
         $this->setAttribute("id", $id);
@@ -49,11 +43,13 @@ class Tentamen extends Mapping
         $this->setAttribute("name", $name);
     }
 
-
-    public function setTentamenId($tentamenId): void
+    public function setDocentId($name): void
     {
-        $this->setAttribute("tentamenId", $tentamenId);
+        $this->setAttribute("docentID", $name);
     }
+
+
+
 
 
 

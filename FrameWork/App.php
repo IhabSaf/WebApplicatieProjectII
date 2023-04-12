@@ -34,6 +34,9 @@ class App
             if(isset($_SESSION['user_rol']) && $_SESSION['user_rol'] != null) {
                 $userRole = $_SESSION['user_rol'];
             }
+            else{
+                $userRole = 'gast';
+            }
             //roep de AccessController functie, dit geeft boolean tuerg en kijk of de huidige user mag naar de gevraagde controller.
             $hasAccess = AccessController::checkAccess($userRole, $checkController, $checkMethod);
             if (!$hasAccess) {
@@ -63,6 +66,8 @@ class App
         $this->route->addRoute("registration", 'src\Controller\RegistrationController:registration', "/Registration");
         $this->route->addRoute("loginUser", 'src\Controller\LoginController:loginUser', "/login");
         $this->route->addRoute("logoutUser", 'src\Controller\LoginController:logout', "/logout");
+        $this->route->addRoute("logoutUser", 'src\Controller\InschrijvenTentamenController:inschrijven', "/registerExam");
+
 
 
     }
