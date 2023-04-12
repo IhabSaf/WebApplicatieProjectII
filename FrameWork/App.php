@@ -61,7 +61,6 @@ class App
 
     private function create_routes(): void
     {
-        $this->route->addRoute("temp", 'src\Controller\MainController:handle', "/temp/{name}/{id}", ["name" => "person", "id" => 5]);
         $this->route->addRoute("test", 'src\Controller\MainController:index', "/home");
         $this->route->addRoute("registration", 'src\Controller\RegistrationController:registration', "/Registration");
         $this->route->addRoute("loginUser", 'src\Controller\LoginController:loginUser', "/login");

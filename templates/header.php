@@ -1,68 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Student Portal</title>
+    <title>My Website</title>
     <style>
-        /* common styles */
+        /* Set background color of body to white and font color to black */
         body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
+            color: #000000;
         }
-
-        header {
-            background-color: #333;
-            color: white;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start; /* changed from center to flex-start */
-        }
-
+        /* Style the navigation bar */
         nav {
+            background-color: #000000;
+            color: #FFFFFF;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start; /* changed from center to flex-start */
+            align-items: center;
+            padding: 10px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
         }
-
         nav ul {
+            list-style-type: none;
             margin: 0;
             padding: 0;
             display: flex;
-            list-style-type: none;
+            align-items: center;
         }
-
         nav li {
-            margin-right: 10px;
+            margin: 0 10px;
+            font-size: 20px; /* Make the font size bigger for the navigation links */
         }
-
         nav a {
-            color: white;
+            color: #FFFFFF;
             text-decoration: none;
-            padding: 5px;
-        }
-
-        footer {
-            background-color: #333;
-            color: white;
+            display: block;
             padding: 10px;
-            text-align: center;
+        }
+        .inlog, .uitlog {
+            font-size: 20px; /* Make the font size bigger for the "Inlog" and "Uitlog" buttons */
+            margin: 0 10px;
+        }
+        .right {
+            margin-left: auto; /* Align the "Inlog" and "Uitlog" buttons to the right */
         }
     </style>
 </head>
 <body>
-<header>
-    <h1>Student Portal</h1>
-    <nav>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="adduser.html">Add User</a></li>
-            <li><a href="register_exam">Register for Exam</a></li>
-            <li><a href="view_grades.html">View Grades</a></li>
-            <li><a href="add_grades">Add Grades</a></li>
-        </ul>
-        <a href="logout">Logout</a>
-    </nav>
-</header>
-<main>
+<nav>
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+        <?php
+        if(\FrameWork\security\CurrentUser::isAdmin()) {
+            echo '<li><a href="Registration">AddUser</a></li>';
+        }
+        if(\FrameWork\security\CurrentUser::isAdmin() || \FrameWork\security\CurrentUser::isStudent()) {
+            echo '<li><a href="registerExam">Register for Exam</a></li>';
+        }
+        if(\FrameWork\security\CurrentUser::isInloged()) {
+            echo '<li><a href="view_grades.html">View Grades</a></li>';
+        }
+        ?>
+    </ul>
+    <div class="right">
+        <?php
+        if(\FrameWork\security\CurrentUser::isInloged()) {
+            echo '<a href="logout" class="uitlog">Logout</a>';
+        } else {
+            echo '<a href="login" class="inlog">Log In</a>';
+        }
+        ?>
+    </div>
+</nav>
+</body>
+</html>

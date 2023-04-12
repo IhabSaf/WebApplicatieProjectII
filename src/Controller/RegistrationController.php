@@ -10,8 +10,8 @@ use src\Model\User;
 
 class RegistrationController
 {
-    
-    #[Roles(roles: ['gast'])]
+
+    #[Roles(roles: ['admin'])]
     public function registration(Request $request)
     {
         // haal de rols op vanuit de database

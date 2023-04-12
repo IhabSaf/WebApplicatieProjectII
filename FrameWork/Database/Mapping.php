@@ -8,8 +8,6 @@ use ReflectionClass;
 
  class Mapping {
     private array $data = [];
-
-
     private string $table;
     private DatabaseConnection $db;
 
@@ -119,12 +117,5 @@ use ReflectionClass;
             return null;
         }
     }
-
-
-    public static function findByEmail(string $email): ?static
-    {
-        return static::find(['email' => $email]);
-    }
-
 
  }

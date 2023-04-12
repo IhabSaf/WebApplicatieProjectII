@@ -1,5 +1,4 @@
 <?php
-
 namespace FrameWork\security;
 use ReflectionClass;
 
@@ -25,7 +24,7 @@ class AccessController
      */
     public static function checkAccess(?string $rol, string $controllerName, string $methodName): bool
     {
-        // neem de aangegeven controller en de method door met gebruik van reflection klasse, en dan haal de attributen (roles)
+        // neem de aangegeven controller en de method door met gebruik van reflection klasse, en dan haal de attributen (roles) uit
         $reflectionClass = new ReflectionClass($controllerName);
         $reflectionMethod = $reflectionClass->getMethod($methodName);
         $rolesAttributes = $reflectionMethod->getAttributes(\FrameWork\Attribute\Roles::class)[0]?? null;
@@ -38,7 +37,7 @@ class AccessController
         // verzamel alle rollen vanuit de attributen binnen een array
         $mydata = $rolesAttributes->newInstance()->roles;
 
-        // check of aangegeven rol uit de parameters bestaat in die $data array, return true of die gebruiker wel in de array
+        // check of aangegeven rol uit de parameters bestaat in die $data array, return true of die gebruiker wel in de array is
         if (in_array($rol, $mydata)) {
             return true;
         }
