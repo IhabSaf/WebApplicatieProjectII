@@ -6,8 +6,64 @@ ob_start();
 <html>
 <head>
   <title>Student Exam Scores and Registered Exams</title>
-  <!-- Link to the parent stylesheet -->
-  <link rel="stylesheet" type="text/css" href="index.css">
+  <style>
+    /* Reset default styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Set default font family and size */
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+    }
+
+    /* Container styles */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 50px;
+    }
+
+    /* Heading styles */
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    h3 {
+      margin-top: 50px;
+    }
+
+    /* Table styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 50px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    /* List styles */
+    ul {
+      margin-left: 20px;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
 
@@ -31,7 +87,6 @@ ob_start();
       <td>78%</td>
     </tr>
   </table>
-  <br><br>
   <h3>Registered Exams:</h3>
   <ul>
     <li>Math</li>
@@ -39,7 +94,5 @@ ob_start();
   </ul>
 </div>
 
-<!-- Include the parent footer -->
-<?php include 'footer.html'; ?>
 </body>
 </html>

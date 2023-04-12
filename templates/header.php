@@ -62,7 +62,7 @@
         }
 
         if(\FrameWork\security\CurrentUser::isInloged()) {
-            echo '<li><a href="view_grades.html">View Grades</a></li>';
+            echo '<li><a href="ShowStudentData">View Grades</a></li>';
         }
 
         if(\FrameWork\security\CurrentUser::isInloged()) {
