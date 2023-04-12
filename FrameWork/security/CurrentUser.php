@@ -29,6 +29,18 @@ class CurrentUser
 
     }
 
+
+    public static function get_user_name()
+    {
+        if (isset($_SESSION['user_Name'])) {
+            $user_id = $_SESSION['user_Name'];
+            return $user_id;
+        } else {
+            return null;
+        }
+
+    }
+
     public static function get_user_rol()
     {
         if (isset($_SESSION['user_rol'])) {

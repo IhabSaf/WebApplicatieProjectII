@@ -67,6 +67,8 @@
         <?php
         if(\FrameWork\security\CurrentUser::isInloged()) {
             echo '<a href="logout" class="uitlog">Logout</a>';
+            echo '<a href="" class="inlog">' .'Welkom: '. \FrameWork\security\CurrentUser::get_user_name(). '</a>';
+
         } else {
             echo '<a href="login" class="inlog">Log In</a>';
         }
