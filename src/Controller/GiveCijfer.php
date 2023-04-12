@@ -52,7 +52,7 @@ class GiveCijfer
             //haal alle objecten van de database die matchen met die student number.
             $findStudentinschrijvingen = UserInschrijvingen::findAll(['userId' => $StudentNummer]);
 
-            //maak een array met de tentamen nummber waar de student zich geschreven heeft.
+            //maak een array met het tentamen nummer waar de student zich geschreven heeft.
             foreach ($findStudentinschrijvingen as $studentVakken) {
                 $this->alleVakkenID[] = $studentVakken->getTentamenId();
             }
