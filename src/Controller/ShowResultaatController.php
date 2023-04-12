@@ -2,7 +2,7 @@
 
 namespace src\Controller;
 
-class ShowResultaat
+class ShowResultaatController
 {
 
     public function show(){

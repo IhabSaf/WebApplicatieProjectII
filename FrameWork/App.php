@@ -69,7 +69,7 @@ class App
         $this->route->addRoute("CijferToevoegen", 'src\Controller\GiveCijfer:niks', "/CijferToevoegen");
         $this->route->addRoute("FindStudentForm", 'src\Controller\GiveCijfer:findStudentForm', "/FindStudentForm");
         $this->route->addRoute("FindeStudentSubject", 'src\Controller\GiveCijfer:invulCijfer', "/FindeStudentSubject");
-        $this->route->addRoute("FindeStudentSubject", 'src\Controller\ShowResultaat:show', "/ShowStudentData");
+        $this->route->addRoute("FindeStudentSubject", 'src\Controller\ShowResultaatController:show', "/ShowStudentData");
 
 
     }
