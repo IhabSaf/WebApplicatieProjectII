@@ -88,7 +88,7 @@ use ReflectionClass;
         }
         return $instances;
     }
-    // hier kan gefiltrd worden.
+    // hier kan gefiltrd worden, geeft een object terug van zelfde entity type
     public static function find(array $criteria): ?static
     {
         $db = new DatabaseConnection();
@@ -118,4 +118,36 @@ use ReflectionClass;
         }
     }
 
- }
+    //geeft een lisjt teug van alle obejcten van de betrefnde enitiy
+    public static function findAll(array $criteria): array
+    {
+        $db = new DatabaseConnection();
+        $table = (new static())->getTable();
+        $whereClauses = [];
+
+        foreach ($criteria as $attribute => $value) {
+            $whereClauses[] = "{$attribute} = ?";
+        }
+
+        $whereClause = implode(' AND ', $whereClauses);
+        $sql = "SELECT * FROM {$table} WHERE {$whereClause}";
+        $statement = $db->getConnector()->prepare($sql);
+
+        $i = 1;
+        foreach ($criteria as $value) {
+            $statement->bindValue($i++, $value);
+        }
+
+        $statement->execute();
+        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        $objects = [];
+        foreach ($results as $result) {
+            $objects[] = new static($result);
+        }
+
+        return $objects;
+    }
+
+
+}

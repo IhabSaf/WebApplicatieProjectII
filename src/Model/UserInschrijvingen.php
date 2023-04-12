@@ -4,7 +4,7 @@ namespace src\Model;
 
 use FrameWork\Attribute\Column;
 use FrameWork\Attribute\Table;
-use Framework\database\Mapping;
+use FrameWork\database\Mapping;
 
 #[Table('UserInschrijvingen')]
 class UserInschrijvingen extends Mapping

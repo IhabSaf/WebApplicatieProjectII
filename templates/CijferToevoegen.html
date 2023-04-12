@@ -5,39 +5,56 @@ ob_start();
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Teacher Enter Exam Scores</title>
-  <!-- Link to the parent stylesheet -->
-  <link rel="stylesheet" type="text/css" href="index.css">
+  <title>Geef Cijfer Formulier</title>
+  <style>
+    body {
+      background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
+    }
+    css
+    Copy code
+    h1 {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+    }
+
+    label {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    input[type="submit"] {
+      margin-top: 30px;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #000000;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #3e8e41;
+    }
+  </style>
 </head>
 <body>
-<!-- Include the parent navbar -->
-<?php include 'index.html'; ?>
-
-<div class="container">
-  <h1>Teacher Enter Exam Scores</h1>
-  <form>
-    <label for="exam">Choose an Exam:</label>
-    <select id="exam" name="exam">
-      <option value="math">Math</option>
-      <option value="english">English</option>
-      <option value="science">Science</option>
-    </select>
-    <br><br>
-    <label for="student">Choose a Student:</label>
-    <select id="student" name="student">
-      <option value="john">John Smith</option>
-      <option value="jane">Jane Doe</option>
-      <option value="bob">Bob Johnson</option>
-    </select>
-    <br><br>
-    <label for="score">Enter Exam Score:</label>
-    <input type="text" id="score" name="score">
-    <br><br>
-    <input type="submit" value="Submit">
-  </form>
-</div>
-
-<!-- Include the parent footer -->
-<?php include 'footer.html'; ?>
+<h1>Hier kan je een cijfer voor een student invoeren. Om het cijfer te kunnen invoeren heb je de student ID nodig. </h1>
+ <h1>Vervolgens krijg je een lijst met alle inschrijvingen van de betreffende student. Kies het tentamen en vul het cijfer in.</h1>
+<form method="" action="FindStudentForm">
+  <input type="submit" value="Ga verder">
+</form>
 </body>
 </html>

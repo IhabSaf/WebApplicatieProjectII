@@ -64,9 +64,11 @@ class App
         $this->route->addRoute("test", 'src\Controller\MainController:index', "/home");
         $this->route->addRoute("registration", 'src\Controller\RegistrationController:registration', "/Registration");
         $this->route->addRoute("loginUser", 'src\Controller\LoginController:loginUser', "/login");
-        $this->route->addRoute("logoutUser", 'src\Controller\LoginController:logout', "/logout");
-        $this->route->addRoute("logoutUser", 'src\Controller\InschrijvenTentamenController:inschrijven', "/registerExam");
-
+        $this->route->addRoute("logout", 'src\Controller\LoginController:logout', "/logout");
+        $this->route->addRoute("registerExam", 'src\Controller\InschrijvenTentamenController:inschrijven', "/registerExam");
+        $this->route->addRoute("CijferToevoegen", 'src\Controller\GiveCijfer:niks', "/CijferToevoegen");
+        $this->route->addRoute("FindStudentForm", 'src\Controller\GiveCijfer:findStudentForm', "/FindStudentForm");
+        $this->route->addRoute("FindeStudentSubject", 'src\Controller\GiveCijfer:invulCijfer', "/FindeStudentSubject");
 
 
     }

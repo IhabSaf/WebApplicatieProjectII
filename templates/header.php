@@ -52,16 +52,25 @@
     <ul>
         <li><a href="home">Home</a></li>
         <?php
+
         if(\FrameWork\security\CurrentUser::isAdmin()) {
             echo '<li><a href="Registration">AddUser</a></li>';
         }
+
         if(\FrameWork\security\CurrentUser::isAdmin() || \FrameWork\security\CurrentUser::isStudent()) {
             echo '<li><a href="registerExam">Register for Exam</a></li>';
         }
+
         if(\FrameWork\security\CurrentUser::isInloged()) {
             echo '<li><a href="view_grades.html">View Grades</a></li>';
         }
+
+        if(\FrameWork\security\CurrentUser::isInloged()) {
+            echo '<li><a href="CijferToevoegen">Add Grades</a></li>';
+        }
+
         ?>
+
     </ul>
     <div class="right">
         <?php

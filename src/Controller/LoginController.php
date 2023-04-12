@@ -2,7 +2,6 @@
 
 namespace src\Controller;
 
-
 use FrameWork\HTTP\isRequest;
 use FrameWork\HTTP\Request;
 use src\Model\Rol;

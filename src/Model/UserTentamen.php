@@ -16,11 +16,11 @@ class UserTentamen extends Mapping
     private $userId;
 
     #[Column('tentamenId')]
-    private ?string $tentamenId;
+    private ?int $tentamenId;
 
 
     #[Column('cijfer')]
-    private ?string $cijfer;
+    private ?int $cijfer;
 
 
     public function getId()
@@ -60,13 +60,13 @@ class UserTentamen extends Mapping
     }
 
 
-    public function setTentamenId(?string $tentamenId): void
+    public function setTentamenId(?int $tentamenId): void
     {
         $this->setAttribute('tentamenId', $tentamenId);
     }
 
 
-    public function setCijfer(?string $cijfer): void
+    public function setCijfer(?int $cijfer): void
     {
         $this->setAttribute('cijfer', $cijfer);
     }
