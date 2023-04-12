@@ -2,9 +2,7 @@
 namespace FrameWork\Route;
 class Route {
     private $routes;
-
     private $controller;
-
     private $method;
     public function __construct()
     {
