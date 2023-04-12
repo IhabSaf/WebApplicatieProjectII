@@ -8,6 +8,8 @@ use ReflectionClass;
 
  class Mapping {
     private array $data = [];
+
+
     private string $table;
     private DatabaseConnection $db;
 
@@ -71,47 +73,6 @@ use ReflectionClass;
         return strtolower($className) . '';
     }
 
-//    public static function find(string $conditions): ?static
-//    {
-//        $db = new DatabaseConnection();
-//        $table = (new static())->getTable();
-//        $entityClass = get_called_class();
-//
-//
-//
-//
-//        $stmt = $db->getConnector()->prepare("SELECT * FROM $table");
-//        $stmt->execute($stmt);
-//
-//        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-//        if (!$data) {
-//            return null;
-//        }
-//        $instances = new $entityClass($data);
-//
-//        return $instances;
-//    }
-
-// return object this works
-//    public static function find(): array
-//    {
-//        $db = new DatabaseConnection();
-//
-//        $table = (new static())->getTable();
-//
-//        $stmt = $db->getConnector()->prepare("SELECT * FROM $table");
-//        $stmt->execute();
-//        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-//
-//        $instances = [];
-//        foreach ($data as $row) {
-//            $instance = new static($row);
-//            $instances[] = $instance;
-//        }
-//
-//        return $instances;
-//    }
-
 
 //this return only the values of clomun
     public static function findby(string $column): array
@@ -129,6 +90,7 @@ use ReflectionClass;
         }
         return $instances;
     }
+    // hier kan gefiltrd worden.
     public static function find(array $criteria): ?static
     {
         $db = new DatabaseConnection();

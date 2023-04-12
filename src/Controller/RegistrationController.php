@@ -2,6 +2,7 @@
 
 namespace src\Controller;
 
+use FrameWork\HTTP\isRequest;
 use FrameWork\HTTP\Request;
 use FrameWork\Attribute\Roles;
 use src\Model\Rol;
@@ -17,9 +18,8 @@ class RegistrationController
         // haal de rols op vanuit de database
         $data = Rol::findby('name');
 
-
         // check of de method post is, haal de data daarna vanuit de form
-        if ($request->getServer()['REQUEST_METHOD'] === 'POST') {
+        if (isRequest::post()){
             $name = $request->getPostByName('name');
             $email = $request->getPostByName('email');
             $password = $request->getPostByName('password');
