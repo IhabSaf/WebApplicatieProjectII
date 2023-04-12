@@ -50,9 +50,7 @@
 <body>
 <nav>
     <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="home">Home</a></li>
         <?php
         if(\FrameWork\security\CurrentUser::isAdmin()) {
             echo '<li><a href="Registration">AddUser</a></li>';

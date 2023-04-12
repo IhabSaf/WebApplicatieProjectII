@@ -2,8 +2,72 @@
 include('header.php');
 ob_start();
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hanze Student Portal</title>
+    <style>
+        body {
+            background-color: #f1f1f1;
+            font-family: Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+        }
 
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            justify-content: center;
+        }
 
+        h1 {
+            font-size: 4em;
+            color: #555;
+            text-align: center;
+            margin: 20px 0;
+        }
 
-<!-- Your page content goes here -->
-<h1>test</h1>
+        p {
+            font-size: 1.5em;
+            color: #888;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        button {
+            background-color: #2f6dbc;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.2s ease-in-out;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #1a3c6d;
+        }
+
+        .logo {
+            width: 200px;
+            height: auto;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <img class="logo" src="https://cdn.pixabay.com/photo/2023/04/07/07/14/cat-7905702_960_720.jpg">
+    <h1>Welcome bij Hanze Student Portal</h1>
+    <p>Login om je cijfers te bekijken of in te schrijven voor een tentamen</p>
+
+</div>
+</body>
+</html>
