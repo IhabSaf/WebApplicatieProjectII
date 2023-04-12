@@ -65,7 +65,7 @@
             echo '<li><a href="ShowStudentData">View Grades</a></li>';
         }
 
-        if(\FrameWork\security\CurrentUser::isInloged()) {
+        if(\FrameWork\security\CurrentUser::isAdmin() || \FrameWork\security\CurrentUser::isDocent()) {
             echo '<li><a href="CijferToevoegen">Add Grades</a></li>';
         }
 
