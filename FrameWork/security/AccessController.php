@@ -1,7 +1,6 @@
 <?php
 
 namespace FrameWork\security;
-use FrameWork\Attribute;
 use ReflectionClass;
 
 /**
