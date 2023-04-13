@@ -5,94 +5,42 @@ ob_start();
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Student Exam Scores and Registered Exams</title>
+  <title>Student Tentamen Scores</title>
   <style>
-    /* Reset default styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    /* Set default font family and size */
-    body {
-      font-family: Arial, sans-serif;
-      font-size: 16px;
-    }
-
-    /* Container styles */
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 50px;
-    }
-
-    /* Heading styles */
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    h3 {
-      margin-top: 50px;
-    }
-
-    /* Table styles */
     table {
-      width: 100%;
       border-collapse: collapse;
-      margin-bottom: 50px;
+      width: 100%;
     }
 
     th, td {
       text-align: left;
-      padding: 10px;
+      padding: 25px;
       border-bottom: 1px solid #ddd;
     }
 
     th {
-      background-color: #020000;
+      background-color: #000000;
       color: white;
-    }
-
-    /* List styles */
-    ul {
-      margin-left: 20px;
-    }
-
-    li {
-      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
-
-<div class="container">
-  <h1>Student tantamen resultaten</h1>
-  <table>
-    <tr>
-      <th>Exam Name</th>
-      <th>Exam Score</th>
-    </tr>
-    <tr>
-      <td>Math</td>
-      <td>85%</td>
-    </tr>
-    <tr>
-      <td>English</td>
-      <td>92%</td>
-    </tr>
-    <tr>
-      <td>Science</td>
-      <td>78%</td>
-    </tr>
-  </table>
-  <h3>Jij bent ingeschreven voor de volgende vakken:</h3>
-  <ul>
-    <li>Math</li>
-    <li>Science</li>
-  </ul>
-</div>
-
+<h1>Student Tentamen Resultaten</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Vak naam Name</th>
+    <th>Tentamen Cijfer</th>
+  </tr>
+  </thead>
+  <tbody>
+  <?php foreach ($studentTentamen as $tentamen): ?>
+  <tr>
+    <td><?php echo $tentamen[0]; ?></td>
+    <td><?php echo $tentamen[1]; ?></td>
+  </tr>
+  <?php endforeach; ?>
+  </tbody>
+</table>
 </body>
 </html>

@@ -11,16 +11,16 @@ use src\Model\User;
 class RegistrationController
 {
 
-
-    public function __construct( private EntityManger $entityManager)
+    private $entityManager;
+    public function __construct()
     {
+        $this->entityManager = new EntityManger();
     }
 
     #[Roles(roles: ['admin'])]
-    public function registration(Request $request)
+    public function registration(Request $request )
     {
-        // tijdelijk moet mee genomen als een parameter van deze functie
-//        $entityManager = new EntityManger();
+
 
         // haal de rols op vanuit de database
         $data = $this->entityManager->getEntity(Rol::class)->findby('name');

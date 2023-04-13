@@ -78,9 +78,12 @@ class Route {
         $this->addRoute("loginUser", 'src\Controller\LoginController:loginUser', "/login");
         $this->addRoute("logout", 'src\Controller\LoginController:logout', "/logout");
         $this->addRoute("registerExam", 'src\Controller\InschrijvenTentamenController:inschrijven', "/registerExam");
-        $this->addRoute("CijferToevoegen", 'src\Controller\GiveCijfer:niks', "/CijferToevoegen");
+        $this->addRoute("CijferToevoegen", 'src\Controller\GiveCijfer:invulCijfer', "/CijferToevoegen");
+        $this->addRoute("CijferToevoegen", 'src\Controller\GiveCijfer:findStudentForm', "/CijferToevoegen");
+
         $this->addRoute("FindStudentForm", 'src\Controller\GiveCijfer:findStudentForm', "/FindStudentForm");
         $this->addRoute("FindeStudentSubject", 'src\Controller\GiveCijfer:invulCijfer', "/FindeStudentSubject");
         $this->addRoute("Finde2StudentSubject", 'src\Controller\ShowResultaatController:show', "/ShowStudentData");
+
     }
 }
