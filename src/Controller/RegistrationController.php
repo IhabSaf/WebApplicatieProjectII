@@ -2,7 +2,7 @@
 
 namespace src\Controller;
 
-use FrameWork\HTTP\isRequest;
+use FrameWork\Database\EntityManger;
 use FrameWork\HTTP\Request;
 use FrameWork\Attribute\Roles;
 use src\Model\Rol;
@@ -14,24 +14,25 @@ class RegistrationController
     #[Roles(roles: ['admin'])]
     public function registration(Request $request)
     {
+        $entityManager = new EntityManger();
         // haal de rols op vanuit de database
-        $data = Rol::findby('name');
+        $data = $entityManager->getEntity(Rol::class)->findby('name');
 
         // check of de method post is, haal de data daarna vanuit de form
-        if (isRequest::post()){
+        if ($request->isPost()){
             $name = $request->getPostByName('name');
             $email = $request->getPostByName('email');
             $password = $request->getPostByName('password');
             $role_name = $request->getPostByName('role');
 
-            //find de key van de betrefende rol name
-            $id_rol = Rol::find(['name' => $role_name]);
+            //find de key van de betreffende rol name
+            $id_rol = $entityManager->getEntity(Rol::class)->find(['name' => $role_name])->getId();
 
             //maak nieuwe gebruiker, en sla de gegevens op in de database.
             $user = new User();
-            $user->setId(43);
+            $user->setId(46);
             $user->setName($name);
-            $user->setRolId($id_rol->getId());
+            $user->setRolId($id_rol);
             $user->setPassword($password);
             $user->setEmail($email);
             $user->save();

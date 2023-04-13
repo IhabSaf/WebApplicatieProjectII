@@ -73,7 +73,7 @@ use ReflectionClass;
 
 
 //this return only the values of clomun
-    public static function findby(string $column): array
+    public function findby(string $column): array
     {
         $db = new DatabaseConnection();
 
@@ -89,7 +89,7 @@ use ReflectionClass;
         return $instances;
     }
     // hier kan gefiltrd worden, geeft een object terug van zelfde entity type
-    public static function find(array $criteria): ?static
+    public function find(array $criteria): ?static
     {
         $db = new DatabaseConnection();
         $table = (new static())->getTable();
@@ -119,7 +119,7 @@ use ReflectionClass;
     }
 
     //geeft een lisjt teug van alle obejcten van de betrefnde enitiy
-    public static function findAll(array $criteria): array
+    public function findAll(array $criteria): array
     {
         $db = new DatabaseConnection();
         $table = (new static())->getTable();

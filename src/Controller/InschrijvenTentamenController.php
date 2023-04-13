@@ -17,7 +17,7 @@ class InschrijvenTentamenController
         // breng alle tenameten van de database
         $alleTentamen = Tentamen::findby('name');
 
-        if (isRequest::post()){
+        if ($request->isPost()){
 
             //haal de data vanuit de form uit.
             $gekozenTenemenName = $request->getPostByName('tentamen');

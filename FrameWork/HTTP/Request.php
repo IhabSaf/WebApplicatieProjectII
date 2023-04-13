@@ -68,6 +68,10 @@ class Request implements IRequest
         return str_replace('//', '/', '/'.explode('?', $this->server['REQUEST_URI'] ?? '')[0]);
     }
 
+    public function isPost(): bool{
+        return $this->server['REQUEST_METHOD'] === 'POST';
+    }
+
     public function dump(): void
     {
         echo "POST \n";

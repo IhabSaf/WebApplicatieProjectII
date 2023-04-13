@@ -6,6 +6,7 @@ use FrameWork\HTTP\isRequest;
 use FrameWork\HTTP\Request;
 use FrameWork\Interface\IRequest;
 use src\Model\Tentamen;
+use src\Model\User;
 use src\Model\UserInschrijvingen;
 use src\Model\UserTentamen;
 
@@ -16,27 +17,32 @@ class GiveCijfer
     public function invulCijfer(Request $request){
 
         $alleVakkenNamen = null;
-        if(isRequest::post()){
-            $alleVakkenNamen =array();
+        if($request->isPost()){
+            $alleVakkenNamen = array();
             //haal de namen van de vakken waar de student zich heeft ingeschreven.
-            for ($index = 0; sizeof($this->alleVakkenID) > $index; $index++){
-                $alleVakkenNamen []= Tentamen::find(['name' => $this->alleVakkenID[$index]])->getName();}
+            for ($index = 0; sizeof($this->alleVakkenID) > $index; $index++) {
+                $alleVakkenNamen [] = Tentamen::find(['name' => $this->alleVakkenID[$index]])->getName();
 
-            var_dump($alleVakkenNamen);
-            var_dump($_POST);
+                var_dump($alleVakkenNamen);
+                var_dump($_POST);
 
-            $gekozenVak = $request->getPostByName("vak");
-            $ingevuldeCijfer = $request->getPostByName('cijfer');
+            }
+            if (count($request->getPost()) == 2) {
+                var_dump("eerste keer hier");
 
-            $nameVanDevak = Tentamen::find(['id' => $gekozenVak])->getId();
+                $gekozenVak = $request->getPostByName("vak");
+                $ingevuldeCijfer = $request->getPostByName('cijfer');
 
-            $requestStudent = new UserTentamen();
-            $requestStudent->setId(5);
-            $requestStudent->setTentamenId($nameVanDevak);
-            $requestStudent->setCijfer($ingevuldeCijfer);
+                $nameVanDevak = Tentamen::find(['id' => $gekozenVak])->getId();
+
+
+                $requestStudent = new UserTentamen();
+                $requestStudent->setId(5);
+                $requestStudent->setTentamenId($nameVanDevak);
+                $requestStudent->setCijfer($ingevuldeCijfer);
 //            $requestStudent->setUserId($StudentNummer);
+            }
         }
-
 
         return [ 'vakken' => $alleVakkenNamen];
 
@@ -45,7 +51,6 @@ class GiveCijfer
 
     public function findStudentForm(IRequest $request){
         if(isRequest::post()){
-
             //convert the value to int.
             $StudentNummer = intval($request->getPostByName('StudentNummer'));
 

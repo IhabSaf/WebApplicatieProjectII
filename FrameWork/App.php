@@ -12,7 +12,7 @@ class App
 {
     public function __construct(
         #[Service(Request::class), Argument(post: [], get: [], server: [], cookie: [])] private IRequest $request,
-        private Route $route){}
+        private Route $route, private AccessController $accessController){}
 
     public function handle(): IResponse
     {
@@ -38,7 +38,7 @@ class App
                 $userRole = 'gast';
             }
             //roep de AccessController functie, dit geeft boolean tuerg en kijk of de huidige user mag naar de gevraagde controller.
-            $hasAccess = AccessController::checkAccess($userRole, $checkController, $checkMethod);
+            $hasAccess = $this->accessController->checkAccess($userRole, $checkController, $checkMethod);
             if (!$hasAccess) {
                 $response->setStatusCode(403);
                 $response->setContent("Access denied.");

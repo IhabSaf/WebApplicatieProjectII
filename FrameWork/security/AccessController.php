@@ -12,7 +12,7 @@ use ReflectionClass;
  *
  */
 
-class AccessController
+class AccessController implements AccessControllerInterFace
 {
 
     /**
@@ -22,7 +22,7 @@ class AccessController
      * @return bool
      * @throws \ReflectionException
      */
-    public static function checkAccess(?string $rol, string $controllerName, string $methodName): bool
+    public function checkAccess(?string $rol, string $controllerName, string $methodName): bool
     {
         // neem de aangegeven controller en de method door met gebruik van reflection klasse, en dan haal de attributen (roles) uit
         $reflectionClass = new ReflectionClass($controllerName);
@@ -45,5 +45,6 @@ class AccessController
         // als de gebruiker niet in de array dan krijgt hij geen toegang tot de aangegeven methode.
         return false;
     }
+
 
 }
