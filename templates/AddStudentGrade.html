@@ -49,13 +49,14 @@ ob_start();
   </style>
 </head>
 <body>
-
-<form method="post" action="FindeStudentSubject">
+<?php if(!isset($success)): ?>
+<form method="post" action="AddStudentGrade">
   <h2>InvulCijfer Formulier</h2>
-  <label for="vak">Vak:</label>
-  <select id="vak" name="vak" required>
-    <?php foreach($vakken as $vak): ?>
-    <option value="<?php echo $vak; ?>"><?php echo $vak; ?></option>
+  <input type="hidden" name="studentId" value="<?= $studentId ?>">
+  <label for="tentamenId">Vak:</label>
+  <select id="tentamenId" name="tentamenId" required>
+    <?php foreach($vakken as $id => $name): ?>
+    <option value="<?= $id; ?>"><?= $name; ?></option>
     <?php endforeach; ?>
   </select>
 
@@ -64,6 +65,10 @@ ob_start();
 
   <input type="submit" value="Submit">
 </form>
-
+<?php else: ?>
+  <form>
+    <h2>Cijfer ingevoerd!</h2>
+  </form>
+<?php endif; ?>
 </body>
 </html>

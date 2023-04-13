@@ -59,10 +59,14 @@ ob_start();
   </style>
 </head>
 <body>
-<form method="POST" action="FindeStudentSubject">
+<form method="GET" action="AddStudentGrade">
   <h1>Find Student</h1>
-  <label for="StudentNummer">Student Nummer:</label>
-  <input type="text" id="StudentNummer" name="StudentNummer" required>
+  <label for="StudentNummer">Kies Student:</label>
+  <select name="StudentNummer" id="StudentNummer" required>
+    <?php foreach($students as $id => $name): ?>
+    <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
+    <?php endforeach; ?>
+  </select>
   <input type="submit" value="Next">
 </form>
 </body>

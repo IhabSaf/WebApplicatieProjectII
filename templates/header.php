@@ -66,7 +66,7 @@
         }
 
         if(\FrameWork\security\CurrentUser::isAdmin() || \FrameWork\security\CurrentUser::isDocent()) {
-            echo '<li><a href="CijferToevoegen">Add Grades</a></li>';
+            echo '<li><a href="AddGradeInfo">Add Grades</a></li>';
         }
 
         ?>

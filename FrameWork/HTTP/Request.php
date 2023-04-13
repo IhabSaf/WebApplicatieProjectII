@@ -16,20 +16,22 @@ class Request implements IRequest
         return new Request($_POST, $_GET, $_SERVER, $_COOKIE, $attributes);
     }
 
-    public function setAttribute(string $name, $value) {
+    public function setAttribute(string $name, $value): void
+    {
         $this->attributes[$name] = $value;
     }
 
-    public function getAttribute(string $name) {
+    public function getAttribute(string $name): ?string
+    {
         return $this->attributes[$name];
     }
 
-    public function getServer():array
+    public function getServer(): array
     {
         return $this->server;
     }
 
-    public function getServerByName(string $name): string
+    public function getServerByName(string $name): ?string
     {
         return $this->server[$name];
     }
@@ -37,6 +39,11 @@ class Request implements IRequest
     public function getGet(): array
     {
         return $this->get;
+    }
+
+    public function getGetByName(string $name): ?string
+    {
+        return $this->get[$name];
     }
 
     public function getGetSecure(): array
@@ -49,17 +56,12 @@ class Request implements IRequest
         return $secure;
     }
 
-    public function getCookieByName(String $name):string
+    public function getCookieByName(String $name): ?string
     {
         return $this->cookie[$name];
     }
 
-    public function getGetParam(string $name):string
-    {
-        return $this->get[$name];
-    }
-
-    public function getPostByName(String $name): string
+    public function getPostByName(String $name): ?string
     {
         return $this->post[$name];
     }
@@ -77,13 +79,13 @@ class Request implements IRequest
         return $secure;
     }
 
-
     public function getPathInfo(): string
     {
         return str_replace('//', '/', '/'.explode('?', $this->server['REQUEST_URI'] ?? '')[0]);
     }
 
-    public function isPost(): bool{
+    public function isPost(): bool
+    {
         return $this->server['REQUEST_METHOD'] === 'POST';
     }
 
