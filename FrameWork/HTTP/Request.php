@@ -4,16 +4,24 @@ use FrameWork\Interface\IRequest;
 
 class Request implements IRequest
 {
-    public array $atributes = [];
     public function __construct(
         private array $post ,
         private array $get,
         private array $server,
-        private array $cookie){}
+        private array $cookie,
+        private array $attributes = []){}
 
-    public static function makeWithGlobals(): IRequest
+    public static function makeWithGlobals(array $attributes = []): IRequest
     {
-        return new Request($_POST, $_GET, $_SERVER, $_COOKIE);
+        return new Request($_POST, $_GET, $_SERVER, $_COOKIE, $attributes);
+    }
+
+    public function setAttribute(string $name, $value) {
+        $this->attributes[$name] = $value;
+    }
+
+    public function getAttribute(string $name) {
+        return $this->attributes[$name];
     }
 
     public function getServer():array

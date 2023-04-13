@@ -11,7 +11,7 @@ use FrameWork\security\AccessController;
 class App
 {
     public function __construct(
-        #[Service(Request::class), Argument(post: [], get: [], server: [], cookie: [])] private IRequest $request,
+        #[Service(Request::class), Argument(post: [], get: [], server: [], cookie: [], attributes: [])] private IRequest $request,
         private Route $route, private Template $template, private AccessController $accessController){}
 
     public function handle(): IResponse
