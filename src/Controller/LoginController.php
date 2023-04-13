@@ -13,7 +13,6 @@ class LoginController
 
     public function loginUser(Request $request)
     {
-        // this tijdelijk hier moet nog als paramter meegenomen
         $entityManager = new EntityManger();
 
         //Deceleratie voor variabelen die later worden gebruiken om de gegevens van de gebruiken op te slaan.
