@@ -2,7 +2,7 @@
 
 namespace src\Controller;
 
-use FrameWork\HTTP\isRequest;
+use FrameWork\Database\EntityManger;
 use FrameWork\HTTP\Request;
 use FrameWork\Interface\IRequest;
 use src\Model\Tentamen;
@@ -17,11 +17,13 @@ class GiveCijfer
     public function invulCijfer(Request $request){
 
         $alleVakkenNamen = null;
+        $entityManager = new EntityManger();
         if($request->isPost()){
             $alleVakkenNamen = array();
             //haal de namen van de vakken waar de student zich heeft ingeschreven.
             for ($index = 0; sizeof($this->alleVakkenID) > $index; $index++) {
-                $alleVakkenNamen [] = Tentamen::find(['name' => $this->alleVakkenID[$index]])->getName();
+                $alleVakkenNamen [] = $entityManager->getEntity(Tentamen::class)->find(['name' => $this->alleVakkenID[$index]])->getName();
+
 
                 var_dump($alleVakkenNamen);
                 var_dump($_POST);
@@ -33,7 +35,8 @@ class GiveCijfer
                 $gekozenVak = $request->getPostByName("vak");
                 $ingevuldeCijfer = $request->getPostByName('cijfer');
 
-                $nameVanDevak = Tentamen::find(['id' => $gekozenVak])->getId();
+                $nameVanDevak = $entityManager->getEntity(Tentamen::class)->find(['id' => $gekozenVak])->getId();
+
 
 
                 $requestStudent = new UserTentamen();
@@ -50,12 +53,14 @@ class GiveCijfer
 
 
     public function findStudentForm(IRequest $request){
-        if(isRequest::post()){
+        $entityManager = new EntityManger();
+        if($request->isPost()){
             //convert the value to int.
             $StudentNummer = intval($request->getPostByName('StudentNummer'));
 
             //haal alle objecten van de database die matchen met die student number.
-            $findStudentinschrijvingen = UserInschrijvingen::findAll(['userId' => $StudentNummer]);
+            $findStudentinschrijvingen = $entityManager->getEntity(UserInschrijvingen::class)->findAll(['userId' => $StudentNummer]);
+
 
             //maak een array met het tentamen nummer waar de student zich geschreven heeft.
             foreach ($findStudentinschrijvingen as $studentVakken) {

@@ -54,7 +54,7 @@
         <?php
 
         if(\FrameWork\security\CurrentUser::isAdmin()) {
-            echo '<li><a href="Registration">AddUser</a></li>';
+            echo '<li><a href="registration">AddUser</a></li>';
         }
 
         if(\FrameWork\security\CurrentUser::isAdmin() || \FrameWork\security\CurrentUser::isStudent()) {

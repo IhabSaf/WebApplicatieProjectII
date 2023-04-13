@@ -2,7 +2,8 @@
 
 namespace src\Controller;
 
-use FrameWork\HTTP\isRequest;
+
+use FrameWork\Database\EntityManger;
 use FrameWork\HTTP\Request;
 use src\Model\Rol;
 use src\Model\User;
@@ -12,24 +13,28 @@ class LoginController
 
     public function loginUser(Request $request)
     {
+        // this tijdelijk hier moet nog als paramter meegenomen
+        $entityManager = new EntityManger();
+
         //Deceleratie voor variabelen die later worden gebruiken om de gegevens van de gebruiken op te slaan.
         $sesstionId = null;
         $sesstionUsername = null;
 
         //check eerst of er een post request is.
-        if (isRequest::post()){
+        if ($request->isPost()){
 
             //haal de data van de form
             $email = $request->getPostByName('username');
             $password = $request->getPostByName('password');
 
             //haal de gegevens van de gebruiker vanuit de database
-            $getUserCred = User::find(['email' => $email]);
-            $findRole =  Rol::find(['id' => $getUserCred->getRolId()]);
+            $getUserCred = $entityManager->getEntity(User::class)->find(['email' => $email]);
+            $findRole =  $entityManager->getEntity(Rol::class)->find(['id' => $getUserCred->getRolId()]);
+
 
             // Verificatie of het wachtwoord correct is met wat in de database staat.
             // Als er geen sprake van een just wachtwoord of email dan weiger de inlog, anders login en start een sessie en sla de gegevens van de gebruikers op.
-        if (!$getUserCred || !password_verify($password, $getUserCred->getPassword())) {
+        if (!$getUserCred->getEmail() || !password_verify($password, $getUserCred->getPassword())) {
             echo '<div>Incorrect username or password.</div>';
             header('Location: /login');}
 

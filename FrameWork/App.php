@@ -12,65 +12,36 @@ class App
 {
     public function __construct(
         #[Service(Request::class), Argument(post: [], get: [], server: [], cookie: [])] private IRequest $request,
-        private Route $route, private AccessController $accessController){}
+        private Route $route, private Template $template, private AccessController $accessController){}
 
     public function handle(): IResponse
     {
         session_start();
-        $response = new Response();
         $array = [];
-        $this->create_routes();
         $path = $this->request->getPathInfo();
-        if ($this->request->getServer()['REQUEST_METHOD'] === 'POST') {
+        if ($this->request->getServerByName('REQUEST_METHOD') === 'POST') {
             $array += $this->request->getPostSecure();
         }
         if ($this->route->isValidRoute($path)) {
             $routeObject = $this->route->getRoute($path);
-
             // Check  de accessController
             $checkController = $routeObject->getController();
             $checkMethod = $routeObject->getMethod();
-            $userRole=null;
-            if(isset($_SESSION['user_rol']) && $_SESSION['user_rol'] != null) {
-                $userRole = $_SESSION['user_rol'];
-            }
-            else{
-                $userRole = 'gast';
-            }
+            $userRole = $_SESSION['user_rol'] ?? 'gast';
+
             //roep de AccessController functie, dit geeft boolean tuerg en kijk of de huidige user mag naar de gevraagde controller.
             $hasAccess = $this->accessController->checkAccess($userRole, $checkController, $checkMethod);
             if (!$hasAccess) {
-                $response->setStatusCode(403);
-                $response->setContent("Access denied.");
-                return $response;
+                $response = $this->template->renderSimple("Access denied." ,403);
+            }
+            else{
+                $array += $routeObject->controller($this->request);
+                $response = $this->template->renderPage($routeObject, $array);
             }
 
-            ob_start();
-            extract($routeObject->getParams(), EXTR_SKIP);
-            $array += $routeObject->controller($this->request);
-            extract($array, EXTR_SKIP);
-            include sprintf(__DIR__ . '/../templates/%s.html', $routeObject->getBaseUrl());
-            $response->setContent(ob_get_clean());
-
         } else {
-            $response->setStatusCode(404);
-            $response->setContent("Deze pagina bestaat niet.");
+            $response = $this->template->renderSimple("Deze pagina bestaat niet.", 404);
         }
         return $response;
-    }
-
-    private function create_routes(): void
-    {
-        $this->route->addRoute("test", 'src\Controller\MainController:index', "/home");
-        $this->route->addRoute("registration", 'src\Controller\RegistrationController:registration', "/Registration");
-        $this->route->addRoute("loginUser", 'src\Controller\LoginController:loginUser', "/login");
-        $this->route->addRoute("logout", 'src\Controller\LoginController:logout', "/logout");
-        $this->route->addRoute("registerExam", 'src\Controller\InschrijvenTentamenController:inschrijven', "/registerExam");
-        $this->route->addRoute("CijferToevoegen", 'src\Controller\GiveCijfer:niks', "/CijferToevoegen");
-        $this->route->addRoute("FindStudentForm", 'src\Controller\GiveCijfer:findStudentForm', "/FindStudentForm");
-        $this->route->addRoute("FindeStudentSubject", 'src\Controller\GiveCijfer:invulCijfer', "/FindeStudentSubject");
-        $this->route->addRoute("FindeStudentSubject", 'src\Controller\ShowResultaatController:show', "/ShowStudentData");
-
-
     }
 }
