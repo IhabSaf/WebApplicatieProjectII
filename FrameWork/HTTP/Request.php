@@ -4,6 +4,7 @@ use FrameWork\Interface\IRequest;
 
 class Request implements IRequest
 {
+    public array $atributes = [];
     public function __construct(
         private array $post ,
         private array $get,
@@ -18,6 +19,11 @@ class Request implements IRequest
     public function getServer():array
     {
         return $this->server;
+    }
+
+    public function getServerByName(string $name): string
+    {
+        return $this->server[$name];
     }
 
     public function getGet(): array
@@ -61,6 +67,11 @@ class Request implements IRequest
             $secure[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
         }
         return $secure;
+    }
+
+    public function isPost(): bool
+    {
+        return $this->getServerByName('REQUEST_METHOD') === 'POST';
     }
 
     public function getPathInfo(): string
