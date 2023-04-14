@@ -9,8 +9,6 @@ class Table
 
     public function __construct(public string $name){}
 
-    public function test(){
 
-    }
 
 }
