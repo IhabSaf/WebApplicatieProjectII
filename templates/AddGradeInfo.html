@@ -1,0 +1,18 @@
+<?php
+include('header.php');
+ob_start();
+?>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Geef Cijfer Formulier</title>
+    <link rel="stylesheet" type="text/css" href="./templates/css/addGradeInfo.css">
+</head>
+<body>
+<h1>Hier kan je een cijfer voor een student invoeren. Om het cijfer te kunnen invoeren heb je de student ID nodig. </h1>
+ <h1>Vervolgens krijg je een lijst met alle inschrijvingen van de betreffende student. Kies het tentamen en vul het cijfer in.</h1>
+<form method="POST" action="findStudentForm">
+  <input type="submit" value="Ga verder">
+</form>
+</body>
+</html>

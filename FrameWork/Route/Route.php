@@ -9,13 +9,13 @@ class Route {
         $this->routes = [];
         $this->createDefaultRoutes();
     }
-
+    // voeg een routeObject toe
     public function addRoute(string $name, string $controller, string $route, array $paramDefaults = []): void
     {
         $routeOject = $this->createRouteObject($name, $controller, $route, $paramDefaults);
         $this->routes[$name] = $routeOject;
     }
-
+    // check of de route bestaat
     public function isValidRoute(string $route): bool
     {
         foreach ($this->routes as $routeObject){
@@ -25,11 +25,10 @@ class Route {
         }
         return false;
     }
-
+    // haal één routeObject op
     public function getRoute(string $route): ?RouteObject
     {
         foreach ($this->routes as $routeObject){
-
             // route has no params
             if($route == $routeObject->getBaseUrl()){
                 return $routeObject;
@@ -38,19 +37,22 @@ class Route {
             if(str_contains($route, $routeObject->getBaseUrl())){
                 $paramUrl = str_replace($routeObject->getBaseUrl() . "/", "", $route);
                 $params = explode("/", $paramUrl);
-                $routeObject->setParams($params);
+                $routeObject->setUrlParams($params);
                 return $routeObject;
             }
         }
         return null;
     }
-
+    // geeft alle routes terug
     public function allRoutes(): array
     {
         return $this->routes;
     }
+
+    // maakt een RouteOject aan
     private function createRouteObject(string $name, string $controller, string $route, array $paramDefaults): RouteObject
     {
+
         $controllerParts = explode(":", $controller);
         $controllerClass = $controllerParts[0];
         $this->controller = $controllerParts[0];
@@ -61,7 +63,7 @@ class Route {
         $baseUrl = $array[0];
         array_shift($array);
         $array = str_replace(["}", "/"], "", $array);
-        if(str_ends_with($baseUrl, '/')){
+        if(str_ends_with($baseUrl, '/') && strcmp($baseUrl,'/') !== 0){
             $baseUrl = substr($baseUrl, 0, -1);
         }
         $paramDefaultOrdered = [];
@@ -70,20 +72,21 @@ class Route {
         }
         return new RouteObject($name, $controllerClass, $controllerMethod, $route, $baseUrl, $paramDefaultOrdered);
     }
-
+    // default routes die deze applicatie heeft
+    // bij het ophalen van de template wordt naar de name gekeken
+    // bij name "home" hoort home.html in de templates map
     private function createDefaultRoutes(): void
     {
-        $this->addRoute("test", 'src\Controller\MainController:index', "/home");
+        $this->addRoute("home", 'src\Controller\MainController:index', "/home");
         $this->addRoute("registration", 'src\Controller\RegistrationController:registration', "/registration");
-        $this->addRoute("loginUser", 'src\Controller\LoginController:loginUser', "/login");
+        $this->addRoute("login", 'src\Controller\LoginController:loginUser', "/login");
         $this->addRoute("logout", 'src\Controller\LoginController:logout', "/logout");
         $this->addRoute("registerExam", 'src\Controller\InschrijvenTentamenController:inschrijven', "/registerExam");
-        $this->addRoute("CijferToevoegen", 'src\Controller\GiveCijfer:invulCijfer', "/CijferToevoegen");
-        $this->addRoute("CijferToevoegen", 'src\Controller\GiveCijfer:findStudentForm', "/CijferToevoegen");
+        $this->addRoute("addGradeInfo", 'src\Controller\GiveCijferController:addGradeInfo', "/addGradeInfo");
 
-        $this->addRoute("FindStudentForm", 'src\Controller\GiveCijfer:findStudentForm', "/FindStudentForm");
-        $this->addRoute("FindeStudentSubject", 'src\Controller\GiveCijfer:invulCijfer', "/FindeStudentSubject");
-        $this->addRoute("Finde2StudentSubject", 'src\Controller\ShowResultaatController:show', "/ShowStudentData");
+        $this->addRoute("findStudentForm", 'src\Controller\GiveCijferController:findStudentForm', "/findStudentForm");
+        $this->addRoute("addStudentGrade", 'src\Controller\GiveCijferController:addStudentGrade', "/addStudentGrade");
+        $this->addRoute("showStudentData", 'src\Controller\ShowResultaatController:show', "/showStudentData");
 
     }
 }

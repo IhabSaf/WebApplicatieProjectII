@@ -1,10 +1,10 @@
 <?php
 namespace FrameWork\HTTP;
 
-use FrameWork\Interface\IHeader;
-use FrameWork\Interface\IResponse;
+use FrameWork\Interface\HeaderInterface;
+use FrameWork\Interface\ResponseInterface;
 
-class Response implements IResponse
+class Response implements ResponseInterface
 {
     private const STATUS_CODES_TEXTS = [
         100 => "Continue",
@@ -25,9 +25,9 @@ class Response implements IResponse
         503 => "Service Unavailable"
     ];
 
-    public function __construct(private string $body = '',
-                                #[Service(Header::class)] private IHeader $headers = new Header(),
-                                private int $statusCode = 200){}
+    public function __construct(private string                                             $body = '',
+                                #[Service(Header::class)] private HeaderInterface $headers = new Header(),
+                                private int                                                $statusCode = 200){}
 
     public function addHeader(string $name, string $value): void
     {
@@ -63,7 +63,7 @@ class Response implements IResponse
         var_dump($this);
     }
 
-    public function allHeaders(): IHeader
+    public function allHeaders(): HeaderInterface
     {
         return $this->headers;
     }

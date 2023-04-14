@@ -1,24 +1,34 @@
 <?php
 namespace FrameWork;
 
+use FrameWork\Database\EntityManger;
 use FrameWork\HTTP\Request;
 use FrameWork\HTTP\Response;
-use FrameWork\Interface\IRequest;
-use FrameWork\Interface\IResponse;
+use FrameWork\Interface\RequestInterface;
+use FrameWork\Interface\ResponseInterface;
+use FrameWork\Route\Redirect;
 use FrameWork\Route\Route;
 use FrameWork\security\AccessController;
 
 class App
 {
     public function __construct(
-        #[Service(Request::class), Argument(post: [], get: [], server: [], cookie: [])] private IRequest $request,
-        private Route $route, private Template $template, private AccessController $accessController){}
+        #[Service(Request::class), Argument(post: [], get: [], server: [], cookie: [], attributes: [])] private RequestInterface $request,
+        private Route $route,
+        private Template $template,
+        private AccessController $accessController,
+        private EntityManger $entityManger,
+        private Redirect $redirect){}
 
-    public function handle(): IResponse
+    public function handle(): ResponseInterface
     {
         session_start();
         $array = [];
         $path = $this->request->getPathInfo();
+        if($path == '/'){
+            $this->redirect->toUrl('/home');
+        }
+
         if ($this->request->getServerByName('REQUEST_METHOD') === 'POST') {
             $array += $this->request->getPostSecure();
         }
@@ -35,7 +45,7 @@ class App
                 $response = $this->template->renderSimple("Access denied." ,403);
             }
             else{
-                $array += $routeObject->controller($this->request);
+                $array += $routeObject->controller($this->request, $this->entityManger);
                 $response = $this->template->renderPage($routeObject, $array);
             }
 

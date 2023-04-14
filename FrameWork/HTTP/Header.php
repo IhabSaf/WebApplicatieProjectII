@@ -1,13 +1,10 @@
 <?php
 namespace FrameWork\HTTP;
 
-use FrameWork\Interface\IHeader;
+use FrameWork\Interface\HeaderInterface;
 
-class Header implements IHeader{
-    public function __construct()
-    {
-
-    }
+class Header implements HeaderInterface{
+    public function __construct(){}
 
     public function addHeader(string $header, bool $replace = true): void
     {

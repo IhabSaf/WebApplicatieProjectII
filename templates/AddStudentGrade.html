@@ -1,0 +1,35 @@
+<?php
+include('header.php');
+ob_start();
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Find Subject Form</title>
+  <link rel="stylesheet" type="text/css" href="./templates/css/addStudentGrade.css">
+</head>
+<body>
+<?php if(!isset($success)): ?>
+<form method="post" action="addStudentGrade">
+  <h2>InvulCijfer Formulier</h2>
+  <input type="hidden" name="studentId" value="<?= $studentId ?>">
+  <label for="tentamenId">Vak:</label>
+  <select id="tentamenId" name="tentamenId" required>
+    <?php foreach($vakken as $id => $name): ?>
+    <option value="<?= $id; ?>"><?= $name; ?></option>
+    <?php endforeach; ?>
+  </select>
+
+  <label for="cijfer">Cijfer:</label>
+  <input type="number" id="cijfer" name="cijfer" min="1" max="10" required>
+
+  <input type="submit" value="Submit">
+</form>
+<?php else: ?>
+  <form>
+    <h2>Cijfer ingevoerd!</h2>
+  </form>
+<?php endif; ?>
+</body>
+</html>

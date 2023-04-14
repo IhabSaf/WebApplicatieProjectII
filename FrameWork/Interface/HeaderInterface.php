@@ -1,6 +1,6 @@
 <?php
 namespace FrameWork\Interface;
-interface IHeader
+interface HeaderInterface
 {
 function addHeader(string $header, bool $replace = true): void;
 function removeHeader(string $header): void;

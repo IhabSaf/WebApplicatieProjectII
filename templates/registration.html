@@ -7,12 +7,13 @@ ob_start();
 <head>
   <meta charset="UTF-8">
   <title>Registration Form</title>
+  <link rel="stylesheet" type="text/css" href="./templates/css/registration.css">
 </head>
 <body>
 
 <h1>Registration Form</h1>
 
-<form action="/Registration" method="post">
+<form action="/registration" method="post">
 
 
   <label for="name">Name:</label>
@@ -38,15 +39,5 @@ ob_start();
 
   <input type="submit" value="Register">
 </form>
-<?php
-if(isset($name) && isset($email) && isset($password) && isset($confirm_password)){
-?>
-<br />
-dit is wat je hebt ingevult:<br />
-<?= $name ?><br />
-<?= $email ?><br />
-<?= $password ?><br />
-<?= $confirm_password ?><br />
-<?php } ?>
 </body>
 </html>

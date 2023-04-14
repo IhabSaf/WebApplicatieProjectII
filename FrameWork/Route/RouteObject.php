@@ -1,6 +1,6 @@
 <?php
 namespace FrameWork\Route;
-use FrameWork\Interface\IRequest;
+use FrameWork\Interface\RequestInterface;
 
 class RouteObject
 {
@@ -10,7 +10,7 @@ class RouteObject
         private string $controllerMethod,
         private string $fullUrl,
         private string $baseUrl,
-        private array $params = []){}
+        private array $urlParams = []){}
 
     public function getName(): string
     {
@@ -26,16 +26,16 @@ class RouteObject
         return $this->baseUrl;
     }
 
-    public function getParams(): array
+    public function getUrlParams(): array
     {
-        return $this->params;
+        return $this->urlParams;
     }
 
-    public function setParams($params): void
+    public function setUrlParams($urlParams): void
     {
         $count = 0;
-        foreach ($this->params as $paramName => $paramValue){
-            $this->params[$paramName] = $params[$count] ?? $this->params[$paramName];
+        foreach ($this->urlParams as $paramName => $paramValue){
+            $this->urlParams[$paramName] = $urlParams[$count] ?? $this->urlParams[$paramName];
             $count++;
         }
     }
@@ -46,9 +46,12 @@ class RouteObject
         return false;
     }
 
-    public function controller(IRequest $request): array
+    public function controller(RequestInterface $request, object $object = null): array
     {
-        return [new $this->controllerClass($request, $this), $this->controllerMethod]($request);
+        if(isset($object)){
+            return [new $this->controllerClass($request, $object), $this->controllerMethod]($request);
+        }
+        return [new $this->controllerClass($request), $this->controllerMethod]($request);
     }
 
     public function getReturnType(): string
@@ -56,21 +59,13 @@ class RouteObject
         return $this->returnType;
     }
 
-    public function getController( )
+    public function getController()
     {
         return $this->controllerClass;
-
-
     }
 
-    public function getMethod( )
+    public function getMethod()
     {
-
         return $this->controllerMethod;
-
     }
-
-
-
-
 }

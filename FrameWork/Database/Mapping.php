@@ -63,16 +63,47 @@ use ReflectionClass;
         return $commit->execute();
     }
 
+     public function update(array $criteria): bool
+     {
+         $data = $this->toDatabaseArray();
+         $whereClauses = [];
+
+         foreach ($criteria as $attribute => $value) {
+             $whereClauses[] = "{$attribute} = ?";
+         }
+
+         $whereClause = implode(' AND ', $whereClauses);
+         $sql = "UPDATE {$this->table} SET "; //($columns) VALUES ($values)";
+         foreach (array_keys($data) as $column){
+             $sql .= "$column = ?, ";
+         }
+         // remove final comma
+         $sql = substr($sql, 0, -2);
+         $sql .= " WHERE {$whereClause}";
+
+         $commit = $this->db->getConnector()->prepare($sql);
+
+         $i = 1;
+         foreach ($data as $value) {
+             $commit->bindValue($i++, $value);
+         }
+
+         foreach ($criteria as $value) {
+             $commit->bindValue($i++, $value);
+         }
+
+         return $commit->execute();
+     }
 
     public  function getTable(): string
     {
         $classParts = explode('\\', static::class);
         $className = end($classParts);
-        return strtolower($className) . '';
+        return strtolower($className);
     }
 
 
-//this return only the values of clomun
+//this return only the values of column
     public function findby(string $column): array
     {
         $db = new DatabaseConnection();
@@ -118,7 +149,7 @@ use ReflectionClass;
         }
     }
 
-    //geeft een lisjt teug van alle obejcten van de betrefnde enitiy
+    //geeft een lijst teug van alle objecten van de betrefende enitiy
     public function findAll(array $criteria): array
     {
         $db = new DatabaseConnection();

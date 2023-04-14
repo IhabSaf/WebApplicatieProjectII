@@ -1,7 +1,9 @@
 <?php
 
 namespace src\Controller;
-use FrameWork\Interface\IRequest;
+use FrameWork\Interface\RequestInterface;
+use FrameWork\Route\Redirect;
+use FrameWork\Route\Route;
 use FrameWork\Route\RouteObject;
 
 class MainController
@@ -9,7 +11,9 @@ class MainController
     public function __construct(){}
 
     public function index() {
-        $test = "hoi";
-        return ['test' => $test];
+        //$redirect = new Redirect();
+        //$redirect->toUrl('registration');
+        return [];
+
     }
 }

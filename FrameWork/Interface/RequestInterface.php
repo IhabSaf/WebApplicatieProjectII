@@ -1,15 +1,14 @@
 <?php
 namespace FrameWork\Interface;
 
-interface IRequest
+interface RequestInterface
 {
-    static function makeWithGlobals(): IRequest;
+    static function makeWithGlobals(): RequestInterface;
     function getServer(): array;
     function getGet(): array;
     function getGetSecure(): array;
-    function getCookieByName(string $name): string;
-    function getGetParam(string $name): string;
-    function getPostByName(string $name): string;
+    function getCookieByName(string $name): ?string;
+    function getPostByName(string $name): ?string;
     function getPost(): array;
     function getPostSecure(): array;
     function getPathInfo(): string;
