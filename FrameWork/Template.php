@@ -13,7 +13,7 @@ class Template
 {
     public function __construct(#[Service(Response::class), Argument(body: '', statusCode: 200)] private ResponseInterface $response){}
 
-    public function renderPage(RouteObject $routeObject, array $array): ResponseInterface
+    public function renderPage(RequestInterface $request, RouteObject $routeObject, array $array): ResponseInterface
     {
         ob_start();
         extract($routeObject->getUrlParams(), EXTR_SKIP);

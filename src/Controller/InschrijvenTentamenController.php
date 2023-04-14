@@ -32,7 +32,7 @@ class InschrijvenTentamenController
             // maak een nieuw object en stuur hem even naar de database.
             $nieuweInschrijving = new UserTentamen();
             $nieuweInschrijving->setId(null);
-            $nieuweInschrijving->setUserId(CurrentUser::get_user_id());
+            $nieuweInschrijving->setUserId($request->getSessionValueByName('user_id'));
             $nieuweInschrijving->setTentamenId($gekozenTenemenId);
             $nieuweInschrijving->save();
 
