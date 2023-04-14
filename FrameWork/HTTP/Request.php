@@ -1,8 +1,8 @@
 <?php
 namespace FrameWork\HTTP;
-use FrameWork\Interface\IRequest;
+use FrameWork\Interface\RequestInterface;
 
-class Request implements IRequest
+class Request implements RequestInterface
 {
     public function __construct(
         private array $post ,
@@ -11,7 +11,7 @@ class Request implements IRequest
         private array $cookie,
         private array $attributes = []){}
 
-    public static function makeWithGlobals(array $attributes = []): IRequest
+    public static function makeWithGlobals(array $attributes = []): RequestInterface
     {
         return new Request($_POST, $_GET, $_SERVER, $_COOKIE, $attributes);
     }

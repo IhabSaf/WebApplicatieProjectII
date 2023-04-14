@@ -1,6 +1,6 @@
 <?php
 namespace FrameWork\Interface;
-interface IResponse
+interface ResponseInterface
 {
     function addHeader(string $name, string $value): void;
     function setHeader(string $name, string $value): void;

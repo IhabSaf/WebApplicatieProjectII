@@ -1,6 +1,5 @@
 <?php
 namespace FrameWork;
-echo "<pre>";
 use ReflectionClass;
 
 class DiContainer

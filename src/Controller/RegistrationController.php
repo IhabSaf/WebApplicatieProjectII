@@ -3,22 +3,17 @@
 namespace src\Controller;
 
 use FrameWork\Database\EntityManger;
-use FrameWork\HTTP\Request;
 use FrameWork\Attribute\Roles;
+use FrameWork\Interface\RequestInterface;
 use src\Model\Rol;
 use src\Model\User;
 
 class RegistrationController
 {
-
-    private $entityManager;
-    public function __construct()
-    {
-        $this->entityManager = new EntityManger();
-    }
+    public function __construct(private RequestInterface $request, private EntityManger $entityManager){}
 
     #[Roles(roles: ['admin'])]
-    public function registration(Request $request )
+    public function registration(Request $request)
     {
 
 
@@ -37,7 +32,7 @@ class RegistrationController
 
             //maak nieuwe gebruiker, en sla de gegevens op in de database.
             $user = new User();
-            $user->setId(46);
+            $user->setId(null);
             $user->setName($name);
             $user->setRolId($id_rol);
             $user->setPassword($password);

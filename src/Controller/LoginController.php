@@ -5,11 +5,13 @@ namespace src\Controller;
 
 use FrameWork\Database\EntityManger;
 use FrameWork\HTTP\Request;
+use FrameWork\Route\Redirect;
 use src\Model\Rol;
 use src\Model\User;
 
 class LoginController
 {
+    public function __construct(){}
 
     public function loginUser(Request $request)
     {
@@ -35,7 +37,7 @@ class LoginController
             // Als er geen sprake van een just wachtwoord of email dan weiger de inlog, anders login en start een sessie en sla de gegevens van de gebruikers op.
         if (!$getUserCred->getEmail() || !password_verify($password, $getUserCred->getPassword())) {
             echo '<div>Incorrect username or password.</div>';
-            header('Location: /login');}
+            header('Location: /home');}
 
         else{
             // Als de inloggegevens geldig zijn dan begin een session

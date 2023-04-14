@@ -7,50 +7,11 @@ ob_start();
 <html>
 <head>
   <title>Find Subject Form</title>
-  <style>
-    form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 50px;
-    }
-
-    label {
-      margin-top: 20px;
-    }
-
-    select, input[type="number"] {
-      padding: 10px;
-      border-radius: 5px;
-      font-size: 16px;
-      border: none;
-      width: 200px;
-      background-color: #f2f2f2;
-    }
-
-    input[type="number"] {
-      margin-top: 10px;
-    }
-
-    input[type="submit"] {
-      margin-top: 30px;
-      padding: 10px 20px;
-      border-radius: 5px;
-      background-color: #000000;
-      color: white;
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-    }
-
-    input[type="submit"]:hover {
-      background-color: #000000;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="./templates/css/addStudentGrade.css">
 </head>
 <body>
 <?php if(!isset($success)): ?>
-<form method="post" action="AddStudentGrade">
+<form method="post" action="addStudentGrade">
   <h2>InvulCijfer Formulier</h2>
   <input type="hidden" name="studentId" value="<?= $studentId ?>">
   <label for="tentamenId">Vak:</label>

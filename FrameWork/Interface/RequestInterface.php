@@ -1,9 +1,9 @@
 <?php
 namespace FrameWork\Interface;
 
-interface IRequest
+interface RequestInterface
 {
-    static function makeWithGlobals(): IRequest;
+    static function makeWithGlobals(): RequestInterface;
     function getServer(): array;
     function getGet(): array;
     function getGetSecure(): array;

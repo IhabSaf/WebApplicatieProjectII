@@ -4,10 +4,9 @@ namespace src\Controller;
 
 use FrameWork\Database\EntityManger;
 use FrameWork\HTTP\Request;
-use FrameWork\Interface\IRequest;
+use FrameWork\Interface\RequestInterface;
 use src\Model\Tentamen;
 use src\Model\User;
-use src\Model\UserInschrijvingen;
 use src\Model\UserTentamen;
 
 
@@ -23,7 +22,7 @@ class GiveCijferController
         $this->alleVakkenID = array();
     }
 
-    public function findStudentForm(Request $request)
+    public function findStudentForm(RequestInterface $request)
     {
         $students = $this->entityManager->getEntity(User::class)->findAll(['rolId' => 3]);
         $array = [];
@@ -34,7 +33,7 @@ class GiveCijferController
         return ['students' => $array];
     }
 
-    public function addStudentGrade(Request $request)
+    public function addStudentGrade(RequestInterface $request)
     {
         // als post dan sla cijfer op
         if($request->isPost()){
@@ -66,7 +65,7 @@ class GiveCijferController
         return ['vakken' => $vakken, 'studentId' => $studentNummer];
     }
 
-    public function addGradeInfo(Request $request){
+    public function addGradeInfo(RequestInterface $request){
         return [];
     }
 

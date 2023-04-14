@@ -7,7 +7,7 @@ use FrameWork\Database\EntityManger;
 use FrameWork\HTTP\Request;
 use FrameWork\security\CurrentUser;
 use src\Model\Tentamen;
-use src\Model\UserInschrijvingen;
+use src\Model\UserTentamen;
 
 class InschrijvenTentamenController
 {
@@ -30,8 +30,8 @@ class InschrijvenTentamenController
 
 
             // maak een nieuw object en stuur hem even naar de database.
-            $nieuweInschrijving = new UserInschrijvingen();
-            $nieuweInschrijving->setId(29);
+            $nieuweInschrijving = new UserTentamen();
+            $nieuweInschrijving->setId(null);
             $nieuweInschrijving->setUserId(CurrentUser::get_user_id());
             $nieuweInschrijving->setTentamenId($gekozenTenemenId);
             $nieuweInschrijving->save();
