@@ -13,7 +13,7 @@ class RegistrationController
     public function __construct(private RequestInterface $request, private EntityManger $entityManager){}
 
     #[Roles(roles: ['admin'])]
-    public function registration(Request $request)
+    public function registration()
     {
 
 
@@ -21,11 +21,11 @@ class RegistrationController
         $data = $this->entityManager->getEntity(Rol::class)->findby('name');
 
         // check of de method post is, haal de data daarna vanuit de form
-        if ($request->isPost()){
-            $name = $request->getPostByName('name');
-            $email = $request->getPostByName('email');
-            $password = $request->getPostByName('password');
-            $role_name = $request->getPostByName('role');
+        if ($this->request->isPost()){
+            $name = $this->request->getPostByName('name');
+            $email = $this->request->getPostByName('email');
+            $password = $this->request->getPostByName('password');
+            $role_name = $this->request->getPostByName('role');
 
             //find de key van de betreffende rol name
             $id_rol = $this->entityManager->getEntity(Rol::class)->find(['name' => $role_name])->getId();

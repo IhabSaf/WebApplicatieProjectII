@@ -48,7 +48,7 @@ class RouteObject
 
     public function controller(RequestInterface $request, object $object = null): array
     {
-        if(isset($test)){
+        if(isset($object)){
             return [new $this->controllerClass($request, $object), $this->controllerMethod]($request);
         }
         return [new $this->controllerClass($request), $this->controllerMethod]($request);
