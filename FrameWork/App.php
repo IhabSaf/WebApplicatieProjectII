@@ -13,7 +13,7 @@ use FrameWork\security\AccessController;
 class App
 {
     public function __construct(
-        #[Service(Request::class), Argument(post: [], get: [], server: [], cookie: [], attributes: [])] private RequestInterface $request,
+        #[Service(Request::class), Argument(post: [], get: [], server: [], cookie: [], session: [], attributes: [])] private RequestInterface $request,
         private Route $route,
         private Template $template,
         private AccessController $accessController,
@@ -22,10 +22,9 @@ class App
 
     public function handle(): ResponseInterface
     {
-        session_start();
         $array = [];
         $path = $this->request->getPathInfo();
-        if($path == '/'){
+        if($path === '/'){
             $this->redirect->toUrl('/home');
         }
 
@@ -37,7 +36,7 @@ class App
             // Check  de accessController
             $checkController = $routeObject->getController();
             $checkMethod = $routeObject->getMethod();
-            $userRole = $_SESSION['user_rol'] ?? 'gast';
+            $userRole = $this->request->getSessionValueByName('user_role') ?? 'gast';
 
             //roep de AccessController functie, dit geeft boolean tuerg en kijk of de huidige user mag naar de gevraagde controller.
             $hasAccess = $this->accessController->checkAccess($userRole, $checkController, $checkMethod);
@@ -46,7 +45,7 @@ class App
             }
             else{
                 $array += $routeObject->controller($this->request, $this->entityManger);
-                $response = $this->template->renderPage($routeObject, $array);
+                $response = $this->template->renderPage($this->request, $routeObject, $array);
             }
 
         } else {

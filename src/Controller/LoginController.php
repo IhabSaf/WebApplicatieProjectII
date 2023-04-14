@@ -5,6 +5,7 @@ namespace src\Controller;
 
 use FrameWork\Database\EntityManger;
 use FrameWork\HTTP\Request;
+use FrameWork\Interface\RequestInterface;
 use FrameWork\Route\Redirect;
 use src\Model\Rol;
 use src\Model\User;
@@ -17,9 +18,9 @@ class LoginController
     {
         $entityManager = new EntityManger();
 
-        //Deceleratie voor variabelen die later worden gebruiken om de gegevens van de gebruiken op te slaan.
-        $sesstionId = null;
-        $sesstionUsername = null;
+        //Haal values uit de request session of null als deze niet bestaan
+        $sessionId = $request->getSessionValueByName('user_id');
+        $sessionUsername = $request->getSessionValueByName('user_name');
 
         //check eerst of er een post request is.
         if ($request->isPost()){
@@ -37,33 +38,29 @@ class LoginController
             // Als er geen sprake van een just wachtwoord of email dan weiger de inlog, anders login en start een sessie en sla de gegevens van de gebruikers op.
         if (!$getUserCred->getEmail() || !password_verify($password, $getUserCred->getPassword())) {
             echo '<div>Incorrect username or password.</div>';
-            header('Location: /home');}
+            header('Location: /home');
+            exit();
+        }
 
         else{
             // Als de inloggegevens geldig zijn dan begin een session
-            session_start();
-            $_SESSION['user_id'] = $getUserCred->getId();
-            $_SESSION['user_Name'] = $getUserCred->getName();
-            $_SESSION['user_rol'] = $findRole->getName();
-
-            $sesstionId = $_SESSION['user_id'];
-            $sesstionUsername = $_SESSION['user_Name'];
-            header('Location: /home');}
+            $request->setSessionValueByName('user_id', $getUserCred->getId());
+            $request->setSessionValueByName('user_name', $getUserCred->getName());
+            $request->setSessionValueByName('user_role', $findRole->getName());
+            $request->saveSession();
+            header('Location: /home');
+            exit();
+        }
 
         }
-        // Controleer of de sessievariabelen bestaan voordat ze worden gebruikt
-        if (isset($_SESSION['user_id']) && isset($_SESSION['user_name'])) {
-            $sessionId = $_SESSION['user_id'];
-            $sessionUsername = $_SESSION['user_Name'];
-        }
-        return [ 'sesstionid' => $sesstionId, 'sesstionUserName' => $sesstionUsername];
+
+        return [];
     }
 
-    public function logout()
+    public function logout(RequestInterface $request)
     {
         // Destroy de sessie wanneer de gebruiker op 'logout' drukt.
-        session_unset();
-        session_destroy();
+        $request->endSession();
         return[];
     }
 

@@ -9,11 +9,41 @@ class Request implements RequestInterface
         private array $get,
         private array $server,
         private array $cookie,
-        private array $attributes = []){}
+        private array $session,
+        private array $attributes = []
+    ){}
 
     public static function makeWithGlobals(array $attributes = []): RequestInterface
     {
-        return new Request($_POST, $_GET, $_SERVER, $_COOKIE, $attributes);
+        session_start();
+        return new Request($_POST, $_GET, $_SERVER, $_COOKIE, $_SESSION, $attributes);
+    }
+
+    public function saveSession()
+    {
+        $_SESSION = $this->session;
+    }
+
+    public function getSession()
+    {
+        return $this->session;
+    }
+
+    public function getSessionValueByName(string $name): ?string
+    {
+        return $this->session[$name] ?? null;
+    }
+
+    public function setSessionValueByName(string $name, string $value): void
+    {
+        $this->session[$name] = $value;
+    }
+
+    public function endSession(): void
+    {
+        session_unset();
+        session_destroy();
+        $this->session = [];
     }
 
     public function setAttribute(string $name, $value): void
