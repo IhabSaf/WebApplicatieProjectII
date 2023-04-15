@@ -66,7 +66,7 @@ CREATE TABLE `tentamen` (
 
 LOCK TABLES `tentamen` WRITE;
 /*!40000 ALTER TABLE `tentamen` DISABLE KEYS */;
-INSERT INTO `tentamen` VALUES (1,'databases',2),(2,'webtech2',4),(3,'gespreksvaardigheden',2),(4,'sport',4);
+INSERT INTO `tentamen` VALUES (1,'databases',48),(2,'webtech2',4),(3,'gespreksvaardigheden',48),(4,'sport',4);
 /*!40000 ALTER TABLE `tentamen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,7 +87,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `user_rol_idx` (`rolId`),
   CONSTRAINT `user_rol` FOREIGN KEY (`rolId`) REFERENCES `rol` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,18 +96,18 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,1,'admin','admin@hanze.nl','123'),(2,2,'docent','docent@hanze.nl','123'),(3,3,'student','student@hanze.nl','123'),(4,2,'docent2','docent2@hanze.nl','123'),(5,3,'student2','student2@hanze.nl','123');
+INSERT INTO `user` VALUES (1,1,'admin','admin@hanze.nl','123'),(2,2,'docent','docent@hanze.nl','123'),(3,3,'student','student@hanze.nl','123'),(4,2,'docent2','docent2@hanze.nl','123'),(5,3,'student2','student2@hanze.nl','123'),(46,1,'test','test@email.nl','$2y$10$/FnwPvz/o76rG7/IDeZCcOIEO.ofvvhTOwD1ANwy6.frs3.wigNN.'),(47,3,'s','s@s.nl','$2y$10$XGU7E8XWYC35nS98r4.V9.Okx5qHDIVWJvTLSkMLkNGkDRKeP7CrS'),(48,2,'1','1@1.nl','$2y$10$.cstcBG89nLkNV8vbTZFrOhPNCSpyeMCHlWnPWO7.Mr2cKZzII6ui');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `userTentamen`
+-- Table structure for table `usertentamen`
 --
 
-DROP TABLE IF EXISTS `userTentamen`;
+DROP TABLE IF EXISTS `usertentamen`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `userTentamen` (
+CREATE TABLE `usertentamen` (
   `id` int NOT NULL AUTO_INCREMENT,
   `userId` int NOT NULL,
   `tentamenId` int NOT NULL,
@@ -118,26 +118,18 @@ CREATE TABLE `userTentamen` (
   KEY `tentamen_user_idx` (`tentamenId`),
   CONSTRAINT `tentamen_user` FOREIGN KEY (`tentamenId`) REFERENCES `tentamen` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `user_tentamen` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `userTentamen`
+-- Dumping data for table `usertentamen`
 --
 
-LOCK TABLES `userTentamen` WRITE;
-/*!40000 ALTER TABLE `userTentamen` DISABLE KEYS */;
-INSERT INTO `userTentamen` VALUES (1,3,1,NULL),(2,5,2,NULL);
-/*!40000 ALTER TABLE `userTentamen` ENABLE KEYS */;
+LOCK TABLES `usertentamen` WRITE;
+/*!40000 ALTER TABLE `usertentamen` DISABLE KEYS */;
+INSERT INTO `usertentamen` VALUES (1,3,1,1.00),(2,5,2,8.00),(3,3,2,4.00),(4,47,1,5.00);
+/*!40000 ALTER TABLE `usertentamen` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping events for database 'web2project'
---
-
---
--- Dumping routines for database 'web2project'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -148,4 +140,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-10 14:17:42
+-- Dump completed on 2023-04-15 21:55:49

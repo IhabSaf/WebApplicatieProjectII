@@ -1,0 +1,14 @@
+admin
+username: test
+email: test@email.nl
+password: 123
+
+docent
+username: 1
+email: 1@1.nl
+password: 123
+
+student
+username: s
+email: s@s.nl
+password: 123

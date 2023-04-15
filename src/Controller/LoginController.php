@@ -31,6 +31,9 @@ class LoginController
 
             //haal de gegevens van de gebruiker vanuit de database
             $getUserCred = $entityManager->getEntity(User::class)->find(['email' => $email]);
+            if(!isset($getUserCred)){
+                $getUserCred = $entityManager->getEntity(User::class)->find(['name' => $email]);
+            }
             $findRole =  $entityManager->getEntity(Rol::class)->find(['id' => $getUserCred->getRolId()]);
 
 
