@@ -5,34 +5,41 @@ namespace src\Controller;
 use FrameWork\Attribute\Roles;
 use FrameWork\Database\EntityManger;
 use FrameWork\HTTP\Request;
-use FrameWork\security\CurrentUser;
 use src\Model\Tentamen;
 use src\Model\UserTentamen;
 
 class InschrijvenTentamenController
 {
+
+
+    public function __construct(private Request $request, private EntityManger $entityManager)
+    {
+    }
+
     #[Roles(['student', 'docent', 'admin'])]
-    public function inschrijven(Request $request){
+    public function inschrijven(){
 
 
-        $entityManager = new EntityManger();
+
         // breng alle tenameten van de database
-        $alleTentamen = $entityManager->getEntity(Tentamen::class)->findby('name');
+        $alleTentamen = $this->entityManager->getEntity(Tentamen::class)->findby('name');
+
+//        $alleTentamen = $this->queryMaker->findby('Tentamen', 'name');
 
 
-        if ($request->isPost()){
+        if ($this->request->isPost()){
 
             //haal de data vanuit de form uit.
-            $gekozenTenemenName = $request->getPostByName('tentamen');
+            $gekozenTenemenName = $this->request->getPostByName('tentamen');
 
             //Zoek het tentamen id van de betrefende tentamen name.
-            $gekozenTenemenId = $entityManager->getEntity(Tentamen::class)->find(['name' => $gekozenTenemenName])->getId();
+            $gekozenTenemenId = $this->entityManager->getEntity(Tentamen::class)->find(['name' => $gekozenTenemenName])->getId();
 
 
             // maak een nieuw object en stuur hem even naar de database.
             $nieuweInschrijving = new UserTentamen();
             $nieuweInschrijving->setId(null);
-            $nieuweInschrijving->setUserId($request->getSessionValueByName('user_id'));
+            $nieuweInschrijving->setUserId($this->request->getSessionValueByName('user_id'));
             $nieuweInschrijving->setTentamenId($gekozenTenemenId);
             $nieuweInschrijving->save();
 
