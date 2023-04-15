@@ -38,7 +38,7 @@ class LoginController
             // Als er geen sprake van een just wachtwoord of email dan weiger de inlog, anders login en start een sessie en sla de gegevens van de gebruikers op.
         if (!$getUserCred->getEmail() || !password_verify($password, $getUserCred->getPassword())) {
             echo '<div>Incorrect username or password.</div>';
-            header('Location: /home');
+            $request->redirect->toUrl('/home');
             exit();
         }
 
@@ -48,7 +48,7 @@ class LoginController
             $request->setSessionValueByName('user_name', $getUserCred->getName());
             $request->setSessionValueByName('user_role', $findRole->getName());
             $request->saveSession();
-            header('Location: /home');
+            $request->redirect->toUrl('/home');
             exit();
         }
 

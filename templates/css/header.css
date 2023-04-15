@@ -40,3 +40,9 @@ nav a {
 .right {
     margin-left: auto; /* Align the "Inlog" and "Uitlog" buttons to the right */
 }
+
+.navPadding {
+    height: 1px;
+    width: 1px;
+    padding-bottom: 100px;
+}

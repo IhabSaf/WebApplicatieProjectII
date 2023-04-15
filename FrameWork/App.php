@@ -3,10 +3,8 @@ namespace FrameWork;
 
 use FrameWork\Database\EntityManger;
 use FrameWork\HTTP\Request;
-use FrameWork\HTTP\Response;
 use FrameWork\Interface\RequestInterface;
 use FrameWork\Interface\ResponseInterface;
-use FrameWork\Route\Redirect;
 use FrameWork\Route\Route;
 use FrameWork\security\AccessController;
 
@@ -17,15 +15,14 @@ class App
         private Route $route,
         private Template $template,
         private AccessController $accessController,
-        private EntityManger $entityManger,
-        private Redirect $redirect){}
+        private EntityManger $entityManger){}
 
     public function handle(): ResponseInterface
     {
         $array = [];
         $path = $this->request->getPathInfo();
         if($path === '/'){
-            $this->redirect->toUrl('/home');
+            $this->request->redirect->toUrl('/home');
         }
 
         if ($this->request->getServerByName('REQUEST_METHOD') === 'POST') {
@@ -33,6 +30,10 @@ class App
         }
         if ($this->route->isValidRoute($path)) {
             $routeObject = $this->route->getRoute($path);
+            if($routeObject->hasParams()){
+                $routeObject->setUrlParamsWithoutDefault($path);
+                $this->request->setMutipleAttributes($routeObject->getUrlParams());
+            }
             // Check  de accessController
             $checkController = $routeObject->getController();
             $checkMethod = $routeObject->getMethod();

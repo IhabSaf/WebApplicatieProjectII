@@ -10,7 +10,7 @@ class RouteObject
         private string $controllerMethod,
         private string $fullUrl,
         private string $baseUrl,
-        private array $urlParams = []){}
+        private ?array $urlParams = null){}
 
     public function getName(): string
     {
@@ -26,7 +26,7 @@ class RouteObject
         return $this->baseUrl;
     }
 
-    public function getUrlParams(): array
+    public function getUrlParams(): ?array
     {
         return $this->urlParams;
     }
@@ -40,10 +40,18 @@ class RouteObject
         }
     }
 
-    public function hasParams($route): bool
+    public function setUrlParamsWithoutDefault($route): void
     {
-        $paramUrl = str_replace('/'.$this->getBaseUrl().'/', "", $route);
-        return false;
+        $params = $this->getParams($this->fullUrl);
+        $values = $this->getParams($route);
+        for ($i = 0; $i < count($params); $i++) {
+            $this->urlParams[$params[$i]] = $values[$i];
+        }
+    }
+
+    public function hasParams(): bool
+    {
+        return str_contains($this->fullUrl, '{');
     }
 
     public function controller(RequestInterface $request, object $object = null): array
@@ -67,5 +75,24 @@ class RouteObject
     public function getMethod()
     {
         return $this->controllerMethod;
+    }
+
+    private function getParams($route){
+        $params = substr($route, strlen($this->baseUrl) + 1);
+        // path is fullpath
+        if(str_contains($params,'{')){
+            $params = str_replace(['{', "}"], [" ", ""], $params);
+        }
+        // path has multiple url params
+        elseif(str_contains($params, '/')){
+            $params = str_replace("/", " ", $params);
+        }
+        // path has one url param
+        else{
+            return [$params];
+        }
+        $params = explode(" ", $params);
+        array_shift($params);
+        return $params;
     }
 }

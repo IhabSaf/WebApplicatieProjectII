@@ -22,6 +22,11 @@ class GiveCijferController
 
     public function findTentamenForm(RequestInterface $request)
     {
+        if($request->hasGet('Tentamen')){
+            $tentamenId = $request->getGetByName('Tentamen');
+            $request->redirect->toUrl('/addStudentGrade/' . $tentamenId);
+        }
+
         if($request->getSessionValueByName('user_role') === 'admin'){
             $tentamens = $this->entityManager->getEntity(Tentamen::class)->findAll();
         } else{
@@ -46,7 +51,7 @@ class GiveCijferController
             return ['success' => true];
         }
 
-        $tentamenId = $request->getGetByName('Tentamen');
+        $tentamenId = $request->getAttributeByName("id");
 
         //haal alle objecten van de database die matchen met die student number.
         $studentTentamens = $this->entityManager->getEntity(UserTentamen::class)

@@ -10,7 +10,7 @@ class Route {
         $this->createDefaultRoutes();
     }
     // voeg een routeObject toe
-    public function addRoute(string $name, string $controller, string $route, array $paramDefaults = []): void
+    public function addRoute(string $name, string $controller, string $route, array $paramDefaults = null): void
     {
         $routeOject = $this->createRouteObject($name, $controller, $route, $paramDefaults);
         $this->routes[$name] = $routeOject;
@@ -50,7 +50,7 @@ class Route {
     }
 
     // maakt een RouteOject aan
-    private function createRouteObject(string $name, string $controller, string $route, array $paramDefaults): RouteObject
+    private function createRouteObject(string $name, string $controller, string $route, ?array $paramDefaults): RouteObject
     {
 
         $controllerParts = explode(":", $controller);
@@ -67,8 +67,10 @@ class Route {
             $baseUrl = substr($baseUrl, 0, -1);
         }
         $paramDefaultOrdered = [];
-        foreach ($array as $paramName){
-            $paramDefaultOrdered[$paramName] = $paramDefaults[$paramName];
+        if(isset($paramDefaults)){
+            foreach ($array as $paramName){
+                $paramDefaultOrdered[$paramName] = $paramDefaults[$paramName];
+            }
         }
         return new RouteObject($name, $controllerClass, $controllerMethod, $route, $baseUrl, $paramDefaultOrdered);
     }
@@ -85,7 +87,7 @@ class Route {
         $this->addRoute("addGradeInfo", 'src\Controller\GiveCijferController:addGradeInfo', "/addGradeInfo");
 
         $this->addRoute("findTentamenForm", 'src\Controller\GiveCijferController:findTentamenForm', "/findTentamenForm");
-        $this->addRoute("addStudentGrade", 'src\Controller\GiveCijferController:addStudentGrade', "/addStudentGrade");
+        $this->addRoute("addStudentGrade", 'src\Controller\GiveCijferController:addStudentGrade', "/addStudentGrade/{id}");
         $this->addRoute("showStudentData", 'src\Controller\ShowResultaatController:show', "/showStudentData");
 
     }

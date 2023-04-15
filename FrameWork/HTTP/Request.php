@@ -1,6 +1,7 @@
 <?php
 namespace FrameWork\HTTP;
 use FrameWork\Interface\RequestInterface;
+use FrameWork\Route\Redirect;
 
 class Request implements RequestInterface
 {
@@ -10,13 +11,14 @@ class Request implements RequestInterface
         private array $server,
         private array $cookie,
         private array $session,
-        private array $attributes = []
+        public Redirect $redirect,
+        private array $attributes = [],
     ){}
 
     public static function makeWithGlobals(array $attributes = []): RequestInterface
     {
         session_start();
-        return new Request($_POST, $_GET, $_SERVER, $_COOKIE, $_SESSION, $attributes);
+        return new Request($_POST, $_GET, $_SERVER, $_COOKIE, $_SESSION, new Redirect(), $attributes);
     }
 
     public function saveSession()
@@ -51,7 +53,12 @@ class Request implements RequestInterface
         $this->attributes[$name] = $value;
     }
 
-    public function getAttribute(string $name): ?string
+    public function setMutipleAttributes(array $attributes): void
+    {
+        $this->attributes += $attributes;
+    }
+
+    public function getAttributeByName(string $name): ?string
     {
         return $this->attributes[$name];
     }
@@ -84,6 +91,10 @@ class Request implements RequestInterface
         }
 
         return $secure;
+    }
+
+    public function hasGet(string $name){
+        return isset($this->get[$name]);
     }
 
     public function getCookieByName(String $name): ?string

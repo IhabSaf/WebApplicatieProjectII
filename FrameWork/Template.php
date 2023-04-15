@@ -16,7 +16,10 @@ class Template
     public function renderPage(RequestInterface $request, RouteObject $routeObject, array $array): ResponseInterface
     {
         ob_start();
-        extract($routeObject->getUrlParams(), EXTR_SKIP);
+        $urlParams = $routeObject->getUrlParams();
+        if(isset($urlParams)) {
+            extract($urlParams, EXTR_SKIP);
+        }
         extract($array, EXTR_SKIP);
         include sprintf(__DIR__ . '/../templates/%s.html', $routeObject->getName());
         $this->response->setContent(ob_get_clean());
