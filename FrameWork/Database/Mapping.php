@@ -9,13 +9,11 @@ use ReflectionClass;
  class Mapping {
     private array $data = [];
     private string $table;
-    private DatabaseConnection $db;
 
-    public function __construct(array $data = [])
+    public function __construct(private DatabaseConnection $db, array $data = [])
     {
         $this->data = $data;
         $this->table = $this->getTable();
-        $this->db = new DatabaseConnection();
     }
 
     public function setAttribute(string $name, $value)
@@ -107,7 +105,7 @@ use ReflectionClass;
     public function findby(string $column): array
     {
 
-        $table = (new static())->getTable();
+        $table = (new static($this->db))->getTable();
 
         $stmt = $this->db->getConnector()->prepare("SELECT $column FROM $table");
         $stmt->execute();
@@ -121,7 +119,7 @@ use ReflectionClass;
     // hier kan gefiltrd worden, geeft een object terug van zelfde entity type
     public function find(array $criteria): ?static
     {
-        $table = (new static())->getTable();
+        $table = (new static($this->db))->getTable();
         $whereClauses = [];
 
         foreach ($criteria as $attribute => $value) {
@@ -141,7 +139,7 @@ use ReflectionClass;
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            return new static($result);
+            return new static($this->db, $result);
         } else {
             return null;
         }
@@ -149,7 +147,7 @@ use ReflectionClass;
     //geeft een lijst teug van alle objecten van de betrefende enitiy
     public function findAll(array $criteria = null): array
     {
-        $table = (new static())->getTable();
+        $table = (new static($this->db))->getTable();
         if(isset($criteria)){
             $whereClauses = [];
 
@@ -176,7 +174,7 @@ use ReflectionClass;
 
         $objects = [];
         foreach ($results as $result) {
-            $objects[] = new static($result);
+            $objects[] = new static($this->db, $result);
         }
 
         return $objects;

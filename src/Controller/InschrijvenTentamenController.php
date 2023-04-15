@@ -37,7 +37,7 @@ class InschrijvenTentamenController
 
 
             // maak een nieuw object en stuur hem even naar de database.
-            $nieuweInschrijving = new UserTentamen();
+            $nieuweInschrijving = new UserTentamen($this->entityManager->getDbConnection());
             $nieuweInschrijving->setId(null);
             $nieuweInschrijving->setUserId($this->request->getSessionValueByName('user_id'));
             $nieuweInschrijving->setTentamenId($gekozenTenemenId);

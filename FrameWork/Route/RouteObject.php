@@ -1,5 +1,6 @@
 <?php
 namespace FrameWork\Route;
+use FrameWork\Database\EntityManger;
 use FrameWork\Interface\RequestInterface;
 
 class RouteObject
@@ -54,10 +55,10 @@ class RouteObject
         return str_contains($this->fullUrl, '{');
     }
 
-    public function controller(RequestInterface $request, object $object = null): array
+    public function controller(RequestInterface $request, EntityManger $entityManger = null): array
     {
-        if(isset($object)){
-            return [new $this->controllerClass($request, $object), $this->controllerMethod]($request);
+        if(isset($entityManger)){
+            return [new $this->controllerClass($request, $entityManger), $this->controllerMethod]($request);
         }
         return [new $this->controllerClass($request), $this->controllerMethod]($request);
     }

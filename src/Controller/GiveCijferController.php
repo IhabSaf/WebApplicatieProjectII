@@ -13,24 +13,20 @@ use src\Model\UserTentamen;
 
 class GiveCijferController
 {
-    private $entityManager;
 
-    public function __construct()
-    {
-        $this->entityManager = new EntityManger();
-    }
+    public function __construct(private RequestInterface $request, private EntityManger $entityManager){}
 
-    public function findTentamenForm(RequestInterface $request)
+    public function findTentamenForm()
     {
-        if($request->hasGet('Tentamen')){
-            $tentamenId = $request->getGetByName('Tentamen');
-            $request->redirect->toUrl('/addStudentGrade/' . $tentamenId);
+        if($this->request->hasGet('Tentamen')){
+            $tentamenId = $this->request->getGetByName('Tentamen');
+            $this->request->redirect->toUrl('/addStudentGrade/' . $tentamenId);
         }
 
-        if($request->getSessionValueByName('user_role') === 'admin'){
+        if($this->request->getSessionValueByName('user_role') === 'admin'){
             $tentamens = $this->entityManager->getEntity(Tentamen::class)->findAll();
         } else{
-            $tentamens = $this->entityManager->getEntity(Tentamen::class)->findAll(['docentId' => $request->getSessionValueByName('user_id')]);
+            $tentamens = $this->entityManager->getEntity(Tentamen::class)->findAll(['docentId' => $this->request->getSessionValueByName('user_id')]);
         }
         $array = [];
         foreach ($tentamens as $tentamen) {
@@ -40,18 +36,18 @@ class GiveCijferController
         return ['tentamens' => $array];
     }
 
-    public function addStudentGrade(RequestInterface $request)
+    public function addStudentGrade()
     {
         // als post dan sla cijfer op
-        if($request->isPost()){
-            $studentId = $request->getPostByName('studentId');
-            $tentamenId = $request->getPostByName("tentamenId");
-            $cijfer = $request->getPostByName('cijfer');
+        if($this->request->isPost()){
+            $studentId = $this->request->getPostByName('studentId');
+            $tentamenId = $this->request->getPostByName("tentamenId");
+            $cijfer = $this->request->getPostByName('cijfer');
             $this->addGrade($studentId, $tentamenId, $cijfer);
             return ['success' => true];
         }
 
-        $tentamenId = $request->getAttributeByName("id");
+        $tentamenId = $this->request->getAttributeByName("id");
 
         //haal alle objecten van de database die matchen met die student number.
         $studentTentamens = $this->entityManager->getEntity(UserTentamen::class)
@@ -73,7 +69,7 @@ class GiveCijferController
         return ['studenten' => $students, 'tentamenId' => $tentamenId];
     }
 
-    public function addGradeInfo(RequestInterface $request){
+    public function addGradeInfo(){
         return [];
     }
 

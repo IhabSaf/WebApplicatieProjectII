@@ -3,28 +3,17 @@
 namespace src\Controller;
 
 use FrameWork\Database\EntityManger;
-use FrameWork\database\Query;
-use FrameWork\HTTP\Request;
 use FrameWork\Interface\RequestInterface;
-use FrameWork\security\CurrentUser;
 use src\Model\Tentamen;
 use src\Model\UserTentamen;
 
 class ShowResultaatController
 {
-    private $entityManager;
+    public function __construct(private RequestInterface $request, private EntityManger $entityManager){}
 
-
-    public function __construct()
-    {
-        $this->entityManager = new EntityManger();
-    }
-
-    public function show(RequestInterface $request){
-
-
+    public function show(){
             // haal de resultten van alle vakken van de ingelogde student.
-            $studentId = $request->getSessionValueByName('user_id');
+            $studentId = $this->request->getSessionValueByName('user_id');
 
             $studentTentamenId = $this->entityManager->getEntity(UserTentamen::class)->findAll(['userId' => $studentId]);
 

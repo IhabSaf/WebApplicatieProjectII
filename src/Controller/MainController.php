@@ -10,10 +10,7 @@ class MainController
 {
     public function __construct(){}
 
-    public function index(RequestInterface $request) {
-        //$redirect = new Redirect();
-        //$redirect->toUrl('registration');
+    public function index() {
         return [];
-
     }
 }

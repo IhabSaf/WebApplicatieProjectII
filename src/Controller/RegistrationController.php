@@ -31,7 +31,7 @@ class RegistrationController
             $id_rol = $this->entityManager->getEntity(Rol::class)->find(['name' => $role_name])->getId();
 
             //maak nieuwe gebruiker, en sla de gegevens op in de database.
-            $user = new User();
+            $user = new User($this->entityManager->getDbConnection());
             $user->setId(null);
             $user->setName($name);
             $user->setRolId($id_rol);
