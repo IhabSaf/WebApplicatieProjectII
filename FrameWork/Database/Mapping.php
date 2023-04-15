@@ -95,7 +95,7 @@ use ReflectionClass;
          return $commit->execute();
      }
 
-    public  function getTable(): string
+    public function getTable(): string
     {
         $classParts = explode('\\', static::class);
         $className = end($classParts);
@@ -106,11 +106,10 @@ use ReflectionClass;
 //this return only the values of column
     public function findby(string $column): array
     {
-        $db = new DatabaseConnection();
 
         $table = (new static())->getTable();
 
-        $stmt = $db->getConnector()->prepare("SELECT $column FROM $table");
+        $stmt = $this->db->getConnector()->prepare("SELECT $column FROM $table");
         $stmt->execute();
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $instances = [];
@@ -122,7 +121,6 @@ use ReflectionClass;
     // hier kan gefiltrd worden, geeft een object terug van zelfde entity type
     public function find(array $criteria): ?static
     {
-        $db = new DatabaseConnection();
         $table = (new static())->getTable();
         $whereClauses = [];
 
@@ -132,7 +130,7 @@ use ReflectionClass;
 
         $whereClause = implode(' AND ', $whereClauses);
         $sql = "SELECT * FROM {$table} WHERE {$whereClause} LIMIT 1";
-        $statement = $db->getConnector()->prepare($sql);
+        $statement = $this->db->getConnector()->prepare($sql);
 
         $i = 1;
         foreach ($criteria as $value) {
@@ -148,32 +146,23 @@ use ReflectionClass;
             return null;
         }
     }
-
     //geeft een lijst teug van alle objecten van de betrefende enitiy
-    public function findAll(array $criteria = null): array
+    public function findAll(array $criteria): array
     {
-        $db = new DatabaseConnection();
         $table = (new static())->getTable();
-        if(isset($criteria)){
-            $whereClauses = [];
+        $whereClauses = [];
 
-            foreach ($criteria as $attribute => $value) {
-                $whereClauses[] = "{$attribute} = ?";
-            }
-
-            $whereClause = implode(' AND ', $whereClauses);
-            $sql = "SELECT * FROM {$table} WHERE {$whereClause}";
-        } else{
-            $sql = "SELECT * FROM {$table}";
+        foreach ($criteria as $attribute => $value) {
+            $whereClauses[] = "{$attribute} = ?";
         }
 
-        $statement = $db->getConnector()->prepare($sql);
+        $whereClause = implode(' AND ', $whereClauses);
+        $sql = "SELECT * FROM {$table} WHERE {$whereClause}";
+        $statement = $this->db->getConnector()->prepare($sql);
 
-        if(isset($criteria)){
-            $i = 1;
-            foreach ($criteria as $value) {
-                $statement->bindValue($i++, $value);
-            }
+        $i = 1;
+        foreach ($criteria as $value) {
+            $statement->bindValue($i++, $value);
         }
 
         $statement->execute();
