@@ -56,13 +56,6 @@ class RouteObject
         return str_contains($this->fullUrl, '{');
     }
 
-    public function controller(RequestInterface $request): array
-    {
-        $diContainer = new DiContainer();
-        $controller = $diContainer->createClass($this->controllerClass);
-        return $controller->{$this->controllerMethod}($request);
-    }
-
     public function getReturnType(): string
     {
         return $this->returnType;

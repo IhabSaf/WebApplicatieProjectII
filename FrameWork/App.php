@@ -17,7 +17,8 @@ class App
         private Template $template,
         private AccessController $accessController,
         private EntityManger $entityManger,
-        private Redirect $redirect){}
+        private Redirect $redirect,
+        private DiContainer $diContainer){}
 
     public function handle(): ResponseInterface
     {
@@ -37,17 +38,18 @@ class App
                 $this->request->setMutipleAttributes($routeObject->getUrlParams());
             }
             // Check  de accessController
-            $checkController = $routeObject->getController();
-            $checkMethod = $routeObject->getMethod();
+            $controller = $routeObject->getController();
+            $method = $routeObject->getMethod();
             $userRole = $this->request->getSessionValueByName('user_role') ?? 'gast';
 
-            //roep de AccessController functie, dit geeft boolean tuerg en kijk of de huidige user mag naar de gevraagde controller.
-            $hasAccess = $this->accessController->checkAccess($userRole, $checkController, $checkMethod);
+            //roep de AccessController functie, dit geeft boolean terug en kijk of de huidige user mag naar de gevraagde controller.
+            $hasAccess = $this->accessController->checkAccess($userRole, $controller, $method);
             if (!$hasAccess) {
                 $response = $this->template->renderSimple("Access denied." ,403);
             }
             else{
-                $array += $routeObject->controller($this->request, $this->entityManger);
+                $controller = $this->diContainer->createClass($controller);
+                $array += $controller->{$method}($this->request);
                 $response = $this->template->renderPage($this->request, $routeObject, $array);
             }
 

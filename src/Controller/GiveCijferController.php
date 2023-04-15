@@ -1,10 +1,9 @@
 <?php
-
 namespace src\Controller;
 
 use FrameWork\Database\EntityManger;
-use FrameWork\HTTP\Request;
 use FrameWork\Interface\RequestInterface;
+use FrameWork\Route\Redirect;
 use src\Model\Tentamen;
 use src\Model\User;
 use src\Model\UserTentamen;
@@ -14,13 +13,13 @@ use src\Model\UserTentamen;
 class GiveCijferController
 {
 
-    public function __construct(private EntityManger $entityManager){}
+    public function __construct(private EntityManger $entityManager, private Redirect $redirect){}
 
     public function findTentamenForm(RequestInterface $request)
     {
         if($request->hasGet('Tentamen')){
             $tentamenId = $request->getGetByName('Tentamen');
-            $request->redirect->toUrl('/addStudentGrade/' . $tentamenId);
+            $this->redirect->toUrl('/addStudentGrade/' . $tentamenId);
         }
 
         if($request->getSessionValueByName('user_role') === 'admin'){
