@@ -4,7 +4,6 @@ namespace src\Controller;
 
 use FrameWork\Attribute\Roles;
 use FrameWork\Database\EntityManger;
-use FrameWork\HTTP\Request;
 use FrameWork\Interface\RequestInterface;
 use src\Model\Tentamen;
 use src\Model\UserTentamen;

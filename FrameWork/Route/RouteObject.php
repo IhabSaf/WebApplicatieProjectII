@@ -1,8 +1,6 @@
 <?php
+
 namespace FrameWork\Route;
-use FrameWork\Database\EntityManger;
-use FrameWork\DiContainer;
-use FrameWork\Interface\RequestInterface;
 
 class RouteObject
 {

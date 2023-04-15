@@ -7,12 +7,11 @@ use PDO;
 use ReflectionClass;
 
  class Mapping {
-    private array $data = [];
-    private string $table;
 
-    public function __construct(private DatabaseConnection $db, array $data = [])
+    public function __construct(#[Argument(connectorClass: "PDO", exceptionClass: "PDOException")] private DatabaseConnection $db,
+                                private array $data = [],
+                                private string $table = '')
     {
-        $this->data = $data;
         $this->table = $this->getTable();
     }
 

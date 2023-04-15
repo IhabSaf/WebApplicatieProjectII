@@ -1,4 +1,5 @@
 <?php
+
 namespace FrameWork\HTTP;
 
 use FrameWork\Interface\HeaderInterface;
@@ -6,28 +7,9 @@ use FrameWork\Interface\ResponseInterface;
 
 class Response implements ResponseInterface
 {
-    private const STATUS_CODES_TEXTS = [
-        100 => "Continue",
-        200 => "OK",
-        201 => "Created",
-        204 => "No Content",
-        301 => "Moved Permanently",
-        302 => "Found",
-        303 => "See Other",
-        307 => "Temporary Redirect",
-        308 => "Permanent Redirect",
-        400 => "Bad Request",
-        401 => "Unauthorized",
-        403 => "Forbidden",
-        404 => "Not Found",
-        418 => "I'm  a teapot",
-        500 => "Internal Server Error",
-        503 => "Service Unavailable"
-    ];
-
-    public function __construct(private string                                             $body = '',
+    public function __construct(private string $body = '',
                                 #[Service(Header::class)] private HeaderInterface $headers = new Header(),
-                                private int                                                $statusCode = 200){}
+                                private int $statusCode = 200){}
 
     public function addHeader(string $name, string $value): void
     {

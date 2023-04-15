@@ -1,13 +1,11 @@
 <?php
+
 namespace FrameWork;
 
-use FrameWork\HTTP\Request;
 use FrameWork\HTTP\Response;
 use FrameWork\Interface\RequestInterface;
 use FrameWork\Interface\ResponseInterface;
-use FrameWork\Route\Route;
 use FrameWork\Route\RouteObject;
-use FrameWork\security\AccessController;
 
 class Template
 {

@@ -13,7 +13,7 @@ class App
 {
     public function __construct(
         #[Service(Request::class), Argument(post: [], get: [], server: [], cookie: [], session: [], attributes: [])] private RequestInterface $request,
-        private Route $route,
+        #[Argument(routes: [], routeObjectClass: "FrameWork\Route\RouteObject")] private Route $route,
         private Template $template,
         private AccessController $accessController,
         private EntityManger $entityManger,

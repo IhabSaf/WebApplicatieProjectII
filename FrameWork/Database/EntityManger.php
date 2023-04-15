@@ -2,11 +2,9 @@
 
 namespace FrameWork\Database;
 
-use FrameWork\Database\Mapping;
-
 class EntityManger implements EntityManagerInterface
 {
-    public function __construct(private DatabaseConnection $db) {
+    public function __construct(#[Argument(connectorClass: "PDO", exceptionClass: "PDOException")] private DatabaseConnection $db) {
 
     }
 

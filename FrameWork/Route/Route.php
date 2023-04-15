@@ -1,12 +1,10 @@
 <?php
+
 namespace FrameWork\Route;
 class Route {
-    private $routes;
-    private $controller;
-    private $method;
-    public function __construct()
+    public function __construct(private array $routes = [],
+                                private string $routeObjectClass = "RouteObject")
     {
-        $this->routes = [];
         $this->createDefaultRoutes();
     }
     // voeg een routeObject toe
@@ -26,7 +24,7 @@ class Route {
         return false;
     }
     // haal één routeObject op
-    public function getRoute(string $route): ?RouteObject
+    public function getRoute(string $route): ?object
     {
         foreach ($this->routes as $routeObject){
             // route has no params
@@ -55,9 +53,7 @@ class Route {
 
         $controllerParts = explode(":", $controller);
         $controllerClass = $controllerParts[0];
-        $this->controller = $controllerParts[0];
         $controllerMethod = $controllerParts[1];
-        $this->method = $controllerParts[1];
 
         $array = explode('{', $route);
         $baseUrl = $array[0];
@@ -72,8 +68,9 @@ class Route {
                 $paramDefaultOrdered[$paramName] = $paramDefaults[$paramName];
             }
         }
-        return new RouteObject($name, $controllerClass, $controllerMethod, $route, $baseUrl, $paramDefaultOrdered);
+        return new $this->routeObjectClass($name, $controllerClass, $controllerMethod, $route, $baseUrl, $paramDefaultOrdered);
     }
+
     // default routes die deze applicatie heeft
     // bij het ophalen van de template wordt naar de name gekeken
     // bij name "home" hoort home.html in de templates map
@@ -89,6 +86,5 @@ class Route {
         $this->addRoute("findTentamenForm", 'src\Controller\GiveCijferController:findTentamenForm', "/findTentamenForm");
         $this->addRoute("addStudentGrade", 'src\Controller\GiveCijferController:addStudentGrade', "/addStudentGrade/{id}");
         $this->addRoute("showStudentData", 'src\Controller\ShowResultaatController:show', "/showStudentData");
-
     }
 }

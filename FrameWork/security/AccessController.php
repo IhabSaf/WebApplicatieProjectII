@@ -1,5 +1,7 @@
 <?php
+
 namespace FrameWork\security;
+
 use ReflectionClass;
 
 /**
@@ -45,6 +47,4 @@ class AccessController implements AccessControllerInterFace
         // als de gebruiker niet in de array dan krijgt hij geen toegang tot de aangegeven methode.
         return false;
     }
-
-
 }

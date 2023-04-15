@@ -1,7 +1,8 @@
 <?php
+
 namespace FrameWork\HTTP;
+
 use FrameWork\Interface\RequestInterface;
-use FrameWork\Route\Redirect;
 
 class Request implements RequestInterface
 {

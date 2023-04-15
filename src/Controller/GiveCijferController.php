@@ -1,4 +1,5 @@
 <?php
+
 namespace src\Controller;
 
 use FrameWork\Database\EntityManger;
@@ -8,12 +9,11 @@ use src\Model\Tentamen;
 use src\Model\User;
 use src\Model\UserTentamen;
 
-
-
 class GiveCijferController
 {
 
-    public function __construct(private EntityManger $entityManager, private Redirect $redirect){}
+    public function __construct(private EntityManger $entityManager,
+                                private Redirect $redirect){}
 
     public function findTentamenForm(RequestInterface $request)
     {

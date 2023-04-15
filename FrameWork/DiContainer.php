@@ -5,7 +5,7 @@ use ReflectionClass;
 class DiContainer
 {
     public function __construct() {}
-    public function createApp(string $class = "FrameWork\App", $constructorParams = [])
+    public function createApp(string $class = "FrameWork\App", $constructorParams = []): object
     {
         $reflection = new ReflectionClass($class);
         $constructor = $reflection->getConstructor();
@@ -37,7 +37,8 @@ class DiContainer
         return $reflection->newInstance(...$constructorParams);
     }
 
-    public function createClass(string $name){
+    public function createClass(string $name): object
+    {
         return $this->createApp($name);
     }
 }
