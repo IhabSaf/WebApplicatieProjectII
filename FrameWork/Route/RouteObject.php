@@ -1,6 +1,7 @@
 <?php
 namespace FrameWork\Route;
 use FrameWork\Database\EntityManger;
+use FrameWork\DiContainer;
 use FrameWork\Interface\RequestInterface;
 
 class RouteObject
@@ -55,12 +56,11 @@ class RouteObject
         return str_contains($this->fullUrl, '{');
     }
 
-    public function controller(RequestInterface $request, EntityManger $entityManger = null): array
+    public function controller(RequestInterface $request): array
     {
-        if(isset($entityManger)){
-            return [new $this->controllerClass($request, $entityManger), $this->controllerMethod]($request);
-        }
-        return [new $this->controllerClass($request), $this->controllerMethod]($request);
+        $diContainer = new DiContainer();
+        $controller = $diContainer->createClass($this->controllerClass);
+        return $controller->{$this->controllerMethod}($request);
     }
 
     public function getReturnType(): string

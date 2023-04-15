@@ -1,5 +1,4 @@
 <?php
-
 namespace src\Controller;
 
 use FrameWork\Database\EntityManger;
@@ -9,11 +8,12 @@ use src\Model\UserTentamen;
 
 class ShowResultaatController
 {
-    public function __construct(private RequestInterface $request, private EntityManger $entityManager){}
+    public function __construct(private EntityManger $entityManager){}
 
-    public function show(){
+    public function show(RequestInterface $request): array
+    {
             // haal de resultten van alle vakken van de ingelogde student.
-            $studentId = $this->request->getSessionValueByName('user_id');
+            $studentId = $request->getSessionValueByName('user_id');
 
             $studentTentamenId = $this->entityManager->getEntity(UserTentamen::class)->findAll(['userId' => $studentId]);
 
@@ -22,7 +22,6 @@ class ShowResultaatController
                 $studentTentamen[] = [$tentamen->getTentamenId(), $tentamen->getCijfer()];
             }
 
-
             $alleVakkenNamen = [];
             //haal de namen van de vakken waar de student zich heeft ingeschreven.
             for ($index = 0; sizeof($studentTentamen) > $index; $index++) {
@@ -30,9 +29,6 @@ class ShowResultaatController
                     ->find(['id' => $studentTentamen[$index][0]])->getName(), $studentTentamen[$index][1]];
 
             }
-
-
-        return['studentTentamen'=>$alleVakkenNamen];
+        return ['studentTentamen' => $alleVakkenNamen];
     }
-
 }

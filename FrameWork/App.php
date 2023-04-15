@@ -5,6 +5,7 @@ use FrameWork\Database\EntityManger;
 use FrameWork\HTTP\Request;
 use FrameWork\Interface\RequestInterface;
 use FrameWork\Interface\ResponseInterface;
+use FrameWork\Route\Redirect;
 use FrameWork\Route\Route;
 use FrameWork\security\AccessController;
 
@@ -15,14 +16,15 @@ class App
         private Route $route,
         private Template $template,
         private AccessController $accessController,
-        private EntityManger $entityManger){}
+        private EntityManger $entityManger,
+        private Redirect $redirect){}
 
     public function handle(): ResponseInterface
     {
         $array = [];
         $path = $this->request->getPathInfo();
         if($path === '/'){
-            $this->request->redirect->toUrl('/home');
+            $this->redirect->toUrl('/home');
         }
 
         if ($this->request->getServerByName('REQUEST_METHOD') === 'POST') {

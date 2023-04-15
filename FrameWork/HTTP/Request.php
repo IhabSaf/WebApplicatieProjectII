@@ -11,14 +11,13 @@ class Request implements RequestInterface
         private array $server,
         private array $cookie,
         private array $session,
-        public Redirect $redirect,
         private array $attributes = [],
     ){}
 
     public static function makeWithGlobals(array $attributes = []): RequestInterface
     {
-        session_start();
-        return new Request($_POST, $_GET, $_SERVER, $_COOKIE, $_SESSION, new Redirect(), $attributes);
+        @session_start();
+        return new Request($_POST, $_GET, $_SERVER, $_COOKIE, $_SESSION, $attributes);
     }
 
     public function saveSession()

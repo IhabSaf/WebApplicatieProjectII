@@ -1,5 +1,4 @@
 <?php
-
 namespace src\Controller;
 
 use FrameWork\Database\EntityManger;
@@ -10,22 +9,20 @@ use src\Model\User;
 
 class RegistrationController
 {
-    public function __construct(private RequestInterface $request, private EntityManger $entityManager){}
+    public function __construct(private EntityManger $entityManager){}
 
     #[Roles(roles: ['admin'])]
-    public function registration()
+    public function registration(RequestInterface $request)
     {
-
-
         // haal de rols op vanuit de database
         $data = $this->entityManager->getEntity(Rol::class)->findby('name');
 
         // check of de method post is, haal de data daarna vanuit de form
-        if ($this->request->isPost()){
-            $name = $this->request->getPostByName('name');
-            $email = $this->request->getPostByName('email');
-            $password = $this->request->getPostByName('password');
-            $role_name = $this->request->getPostByName('role');
+        if ($request->isPost()){
+            $name = $request->getPostByName('name');
+            $email = $request->getPostByName('email');
+            $password = $request->getPostByName('password');
+            $role_name = $request->getPostByName('role');
 
             //find de key van de betreffende rol name
             $id_rol = $this->entityManager->getEntity(Rol::class)->find(['name' => $role_name])->getId();
@@ -39,9 +36,6 @@ class RegistrationController
             $user->setEmail($email);
             $user->save();
         }
-
           return  ['roles' => $data];
     }
-
 }
-

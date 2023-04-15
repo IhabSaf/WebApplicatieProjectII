@@ -36,4 +36,8 @@ class DiContainer
         }
         return $reflection->newInstance(...$constructorParams);
     }
+
+    public function createClass(string $name){
+        return $this->createApp($name);
+    }
 }
