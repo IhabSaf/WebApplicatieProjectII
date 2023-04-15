@@ -40,10 +40,5 @@
         ?>
     </div>
 </nav>
-<?php
-foreach ($request->getSession() as $isk){
-    echo $isk;
-}
-?>
 </body>
 </html>

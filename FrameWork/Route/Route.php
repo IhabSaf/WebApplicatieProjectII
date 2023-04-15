@@ -84,7 +84,7 @@ class Route {
         $this->addRoute("registerExam", 'src\Controller\InschrijvenTentamenController:inschrijven', "/registerExam");
         $this->addRoute("addGradeInfo", 'src\Controller\GiveCijferController:addGradeInfo', "/addGradeInfo");
 
-        $this->addRoute("findStudentForm", 'src\Controller\GiveCijferController:findStudentForm', "/findStudentForm");
+        $this->addRoute("findTentamenForm", 'src\Controller\GiveCijferController:findTentamenForm', "/findTentamenForm");
         $this->addRoute("addStudentGrade", 'src\Controller\GiveCijferController:addStudentGrade', "/addStudentGrade");
         $this->addRoute("showStudentData", 'src\Controller\ShowResultaatController:show', "/showStudentData");
 

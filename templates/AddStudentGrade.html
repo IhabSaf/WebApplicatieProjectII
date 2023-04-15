@@ -13,10 +13,10 @@ ob_start();
 <?php if(!isset($success)): ?>
 <form method="post" action="addStudentGrade">
   <h2>InvulCijfer Formulier</h2>
-  <input type="hidden" name="studentId" value="<?= $studentId ?>">
-  <label for="tentamenId">Vak:</label>
-  <select id="tentamenId" name="tentamenId" required>
-    <?php foreach($vakken as $id => $name): ?>
+  <input type="hidden" name="tentamenId" value="<?= $tentamenId ?>">
+  <label for="studentId">Student:</label>
+  <select id="studentId" name="studentId" required>
+    <?php foreach($studenten as $id => $name): ?>
     <option value="<?= $id; ?>"><?= $name; ?></option>
     <?php endforeach; ?>
   </select>

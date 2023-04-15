@@ -1,19 +1,18 @@
 <?php
 include('header.php');
-ob_start();
 ?>
 <!DOCTYPE html>
 <html>
 <head>
   <title>Find Student Form</title>
-  <link rel="stylesheet" type="text/css" href="./templates/css/findStudentForm.css">
+  <link rel="stylesheet" type="text/css" href="./templates/css/findTentamenForm.css">
 </head>
 <body>
 <form method="GET" action="addStudentGrade">
-  <h1>Find Student</h1>
-  <label for="StudentNummer">Kies Student:</label>
-  <select name="StudentNummer" id="StudentNummer" required>
-    <?php foreach($students as $id => $name): ?>
+  <h1>Kies Tentamen</h1>
+  <label for="Tentamen">Tentamen:</label>
+  <select name="Tentamen" id="Tentamen" required>
+    <?php foreach($tentamens as $id => $name): ?>
     <option value="<?php echo $id; ?>"><?php echo $name; ?></option>
     <?php endforeach; ?>
   </select>

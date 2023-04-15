@@ -14,23 +14,25 @@ use src\Model\UserTentamen;
 class GiveCijferController
 {
     private $entityManager;
-    private $alleVakkenID = [];
 
     public function __construct()
     {
         $this->entityManager = new EntityManger();
-        $this->alleVakkenID = array();
     }
 
-    public function findStudentForm(RequestInterface $request)
+    public function findTentamenForm(RequestInterface $request)
     {
-        $students = $this->entityManager->getEntity(User::class)->findAll(['rolId' => 3]);
+        if($request->getSessionValueByName('user_role') === 'admin'){
+            $tentamens = $this->entityManager->getEntity(Tentamen::class)->findAll();
+        } else{
+            $tentamens = $this->entityManager->getEntity(Tentamen::class)->findAll(['docentId' => $request->getSessionValueByName('user_id')]);
+        }
         $array = [];
-        foreach ($students as $student) {
-            $array[$student->getId()] = $student->getName();
+        foreach ($tentamens as $tentamen) {
+            $array[$tentamen->getId()] = $tentamen->getName();
         }
 
-        return ['students' => $array];
+        return ['tentamens' => $array];
     }
 
     public function addStudentGrade(RequestInterface $request)
@@ -44,25 +46,26 @@ class GiveCijferController
             return ['success' => true];
         }
 
-        $studentNummer = $request->getGetByName('StudentNummer');
+        $tentamenId = $request->getGetByName('Tentamen');
 
         //haal alle objecten van de database die matchen met die student number.
-        $findStudentInschrijvingen = $this->entityManager->getEntity(UserTentamen::class)
-            ->findAll(['userId' => $studentNummer]);
+        $studentTentamens = $this->entityManager->getEntity(UserTentamen::class)
+            ->findAll(['tentamenId' => $tentamenId]);
 
         //maak een array met het tentamen nummer waar de student zich geschreven heeft.
-        foreach ($findStudentInschrijvingen as $studentVakken) {
-            $this->alleVakkenID[] = $studentVakken->getTentamenId();
+        $ids = [];
+        foreach ($studentTentamens as $studentTentaman) {
+            $ids[] = $studentTentaman->getUserId();
         }
 
-        $vakken = array();
+        $students = array();
         //haal de namen van de vakken waar de student zich heeft ingeschreven.
-        foreach ($this->alleVakkenID as $id){
-            $vakken [$id] = $this->entityManager->getEntity(Tentamen::class)
+        foreach ($ids as $id){
+            $students[$id] = $this->entityManager->getEntity(User::class)
                 ->find(['id' => $id])->getName();
         }
 
-        return ['vakken' => $vakken, 'studentId' => $studentNummer];
+        return ['studenten' => $students, 'tentamenId' => $tentamenId];
     }
 
     public function addGradeInfo(RequestInterface $request){

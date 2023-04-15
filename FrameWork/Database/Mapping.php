@@ -150,23 +150,30 @@ use ReflectionClass;
     }
 
     //geeft een lijst teug van alle objecten van de betrefende enitiy
-    public function findAll(array $criteria): array
+    public function findAll(array $criteria = null): array
     {
         $db = new DatabaseConnection();
         $table = (new static())->getTable();
-        $whereClauses = [];
+        if(isset($criteria)){
+            $whereClauses = [];
 
-        foreach ($criteria as $attribute => $value) {
-            $whereClauses[] = "{$attribute} = ?";
+            foreach ($criteria as $attribute => $value) {
+                $whereClauses[] = "{$attribute} = ?";
+            }
+
+            $whereClause = implode(' AND ', $whereClauses);
+            $sql = "SELECT * FROM {$table} WHERE {$whereClause}";
+        } else{
+            $sql = "SELECT * FROM {$table}";
         }
 
-        $whereClause = implode(' AND ', $whereClauses);
-        $sql = "SELECT * FROM {$table} WHERE {$whereClause}";
         $statement = $db->getConnector()->prepare($sql);
 
-        $i = 1;
-        foreach ($criteria as $value) {
-            $statement->bindValue($i++, $value);
+        if(isset($criteria)){
+            $i = 1;
+            foreach ($criteria as $value) {
+                $statement->bindValue($i++, $value);
+            }
         }
 
         $statement->execute();
