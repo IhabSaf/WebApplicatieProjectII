@@ -1,5 +1,7 @@
 Je kan de database credentials veranderen in FrameWork/Database/DatabaseConnection
 
+Inloggen via email niet via user name.
+
 Accounts waarmee je kan inloggen:
 role: admin
 username: test
