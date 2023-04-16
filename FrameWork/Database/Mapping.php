@@ -6,7 +6,17 @@ use FrameWork\Attribute\Column;
 use PDO;
 use ReflectionClass;
 
- class Mapping {
+/**
+ * @webTech2:
+ *
+ *  @INHOUD:
+ *          Klaase: Deze klasse Mapping is een database mapper, die het mogelijk maakt om objecten van een bepaalde entity (entiteit)
+ *                  in PHP te vertalen naar rijen in een relationele database, en vice versa.
+ *                  Het biedt methoden voor het opslaan, bijwerken, ophalen en verwijderen van entiteiten van de database.
+ *
+ */
+
+ class Mapping implements DatabaseMapperInterface {
 
     public function __construct(#[Argument(connectorClass: "PDO", exceptionClass: "PDOException")] private DatabaseConnection $db,
                                 private array $data = [],
@@ -115,7 +125,7 @@ use ReflectionClass;
         }
         return $instances;
     }
-    // hier kan gefiltrd worden, geeft een object terug van zelfde entity type
+    // hier kan gefilterd worden, geeft een object terug van zelfde entity type
     public function find(array $criteria): ?static
     {
         $table = (new static($this->db))->getTable();
@@ -143,9 +153,10 @@ use ReflectionClass;
             return null;
         }
     }
-    //geeft een lijst teug van alle objecten van de betrefende enitiy
+    //geeft een lijst terug van alle objecten van de betreffende entity
     public function findAll(array $criteria = null): array
     {
+
         $table = (new static($this->db))->getTable();
         if (isset($criteria)) {
             $whereClauses = [];
