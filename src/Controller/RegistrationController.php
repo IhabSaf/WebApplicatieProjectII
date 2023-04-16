@@ -2,6 +2,7 @@
 
 namespace src\Controller;
 
+use FrameWork\Database\EntityManagerInterface;
 use FrameWork\Database\EntityManger;
 use FrameWork\Attribute\Roles;
 use FrameWork\Interface\RequestInterface;
@@ -10,11 +11,12 @@ use src\Model\User;
 
 class RegistrationController
 {
-    public function __construct(private EntityManger $entityManager){}
+    public function __construct(#[Service(EntityManger::class)] private EntityManagerInterface $entityManager){}
 
     #[Roles(roles: ['admin'])]
     public function registration(RequestInterface $request)
     {
+        $made = false;
         // haal de rols op vanuit de database
         $data = $this->entityManager->getEntity(Rol::class)->findby('name');
 
@@ -36,7 +38,8 @@ class RegistrationController
             $user->setPassword($password);
             $user->setEmail($email);
             $user->save();
+            $made = true;
         }
-          return  ['roles' => $data];
+          return  ['roles' => $data, 'made' => $made];
     }
 }
