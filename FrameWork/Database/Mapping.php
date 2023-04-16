@@ -10,8 +10,8 @@ use ReflectionClass;
  * @webTech2:
  *
  *  @INHOUD:
- *          Klaase: Deze klasse Mapping is een database mapper, die het mogelijk maakt om objecten van een bepaalde entity (entiteit)
- *                  in PHP te vertalen naar rijen in een relationele database, en vice versa.
+ *          Klaase: Deze klasse Mapping is een database mapper, die het mogelijk maakt om objecten van een bepaalde entity
+ *                  in PHP te vertalen naar rijen in een relationele database.
  *                  Het biedt methoden voor het opslaan, bijwerken, ophalen en verwijderen van entiteiten van de database.
  *
  */
@@ -25,16 +25,39 @@ use ReflectionClass;
         $this->table = $this->getTable();
     }
 
+
+     /**
+      * @param string $name
+      * @param $value
+      * @return void
+      */
     public function setAttribute(string $name, $value)
     {
         $this->data[$name] = $value;
     }
 
+     /**
+      * @param string $name
+      * @return mixed|null
+      */
     public function getAttribute(string $name)
     {
         return $this->data[$name] ?? null;
     }
 
+     /**
+      * @return string
+      */
+     public function getTable(): string
+     {
+         $classParts = explode('\\', static::class);
+         $className = end($classParts);
+         return strtolower($className);
+     }
+
+     /**
+      * @return array
+      */
     public function toDatabaseArray(): array
     {
         $reflection = new ReflectionClass($this);
@@ -53,6 +76,9 @@ use ReflectionClass;
         return $data;
     }
 
+     /**
+      * @return bool
+      */
     public function save(): bool
     {
         $data = $this->toDatabaseArray();
@@ -70,6 +96,10 @@ use ReflectionClass;
         return $commit->execute();
     }
 
+     /**
+      * @param array $criteria
+      * @return bool
+      */
      public function update(array $criteria): bool
      {
          $data = $this->toDatabaseArray();
@@ -102,15 +132,12 @@ use ReflectionClass;
          return $commit->execute();
      }
 
-    public function getTable(): string
-    {
-        $classParts = explode('\\', static::class);
-        $className = end($classParts);
-        return strtolower($className);
-    }
 
-
-//this return only the values of column
+     /**
+      * @param string $column
+      * @return array
+      */
+    //geeft alle values van de gevraagde column
     public function findby(string $column): array
     {
 
@@ -125,6 +152,11 @@ use ReflectionClass;
         }
         return $instances;
     }
+
+     /**
+      * @param array $criteria
+      * @return $this|null
+      */
     // hier kan gefilterd worden, geeft een object terug van zelfde entity type
     public function find(array $criteria): ?static
     {
@@ -132,8 +164,7 @@ use ReflectionClass;
         $whereClauses = [];
 
         foreach ($criteria as $attribute => $value) {
-            $whereClauses[] = "{$attribute} = ?";
-        }
+            $whereClauses[] = "{$attribute} = ?";}
 
         $whereClause = implode(' AND ', $whereClauses);
         $sql = "SELECT * FROM {$table} WHERE {$whereClause} LIMIT 1";
@@ -141,18 +172,21 @@ use ReflectionClass;
 
         $i = 1;
         foreach ($criteria as $value) {
-            $statement->bindValue($i++, $value);
-        }
+            $statement->bindValue($i++, $value);}
 
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            return new static($this->db, $result);
-        } else {
-            return null;
-        }
+            return new static($this->db, $result);}
+        else {
+            return null;}
     }
+
+     /**
+      * @param array|null $criteria
+      * @return array
+      */
     //geeft een lijst terug van alle objecten van de betreffende entity
     public function findAll(array $criteria = null): array
     {
@@ -189,6 +223,5 @@ use ReflectionClass;
 
         return $objects;
     }
-
 
 }
