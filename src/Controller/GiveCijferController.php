@@ -2,6 +2,7 @@
 
 namespace src\Controller;
 
+use FrameWork\Database\EntityManagerInterface;
 use FrameWork\Database\EntityManger;
 use FrameWork\Interface\RequestInterface;
 use FrameWork\Route\Redirect;
@@ -12,7 +13,7 @@ use src\Model\UserTentamen;
 class GiveCijferController
 {
 
-    public function __construct(private EntityManger $entityManager,
+    public function __construct(#[Service(EntityManger::class)] private EntityManagerInterface $entityManager,
                                 private Redirect $redirect){}
 
     public function findTentamenForm(RequestInterface $request)
@@ -54,8 +55,8 @@ class GiveCijferController
 
         //maak een array met het tentamen nummer waar de student zich geschreven heeft.
         $ids = [];
-        foreach ($studentTentamens as $studentTentaman) {
-            $ids[] = $studentTentaman->getUserId();
+        foreach ($studentTentamens as $studentTentamen) {
+            $ids[] = $studentTentamen->getUserId();
         }
 
         $students = array();

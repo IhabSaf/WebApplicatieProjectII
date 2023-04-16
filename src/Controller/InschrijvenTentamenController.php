@@ -3,20 +3,36 @@
 namespace src\Controller;
 
 use FrameWork\Attribute\Roles;
+use FrameWork\Database\EntityManagerInterface;
 use FrameWork\Database\EntityManger;
 use FrameWork\Interface\RequestInterface;
+use FrameWork\Route\Redirect;
 use src\Model\Tentamen;
 use src\Model\UserTentamen;
 
 class InschrijvenTentamenController
 {
-    public function __construct(private EntityManger $entityManager){}
+    public function __construct(#[Service(EntityManger::class)] private EntityManagerInterface $entityManager, private Redirect $redirect){}
 
     #[Roles(['student', 'docent', 'admin'])]
     public function inschrijven(RequestInterface $request){
-        // breng alle tenameten van de database
-        $alleTentamen = $this->entityManager->getEntity(Tentamen::class)->findby('name');
+        // breng alle tentamen van de database
+        $alleTentamen = $this->entityManager->getEntity(Tentamen::class)->findAll();
+        $alreadyExists = $this->entityManager->getEntity(UserTentamen::class)->findAll(['userId' => $request->getSessionValueByName('user_id')]);
 
+        $tentamenIds = [];
+        foreach ($alreadyExists as $a){
+            $tentamenIds[] =  $a->getTentamenId();
+        }
+        $allowedTentamens = [];
+        foreach ($alleTentamen as $tentamen) {
+            if(!in_array($tentamen->getId(), $tentamenIds)){
+                $allowedTentamens[] = $tentamen->getName();
+            }
+        }
+        if(count($allowedTentamens) === 0){
+            $this->redirect->toUrl('/home');
+        }
         if ($request->isPost()) {
             //haal de data vanuit de form uit.
             $gekozenTenemenName = $request->getPostByName('tentamen');
@@ -30,9 +46,9 @@ class InschrijvenTentamenController
             $nieuweInschrijving->setUserId($request->getSessionValueByName('user_id'));
             $nieuweInschrijving->setTentamenId($gekozenTenemenId);
             $nieuweInschrijving->save();
-
+            $this->redirect->toUrl('/home');
         }
         //return array met alle tentamen naar de html pagina.
-        return ['showTentamen' => $alleTentamen ];
+        return ['showTentamen' => $allowedTentamens ];
     }
 }
