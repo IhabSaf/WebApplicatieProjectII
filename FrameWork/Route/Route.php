@@ -55,7 +55,7 @@ class Route implements RouteInterface {
      * @return object|null
      */
     // haal één routeObject op
-    public function getRoute(string $route): ?RouteInterface
+    public function getRoute(string $route): ?RouteObjectInterface
     {
         foreach ($this->routes as $routeObject){
             // route has no params
