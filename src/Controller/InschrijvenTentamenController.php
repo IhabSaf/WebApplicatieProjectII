@@ -16,8 +16,11 @@ class InschrijvenTentamenController
 
     #[Roles(['student', 'docent', 'admin'])]
     public function inschrijven(RequestInterface $request){
+
         // breng alle tentamen van de database
         $alleTentamen = $this->entityManager->getEntity(Tentamen::class)->findAll();
+
+        //Check of de ingelogde user is al ingeschreven voor een vak, zo ja geef dan dat vak niet weer.
         $alreadyExists = $this->entityManager->getEntity(UserTentamen::class)->findAll(['userId' => $request->getSessionValueByName('user_id')]);
         $noTentamens = false;
         $tentamenIds = [];
@@ -30,9 +33,11 @@ class InschrijvenTentamenController
                 $allowedTentamens[] = $tentamen->getName();
             }
         }
+        // op het moment dat de ingelogde gebruiker is ingeschreven voor alle vakken, dan wordt de form verborgen.
         if(count($allowedTentamens) === 0){
             $noTentamens = true;
         }
+
         if ($request->isPost()) {
             //haal de data vanuit de form uit.
             $gekozenTenemenName = $request->getPostByName('tentamen');
