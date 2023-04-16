@@ -2,6 +2,7 @@
 
 namespace src\Controller;
 
+use FrameWork\Database\EntityManagerInterface;
 use FrameWork\Database\EntityManger;
 use FrameWork\Interface\RequestInterface;
 use FrameWork\Route\Redirect;
@@ -10,7 +11,7 @@ use src\Model\User;
 
 class LoginController
 {
-    public function __construct(private EntityManger $entityManager,
+    public function __construct(#[Service(EntityManger::class)] private EntityManagerInterface $entityManager,
                                 private Redirect $redirect){}
 
     public function loginUser(RequestInterface $request)

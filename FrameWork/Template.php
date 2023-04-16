@@ -5,13 +5,13 @@ namespace FrameWork;
 use FrameWork\HTTP\Response;
 use FrameWork\Interface\RequestInterface;
 use FrameWork\Interface\ResponseInterface;
-use FrameWork\Route\RouteObject;
+use FrameWork\Route\RouteObjectInterface;
 
 class Template
 {
     public function __construct(#[Service(Response::class), Argument(body: '', statusCode: 200)] private ResponseInterface $response){}
 
-    public function renderPage(RequestInterface $request, RouteObject $routeObject, array $array): ResponseInterface
+    public function renderPage(RequestInterface $request, RouteObjectInterface $routeObject, array $array): ResponseInterface
     {
         ob_start();
         $urlParams = $routeObject->getUrlParams();

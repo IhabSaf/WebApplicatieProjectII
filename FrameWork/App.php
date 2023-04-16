@@ -1,22 +1,25 @@
 <?php
 namespace FrameWork;
 
+use FrameWork\Database\EntityManagerInterface;
 use FrameWork\Database\EntityManger;
 use FrameWork\HTTP\Request;
 use FrameWork\Interface\RequestInterface;
 use FrameWork\Interface\ResponseInterface;
 use FrameWork\Route\Redirect;
 use FrameWork\Route\Route;
+use FrameWork\Route\RouteInterface;
 use FrameWork\security\AccessController;
+use FrameWork\security\AccessControllerInterFace;
 
 class App
 {
     public function __construct(
         #[Service(Request::class), Argument(post: [], get: [], server: [], cookie: [], session: [], attributes: [])] private RequestInterface $request,
-        #[Argument(routes: [], routeObjectClass: "FrameWork\Route\RouteObject")] private Route $route,
+        #[Service(Route::class), Argument(routes: [], routeObjectClass: "FrameWork\Route\RouteObject")] private RouteInterface $route,
         private Template $template,
-        private AccessController $accessController,
-        private EntityManger $entityManger,
+        #[Service(AccessController::class)] private AccessControllerInterFace $accessController,
+        #[Service(EntityManger::class)] private EntityManagerInterface $entityManger,
         private Redirect $redirect,
         private DiContainer $diContainer){}
 

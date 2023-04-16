@@ -55,7 +55,7 @@ class Route implements RouteInterface {
      * @return object|null
      */
     // haal één routeObject op
-    public function getRoute(string $route): ?object
+    public function getRoute(string $route): ?RouteInterface
     {
         foreach ($this->routes as $routeObject){
             // route has no params
@@ -88,11 +88,11 @@ class Route implements RouteInterface {
      * @param string $controller
      * @param string $route
      * @param array|null $paramDefaults
-     * @return RouteObject
+     * @return RouteObjectInterface
      */
 
     // maakt een RouteOject aan
-    private function createRouteObject(string $name, string $controller, string $route, ?array $paramDefaults): RouteObject
+    private function createRouteObject(string $name, string $controller, string $route, ?array $paramDefaults): RouteObjectInterface
     {
 
         $controllerParts = explode(":", $controller);
