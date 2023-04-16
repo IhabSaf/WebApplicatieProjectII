@@ -13,6 +13,7 @@ include('header.php');
 
 <div class="container">
   <h2>Student Register for Exam</h2>
+  <?php if(!$noTentamens): ?>
   <form action="#" method="post">
     <label for="tentamen">Select Exam:</label>
     <select id="tentamen" name="tentamen">
@@ -23,6 +24,9 @@ include('header.php');
 
     <input type="submit" value="Register">
   </form>
+  <?php else: ?>
+  <p> Je bent voor alle tentamens ingeschreven.</p>
+  <?php endif; ?>
 </div>
 </body>
 </html>

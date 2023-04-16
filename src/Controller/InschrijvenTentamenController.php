@@ -19,7 +19,7 @@ class InschrijvenTentamenController
         // breng alle tentamen van de database
         $alleTentamen = $this->entityManager->getEntity(Tentamen::class)->findAll();
         $alreadyExists = $this->entityManager->getEntity(UserTentamen::class)->findAll(['userId' => $request->getSessionValueByName('user_id')]);
-
+        $noTentamens = false;
         $tentamenIds = [];
         foreach ($alreadyExists as $a){
             $tentamenIds[] =  $a->getTentamenId();
@@ -31,7 +31,7 @@ class InschrijvenTentamenController
             }
         }
         if(count($allowedTentamens) === 0){
-            $this->redirect->toUrl('/home');
+            $noTentamens = true;
         }
         if ($request->isPost()) {
             //haal de data vanuit de form uit.
@@ -49,6 +49,6 @@ class InschrijvenTentamenController
             $this->redirect->toUrl('/home');
         }
         //return array met alle tentamen naar de html pagina.
-        return ['showTentamen' => $allowedTentamens ];
+        return ['showTentamen' => $allowedTentamens, 'noTentamens' => $noTentamens ];
     }
 }
