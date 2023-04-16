@@ -24,7 +24,7 @@ class App
     {
         $array = [];
         $path = $this->request->getPathInfo();
-        if($path === '/'){
+        if ($path === '/') {
             $this->redirect->toUrl('/home');
         }
 
@@ -33,9 +33,9 @@ class App
         }
         if ($this->route->isValidRoute($path)) {
             $routeObject = $this->route->getRoute($path);
-            if($routeObject->hasParams()){
+            if ($routeObject->hasParams()) {
                 $routeObject->setUrlParamsWithoutDefault($path);
-                $this->request->setMutipleAttributes($routeObject->getUrlParams());
+                $this->request->addAttributes($routeObject->getUrlParams());
             }
             // Check  de accessController
             $controller = $routeObject->getController();
@@ -46,8 +46,7 @@ class App
             $hasAccess = $this->accessController->checkAccess($userRole, $controller, $method);
             if (!$hasAccess) {
                 $response = $this->template->renderSimple("Access denied." ,403);
-            }
-            else{
+            } else {
                 $controller = $this->diContainer->createClass($controller);
                 $array += $controller->{$method}($this->request);
                 $response = $this->template->renderPage($this->request, $routeObject, $array);

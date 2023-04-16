@@ -72,15 +72,11 @@ class RouteObject
     private function getParams($route){
         $params = substr($route, strlen($this->baseUrl) + 1);
         // path is fullpath
-        if(str_contains($params,'{')){
+        if (str_contains($params,'{')) {
             $params = str_replace(['{', "}"], [" ", ""], $params);
-        }
-        // path has multiple url params
-        elseif(str_contains($params, '/')){
+        } elseif (str_contains($params, '/')) { // path has multiple url params
             $params = str_replace("/", " ", $params);
-        }
-        // path has one url param
-        else{
+        } else { // path has one url param
             return [$params];
         }
         $params = explode(" ", $params);

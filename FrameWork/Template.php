@@ -15,7 +15,7 @@ class Template
     {
         ob_start();
         $urlParams = $routeObject->getUrlParams();
-        if(isset($urlParams)) {
+        if (isset($urlParams)) {
             extract($urlParams, EXTR_SKIP);
         }
         extract($array, EXTR_SKIP);

@@ -21,12 +21,12 @@ class Request implements RequestInterface
         return new Request($_POST, $_GET, $_SERVER, $_COOKIE, $_SESSION, $attributes);
     }
 
-    public function saveSession()
+    public function saveSession(): void
     {
         $_SESSION = $this->session;
     }
 
-    public function getSession()
+    public function getSession(): array
     {
         return $this->session;
     }
@@ -48,19 +48,19 @@ class Request implements RequestInterface
         $this->session = [];
     }
 
-    public function setAttribute(string $name, $value): void
+    public function setAttribute(string $name, string $value): void
     {
         $this->attributes[$name] = $value;
     }
 
-    public function setMutipleAttributes(array $attributes): void
+    public function addAttributes(array $attributes): void
     {
         $this->attributes += $attributes;
     }
 
     public function getAttributeByName(string $name): ?string
     {
-        return $this->attributes[$name];
+        return $this->attributes[$name] ?? null;
     }
 
     public function getServer(): array
@@ -70,7 +70,7 @@ class Request implements RequestInterface
 
     public function getServerByName(string $name): ?string
     {
-        return $this->server[$name];
+        return $this->server[$name] ?? null;
     }
 
     public function getGet(): array
@@ -80,7 +80,7 @@ class Request implements RequestInterface
 
     public function getGetByName(string $name): ?string
     {
-        return $this->get[$name];
+        return $this->get[$name] ?? null;
     }
 
     public function getGetSecure(): array
@@ -89,22 +89,22 @@ class Request implements RequestInterface
         foreach ($this->get as $key => $value){
             $secure[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
         }
-
         return $secure;
     }
 
-    public function hasGet(string $name){
+    public function hasGet(string $name): bool
+    {
         return isset($this->get[$name]);
     }
 
     public function getCookieByName(String $name): ?string
     {
-        return $this->cookie[$name];
+        return $this->cookie[$name] ?? null;
     }
 
     public function getPostByName(String $name): ?string
     {
-        return $this->post[$name];
+        return $this->post[$name] ?? null;
     }
 
     public function getPost(): array

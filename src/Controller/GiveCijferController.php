@@ -17,14 +17,14 @@ class GiveCijferController
 
     public function findTentamenForm(RequestInterface $request)
     {
-        if($request->hasGet('Tentamen')){
+        if ($request->hasGet('Tentamen')) {
             $tentamenId = $request->getGetByName('Tentamen');
             $this->redirect->toUrl('/addStudentGrade/' . $tentamenId);
         }
 
-        if($request->getSessionValueByName('user_role') === 'admin'){
+        if ($request->getSessionValueByName('user_role') === 'admin') {
             $tentamens = $this->entityManager->getEntity(Tentamen::class)->findAll();
-        } else{
+        } else {
             $tentamens = $this->entityManager->getEntity(Tentamen::class)->findAll(['docentId' => $request->getSessionValueByName('user_id')]);
         }
         $array = [];
@@ -38,7 +38,7 @@ class GiveCijferController
     public function addStudentGrade(RequestInterface $request)
     {
         // als post dan sla cijfer op
-        if($request->isPost()){
+        if ($request->isPost()) {
             $studentId = $request->getPostByName('studentId');
             $tentamenId = $request->getPostByName("tentamenId");
             $cijfer = $request->getPostByName('cijfer');

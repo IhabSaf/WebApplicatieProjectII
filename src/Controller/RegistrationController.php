@@ -19,7 +19,7 @@ class RegistrationController
         $data = $this->entityManager->getEntity(Rol::class)->findby('name');
 
         // check of de method post is, haal de data daarna vanuit de form
-        if ($request->isPost()){
+        if ($request->isPost()) {
             $name = $request->getPostByName('name');
             $email = $request->getPostByName('email');
             $password = $request->getPostByName('password');

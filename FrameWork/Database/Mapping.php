@@ -147,7 +147,7 @@ use ReflectionClass;
     public function findAll(array $criteria = null): array
     {
         $table = (new static($this->db))->getTable();
-        if(isset($criteria)){
+        if (isset($criteria)) {
             $whereClauses = [];
 
             foreach ($criteria as $attribute => $value) {
@@ -161,7 +161,7 @@ use ReflectionClass;
         }
         $statement = $this->db->getConnector()->prepare($sql);
 
-        if(isset($criteria)){
+        if (isset($criteria)) {
             $i = 1;
             foreach ($criteria as $value) {
                 $statement->bindValue($i++, $value);

@@ -10,7 +10,7 @@ class DiContainer
         $reflection = new ReflectionClass($class);
         $constructor = $reflection->getConstructor();
         $className = explode('\\', $reflection->getName())[count(explode('\\', $reflection->getName())) - 1];
-        if($constructor) {
+        if ($constructor) {
             foreach ($constructor->getParameters() as $parameter) {
                 $parameterName = $parameter->getName();
                 $parameterType = $parameter->getType()->getName();
@@ -30,7 +30,7 @@ class DiContainer
                 }
             }
         }
-        if($className == "Request"){
+        if ($className == "Request") {
             $method = $reflection->getMethod('makeWithGlobals');
             return $method->invoke($reflection->newInstanceWithoutConstructor());
         }

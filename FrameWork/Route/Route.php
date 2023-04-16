@@ -17,7 +17,7 @@ class Route {
     public function isValidRoute(string $route): bool
     {
         foreach ($this->routes as $routeObject){
-            if(str_contains($route, $routeObject->getBaseUrl())){
+            if (str_contains($route, $routeObject->getBaseUrl())) {
                 return true;
             }
         }
@@ -28,11 +28,11 @@ class Route {
     {
         foreach ($this->routes as $routeObject){
             // route has no params
-            if($route == $routeObject->getBaseUrl()){
+            if ($route == $routeObject->getBaseUrl()) {
                 return $routeObject;
             }
 
-            if(str_contains($route, $routeObject->getBaseUrl())){
+            if (str_contains($route, $routeObject->getBaseUrl())) {
                 $paramUrl = str_replace($routeObject->getBaseUrl() . "/", "", $route);
                 $params = explode("/", $paramUrl);
                 $routeObject->setUrlParams($params);
@@ -59,11 +59,11 @@ class Route {
         $baseUrl = $array[0];
         array_shift($array);
         $array = str_replace(["}", "/"], "", $array);
-        if(str_ends_with($baseUrl, '/') && strcmp($baseUrl,'/') !== 0){
+        if (str_ends_with($baseUrl, '/') && strcmp($baseUrl,'/') !== 0) {
             $baseUrl = substr($baseUrl, 0, -1);
         }
         $paramDefaultOrdered = [];
-        if(isset($paramDefaults)){
+        if (isset($paramDefaults)) {
             foreach ($array as $paramName){
                 $paramDefaultOrdered[$paramName] = $paramDefaults[$paramName];
             }

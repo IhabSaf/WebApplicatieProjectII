@@ -94,8 +94,8 @@ class User extends Mapping
         if ($password !== null) {
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
             $this->setAttribute('password', $passwordHash);
+        }
     }
-}
 
 
     public function getRolId()

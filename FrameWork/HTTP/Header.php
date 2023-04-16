@@ -13,7 +13,7 @@ class Header implements HeaderInterface{
 
     public function removeHeader(string $header): void
     {
-        if($this->hasHeader($header)){
+        if ($this->hasHeader($header)) {
             header_remove($header);
         }
     }
@@ -30,7 +30,7 @@ class Header implements HeaderInterface{
 
     public function getHeader(string $key): ?string {
         foreach (headers_list() as $header){
-            if(str_contains($header, $key)){
+            if (str_contains($header, $key)) {
                 return $header;
             }
         }

@@ -16,7 +16,7 @@ class LoginController
     public function loginUser(RequestInterface $request)
     {
         //check eerst of er een post request is.
-        if ($request->isPost()){
+        if ($request->isPost()) {
 
             //haal de data van de form
             $email = $request->getPostByName('username');
@@ -24,7 +24,7 @@ class LoginController
 
             //haal de gegevens van de gebruiker vanuit de database
             $getUserCred = $this->entityManager->getEntity(User::class)->find(['email' => $email]);
-            if(!isset($getUserCred)){
+            if (!isset($getUserCred)) {
                 $getUserCred = $this->entityManager->getEntity(User::class)->find(['name' => $email]);
             }
             $findRole =  $this->entityManager->getEntity(Rol::class)->find(['id' => $getUserCred->getRolId()]);
@@ -35,8 +35,7 @@ class LoginController
                 echo '<div>Incorrect username or password.</div>';
                 $this->redirect->toUrl('/home');
                 exit();
-            }
-            else{
+            } else {
                 // Als de inloggegevens geldig zijn dan begin een session
                 $request->setSessionValueByName('user_id', $getUserCred->getId());
                 $request->setSessionValueByName('user_name', $getUserCred->getName());

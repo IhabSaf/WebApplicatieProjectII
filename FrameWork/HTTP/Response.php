@@ -23,13 +23,16 @@ class Response implements ResponseInterface
 
     public function getHeader(string $key): ?string
     {
-        return $this->headers->getHeader($key);
+        return $this->headers->getHeader($key) ?? null;
     }
     public function setStatusCode(int $statusCode): void
     {
             $this->statusCode = $statusCode;
     }
-
+    public function allHeaders(): HeaderInterface
+    {
+        return $this->headers;
+    }
     public function setContent(string $body): void
     {
         $this->body = $body;
@@ -43,10 +46,5 @@ class Response implements ResponseInterface
     public function dump(): void
     {
         var_dump($this);
-    }
-
-    public function allHeaders(): HeaderInterface
-    {
-        return $this->headers;
     }
 }
