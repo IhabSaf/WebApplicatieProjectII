@@ -1,18 +1,43 @@
 <?php
 
 namespace FrameWork\Route;
-class Route {
+
+/**
+ * @webTech2:
+ *
+ *  @INHOUD:
+ *          Klaase: De Route-klasse wordt gebruikt om routes te beheren voor een webapplicatie.
+ *                  Het maakt het mogelijk om routes toe te voegen, op te halen en de geldigheid van routes te controleren.
+ *                  De klasse is gedefinieerd onder de FrameWork\Route-namespace.
+ *
+ */
+class Route implements RouteInterface {
     public function __construct(private array $routes = [],
                                 private string $routeObjectClass = "RouteObject")
     {
         $this->createDefaultRoutes();
     }
+
+
+    /**
+     * @param string $name
+     * @param string $controller
+     * @param string $route
+     * @param array|null $paramDefaults
+     * @return void
+     */
     // voeg een routeObject toe
     public function addRoute(string $name, string $controller, string $route, array $paramDefaults = null): void
     {
         $routeOject = $this->createRouteObject($name, $controller, $route, $paramDefaults);
         $this->routes[$name] = $routeOject;
     }
+
+
+    /**
+     * @param string $route
+     * @return bool
+     */
     // check of de route bestaat
     public function isValidRoute(string $route): bool
     {
@@ -23,6 +48,12 @@ class Route {
         }
         return false;
     }
+
+
+    /**
+     * @param string $route
+     * @return object|null
+     */
     // haal één routeObject op
     public function getRoute(string $route): ?object
     {
@@ -41,11 +72,24 @@ class Route {
         }
         return null;
     }
+
+
+    /**
+     * @return array
+     */
     // geeft alle routes terug
     public function allRoutes(): array
     {
         return $this->routes;
     }
+
+    /**
+     * @param string $name
+     * @param string $controller
+     * @param string $route
+     * @param array|null $paramDefaults
+     * @return RouteObject
+     */
 
     // maakt een RouteOject aan
     private function createRouteObject(string $name, string $controller, string $route, ?array $paramDefaults): RouteObject
@@ -70,6 +114,11 @@ class Route {
         }
         return new $this->routeObjectClass($name, $controllerClass, $controllerMethod, $route, $baseUrl, $paramDefaultOrdered);
     }
+
+
+    /**
+     * @return void
+     */
 
     // default routes die deze applicatie heeft
     // bij het ophalen van de template wordt naar de name gekeken
