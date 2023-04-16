@@ -27,13 +27,19 @@ class LoginController
             if (!isset($getUserCred)) {
                 $getUserCred = $this->entityManager->getEntity(User::class)->find(['name' => $email]);
             }
+
+            // als de email niet in de database bestaat blijf op login pagina.
+            if(!$getUserCred){
+                $this->redirect->toUrl('/login');
+            }
+
             $findRole =  $this->entityManager->getEntity(Rol::class)->find(['id' => $getUserCred->getRolId()]);
 
             // Verificatie of het wachtwoord correct is met wat in de database staat.
-            // Als er geen sprake van een just wachtwoord of email dan weiger de inlog, anders login en start een sessie en sla de gegevens van de gebruikers op.
+            // Als er geen sprake van een juist wachtwoord of email dan weiger de inlog, anders login en start een sessie en sla de gegevens van de gebruikers op.
             if (!$getUserCred->getEmail() || !password_verify($password, $getUserCred->getPassword())) {
                 echo '<div>Incorrect username or password.</div>';
-                $this->redirect->toUrl('/home');
+                $this->redirect->toUrl('/login');
                 exit();
             } else {
                 // Als de inloggegevens geldig zijn dan begin een session
