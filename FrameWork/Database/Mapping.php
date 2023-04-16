@@ -10,8 +10,8 @@ use ReflectionClass;
  * @webTech2:
  *
  *  @INHOUD:
- *          Klaase: Deze klasse Mapping is een database mapper, die het mogelijk maakt om objecten van een bepaalde entity (entiteit)
- *                  in PHP te vertalen naar rijen in een relationele database, en vice versa.
+ *          Klaase: Deze klasse Mapping is een database mapper, die het mogelijk maakt om objecten van een bepaalde entity
+ *                  in PHP te vertalen naar rijen in een relationele database.
  *                  Het biedt methoden voor het opslaan, bijwerken, ophalen en verwijderen van entiteiten van de database.
  *
  */
