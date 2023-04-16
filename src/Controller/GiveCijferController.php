@@ -60,7 +60,7 @@ class GiveCijferController
         }
 
         $students = array();
-        //haal de namen van de vakken waar de student zich heeft ingeschreven.
+        //haal alle studenten op die zich hebben ingeschreven voor dit vak
         foreach ($ids as $id){
             $students[$id] = $this->entityManager->getEntity(User::class)
                 ->find(['id' => $id])->getName();
