@@ -16,5 +16,6 @@ class EntityManger implements EntityManagerInterface
     public function getDbConnection()
     {
         return $this->db;
+        
     }
 }
